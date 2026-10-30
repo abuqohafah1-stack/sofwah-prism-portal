@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fff3ea">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Sofwah Crew</title>
+<link rel="manifest" href="/crew/manifest.webmanifest">
+<link rel="icon" href="/icons/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/icons/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Sofwah Crew">
+<style>
+html,body{margin:0;height:100%;background:linear-gradient(165deg,#f1eaff 0%,#fff1e6 48%,#fff8f1 100%);color:#1b2440;font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow:hidden}
+iframe{position:fixed;inset:0;width:100%;height:100%;border:0;opacity:0;transition:opacity .35s}
+iframe.on{opacity:1}
+.load{position:fixed;inset:0;display:grid;place-items:center;text-align:center}
+.load img{width:68px;height:68px;border-radius:20px;box-shadow:0 14px 34px rgba(242,98,15,.35);animation:p 1.6s ease-in-out infinite}
+.load b{display:block;margin-top:14px;font-size:17px;letter-spacing:.03em}
+.load small{display:block;color:#f27a0c;letter-spacing:.2em;font-size:10px;font-weight:700;margin-top:3px}
+.load p{color:#9aa2b8;font-size:12px;margin-top:20px;max-width:300px}
+.load a{color:#f27a0c}
+@keyframes p{50%{transform:scale(1.06)}}
+</style>
+</head>
+<body>
+<div class="load" id="ld"><div><img src="/icons/icon-192.png" alt=""><b>Sofwah Crew</b><small>STAF SAMBILAN</small><p id="msg">Memuatkan…</p></div></div>
+<iframe id="app" title="Sofwah Crew" allow="camera; geolocation; clipboard-write" referrerpolicy="no-referrer"></iframe>
+<script>
+(function () {
+  var EXEC = 'https://script.google.com/macros/s/AKfycby2i0RfEZwKNblO4HYLqIOoi6bQhdOIK27gZattpCVRI-4hGZEYWLjUipAtxr6IM47QqA/exec';
+  var m = location.search.match(/[?&]c=([A-Za-z0-9-]{8,10})/), c = m ? m[1].toUpperCase() : '';
+  if (!/^[A-Z]{2,3}-[A-Z0-9]{6}$/.test(c)) c = '';
+  var f = document.getElementById('app'), ld = document.getElementById('ld');
+  f.src = EXEC + '?hub=crew' + (c ? '&c=' + c : '');
+  f.onload = function () { f.className = 'on'; setTimeout(function () { ld.style.display = 'none'; }, 350); };
+  setTimeout(function () { if (f.className !== 'on') document.getElementById('msg').innerHTML = 'Sambungan perlahan. <a href="' + f.src + '" rel="noopener">Buka terus</a> atau muat semula.'; }, 15000);
+  // Jambatan token peranti: app dalam iframe Apps Script simpan "ingat saya" di storan prism.sofwah.my (first-party).
+  function ours(w) { try { for (var i = 0; i < 6 && w; i++) { if (w === f.contentWindow) return true; if (w === w.parent) return false; w = w.parent; } } catch (e) {} return false; }
+  function host(o) { try { return new URL(o).hostname; } catch (e) { return ''; } }
+  window.addEventListener('message', function (e) {
+    var d = e.data || {};
+    if (!/\.googleusercontent\.com$/.test(host(e.origin)) || !ours(e.source)) return;
+    if (d.t === 'crew:get') { var v = ''; try { v = localStorage.getItem('crew.dev') || ''; } catch (x) {} e.source.postMessage({ t: 'crew:tok', v: v }, e.origin); }
+    if (d.t === 'crew:set') { try { if (/^[a-f0-9]{64}$/.test(d.v || '')) localStorage.setItem('crew.dev', d.v); else if (!d.v) localStorage.removeItem('crew.dev'); } catch (x) {} }
+  });
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(function () {});
+})();
+</script>
+</body>
+</html>
