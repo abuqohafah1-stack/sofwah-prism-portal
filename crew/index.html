@@ -35,7 +35,7 @@ iframe.on{opacity:1}
   var m = location.search.match(/[?&]c=([A-Za-z0-9-]{8,10})/), c = m ? m[1].toUpperCase() : '';
   if (!/^[A-Z]{2,3}-[A-Z0-9]{6}$/.test(c)) c = '';
   var f = document.getElementById('app'), ld = document.getElementById('ld');
-  f.src = EXEC + '?hub=crew' + (c ? '&c=' + c : '');
+  f.src = EXEC + '?hub=crew' + (c ? '&qr=' + c : ''); // 'c' & 'sid' ialah parameter simpanan Apps Script
   f.onload = function () { f.className = 'on'; setTimeout(function () { ld.style.display = 'none'; }, 350); };
   setTimeout(function () { if (f.className !== 'on') document.getElementById('msg').innerHTML = 'Sambungan perlahan. <a href="' + f.src + '" rel="noopener">Buka terus</a> atau muat semula.'; }, 15000);
   // Jambatan token peranti: app dalam iframe Apps Script simpan "ingat saya" di storan prism.sofwah.my (first-party).
