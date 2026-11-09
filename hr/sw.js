@@ -38,7 +38,8 @@ self.addEventListener('push', function (e) {
   var link = (d.fcmOptions && d.fcmOptions.link) || (d.data && d.data.link) || '/hr/';
   e.waitUntil(self.registration.showNotification(n.title || 'PRISM HR', {
     body: n.body || '', icon: n.icon || '/hr/icons/icon-192.png', badge: '/hr/icons/icon-32.png',
-    tag: n.tag || undefined, data: { link: link }
+    tag: n.tag || undefined, data: { link: link },
+    vibrate: [120, 60, 120, 60, 320] // corak getar PRISM (Android): dua ketuk pendek + satu panjang
   }));
 });
 self.addEventListener('notificationclick', function (e) {
