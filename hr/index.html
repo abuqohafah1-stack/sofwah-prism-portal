@@ -268,6 +268,55 @@ th{background:#eef1f5} td.name{background:#f7f8fb}
 .quick button:active span{box-shadow:var(--neu-in)}
 .quick svg{width:24px;height:24px}
 
+
+/* ===================== PRISM 2.1 · Tenang & padat (lebih kecil, lebih lapang, mesra mata) ===================== */
+:root{--nav-h:50px;--radius:20px;
+  --neu:5px 5px 12px #cdd2dc,-5px -5px 12px #ffffff;--neu-s:3px 3px 8px #cdd2dc,-3px -3px 8px #ffffff;
+  --neu-in:inset 2px 2px 6px #cdd2dc,inset -2px -2px 6px #ffffff}
+body{font-size:14px}
+.top{padding:calc(12px + env(safe-area-inset-top)) 18px 0}
+.top h1{font-size:16px}
+.top .sub{font-size:11px}
+.top .sub[style]{margin-top:4px!important}
+.avatar{width:36px;height:36px;border-radius:12px;font-size:15px}
+.top .brand{font-size:11px}.brand .logo{width:24px;height:24px;border-radius:7px;font-size:12px}
+.main{gap:12px;padding:12px 16px calc(var(--nav-h) + 34px + env(safe-area-inset-bottom))}
+.narrow{max-width:460px;gap:12px}
+.card{padding:14px 16px;gap:8px}
+.eyebrow{font-size:10.5px}
+.hero{gap:9px;padding:14px 16px 14px}
+.pill{font-size:11px;padding:4px 10px}
+.led{padding:5px 14px;border-radius:14px;gap:8px;box-shadow:inset 0 0 0 1px #1f2940,0 6px 12px rgba(18,26,46,.18)}
+.led-hm{font-size:22px;letter-spacing:1.5px;text-shadow:0 0 8px rgba(242,98,16,.6)}
+.led small{font-size:11px}
+.led-dot{width:6px;height:6px}
+.shift-line b{font-size:15px}
+.shift-line .muted{font-size:12px}
+.dial-wrap{width:164px;height:164px;margin:0 auto}
+.dial-pit{width:164px;height:164px;box-shadow:inset 6px 6px 14px #cbd0da,inset -6px -6px 14px #fff}
+.dial-ring{width:146px;height:146px}
+.dial{width:120px;height:120px;gap:2px}
+.dial b{font-size:14px}.dial small{font-size:10px;max-width:96px;line-height:1.25}
+.dial .dial-ico{width:26px;height:26px}
+@keyframes glow{0%,100%{box-shadow:0 0 0 2px #f26210,0 0 12px 2px rgba(242,98,16,.35)}50%{box-shadow:0 0 0 2px #ff8a3d,0 0 20px 5px rgba(242,98,16,.45)}}
+.times{display:flex;gap:6px;width:100%;max-width:330px;justify-content:center}
+.times div{flex:1;text-align:center;max-width:110px}
+.times div{padding:5px 10px;border-radius:12px;font-size:11px}
+.times b{font-size:14px}
+.geo-note{font-size:11px}.geo-note svg{width:13px;height:13px}
+.quick{gap:8px}
+.quick button{font-size:10.5px;gap:5px}
+.quick span{width:44px;height:44px;border-radius:14px}
+.quick svg{width:19px;height:19px}
+.list .li{padding:8px 0;font-size:13px}
+.nav{bottom:calc(10px + env(safe-area-inset-bottom));padding:0 18px}
+.nav-in{max-width:420px;border-radius:20px;padding:4px;box-shadow:0 8px 20px rgba(18,26,46,.25)}
+.nav button{min-height:var(--nav-h);font-size:10px;border-radius:16px;gap:1px}
+.nav svg{width:19px;height:19px}
+.nav button[aria-current="page"] svg{width:26px;height:26px;padding:4px;border-radius:9px;box-shadow:0 0 10px rgba(242,98,16,.45)}
+.tile b{font-size:20px}
+#toast{font-size:12.5px;line-height:1.4;padding:9px 14px;border-radius:14px;max-width:min(320px,calc(100% - 40px))}
+
 @media (prefers-reduced-motion:reduce){.dial,.colon{animation:none}}
 </style>
 
@@ -653,7 +702,7 @@ th{background:#eef1f5} td.name{background:#f7f8fb}
     var times = '<div class="times">' +
       '<div><span class="muted">Masuk</span><b>' + h(r.masuk || '—') + '</b></div>' +
       '<div><span class="muted">Keluar</span><b>' + h(r.keluar || '—') + '</b></div>' +
-      (sy.kategori === 'Split' || r.masuk2 ? '<div><span class="muted">Masuk sesi 2</span><b>' + h(r.masuk2 || '—') + '</b></div><div><span class="muted">Keluar sesi 2</span><b>' + h(r.keluar2 || '—') + '</b></div>' : '') +
+      (sy.kategori === 'Split' || r.masuk2 ? '<div><span class="muted">Masuk 2</span><b>' + h(r.masuk2 || '—') + '</b></div><div><span class="muted">Keluar 2</span><b>' + h(r.keluar2 || '—') + '</b></div>' : '') +
       '</div>';
 
     var done = d.langkah === 'selesai';
@@ -688,7 +737,7 @@ th{background:#eef1f5} td.name{background:#f7f8fb}
       '<section class="card hero">' +
       '<div class="chips"><span class="pill">' + h(d.label) + '</span>' + (sy.kod && sy.kategori !== 'Rehat' ? '<span class="pill">' + h(S.me.cawangan) + ' · ' + h(sy.kategori) + '</span>' : '') + '</div>' +
       '<div class="led" role="timer" aria-label="Masa sekarang"><span class="led-dot' + (done ? ' ok' : '') + '"></span><span class="led-hm" id="led-hm">--:--</span><small id="led-s">--</small></div>' +
-      '<div class="shift-line"><b>' + h(shiftTitle) + '</b><span class="muted">' + h(shiftSub) + '</span></div>' +
+      '<div class="shift-line"><b>' + h(shiftTitle) + '</b>' + (shiftSub && shiftSub !== shiftTitle ? '<span class="muted">' + h(shiftSub) + '</span>' : '') + '</div>' +
       dial + times +
       '<span class="muted geo-note">' + ico('pin') + h(note) + (stale ? ' · memuat semula…' : '') + '</span></section>' +
       '<div class="quick">' + QUICK.map(function (q) { return '<button data-act="quick" data-v="' + q.v + '"><span>' + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + q.i + '"></path></svg></span>' + h(q.l) + '</button>'; }).join('') + '</div>' +
