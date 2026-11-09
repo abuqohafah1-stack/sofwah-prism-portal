@@ -16,10 +16,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="PRISM HR">
   <meta charset="utf-8">
-  <meta name="theme-color" content="#e9ecf2">
+  <meta name="theme-color" content="#f1f0ee">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <style>
 :root{
   --navy:#121a2e; --navy-2:#1f2940; --orange:#f26210; --orange-ink:#c24e08; --orange-soft:#fff1e8;
@@ -324,6 +324,69 @@ body{font-size:14px}
 .nav-in{max-width:360px}
 .quick{padding:0 6px}
 #toast{font-size:12.5px;line-height:1.4;padding:9px 14px;border-radius:14px;max-width:min(320px,calc(100% - 40px))}
+
+
+/* ===================== PRISM 3 · Lembut & lapang (rujukan HRMS antarabangsa) ===================== */
+:root{--bg:#f1f0ee;--card:#ffffff;--ink:#1d2433;--muted:#7a8296;--line:#ebecef;--radius:22px;
+  --soft:0 1px 2px rgba(29,36,51,.04),0 10px 28px rgba(29,36,51,.06);--hair:1px solid rgba(29,36,51,.06);
+  --neu:var(--soft);--neu-s:0 1px 2px rgba(29,36,51,.05);--neu-in:inset 0 0 0 1px #e6e8ee}
+html,body{background:linear-gradient(165deg,#eceef2 0%,#f3f1ee 50%,#fbf0e2 100%) fixed;font-family:Outfit,Poppins,system-ui,sans-serif;color:var(--ink)}
+button,input,select,textarea{font-family:Outfit,Poppins,system-ui,sans-serif}
+body{font-size:14.5px;letter-spacing:.005em}
+.shell{background:transparent}
+.top{background:transparent;padding:calc(16px + env(safe-area-inset-top)) 26px 0}
+.top h1{font-size:15px;font-weight:500}
+.top .sub{color:var(--muted);font-size:11.5px}
+.avatar{background:#fff;box-shadow:var(--hair),0 2px 6px rgba(29,36,51,.06);border-radius:50%;width:38px;height:38px;color:var(--ink);font-weight:600}
+.top .brand{color:var(--muted);font-weight:500}
+.brand .logo{background:var(--navy);border-radius:50%;box-shadow:none}
+.page-h{display:flex;flex-direction:column;gap:2px;margin:4px 2px 2px}
+.page-h h2{font-size:30px;font-weight:300;letter-spacing:-.6px;line-height:1.1;color:var(--ink)}
+.page-h span{font-size:12.5px;color:var(--muted)}
+.card,.tile,.table-box{background:rgba(255,255,255,.86);box-shadow:var(--soft);border:var(--hair);border-radius:var(--radius);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.card.dark{background:var(--navy);border:0}
+.eyebrow{color:var(--muted);font-weight:500;letter-spacing:.06em;font-size:10.5px}
+.muted{color:var(--muted)}
+.btn{border-radius:999px;box-shadow:none;font-weight:500}
+.btn.ghost{background:#fff;box-shadow:none;border:var(--hair)}
+.seg button{background:#fff;box-shadow:none;border:var(--hair);border-radius:999px}
+.seg button[aria-pressed="true"]{background:var(--navy);color:#fff;box-shadow:none}
+input,select,textarea{background:#f6f6f8;box-shadow:none;border:1px solid #e6e8ee;border-radius:14px}
+.chip{background:#f1f2f5;font-weight:500}
+.li{border-bottom:var(--hair)}
+.hero{gap:10px;padding:18px 16px 16px;align-items:center}
+.pill{background:#f4f4f6;box-shadow:none;border:var(--hair);font-weight:500;color:var(--ink)}
+.pill.ok{background:var(--green-soft);color:var(--green);border-color:transparent}
+.led{display:none}
+.shift-line b{font-size:24px;font-weight:300;letter-spacing:-.4px}
+.shift-line .muted{font-size:12px}
+.dial-wrap{width:150px;height:150px}
+.dial-pit{width:150px;height:150px;background:transparent;box-shadow:none}
+.dial-ring{width:140px;height:140px;background:conic-gradient(var(--orange) calc(var(--p) * 1%),#eceef2 0)}
+.dial{width:118px;height:118px;background:var(--navy);animation:none;box-shadow:0 8px 18px rgba(18,26,46,.18)}
+.dial.full{animation:none;box-shadow:0 0 0 3px rgba(242,98,16,.35),0 8px 18px rgba(18,26,46,.18)}
+.dial .dial-ico{color:#ff9a5c}
+.dial b{font-weight:500}
+.times div{background:#f6f6f8;box-shadow:none;border:var(--hair)}
+.times b{font-weight:500}
+.quick button{font-weight:500;color:var(--ink)}
+.quick span{background:#fff;box-shadow:var(--soft);border:var(--hair);border-radius:16px}
+.quick button:active span{box-shadow:none;background:#f6f6f8}
+.today-day{border-bottom:var(--hair);border-radius:0}
+.today-day.now{background:#fff6ec;box-shadow:inset 3px 0 0 var(--orange)}
+.today-day.wkend{background-image:repeating-linear-gradient(135deg,rgba(242,98,16,.07) 0 6px,transparent 6px 12px)}
+.nav{padding:0 30px;bottom:calc(12px + env(safe-area-inset-bottom))}
+.nav-in{background:rgba(255,255,255,.92);border:var(--hair);box-shadow:0 10px 30px rgba(29,36,51,.12);border-radius:999px;padding:5px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.nav button{color:#7a8296;border-radius:999px;min-height:46px;font-size:10px;font-weight:500}
+.nav button[aria-current="page"]{background:var(--navy);color:#fff}
+.nav button[aria-current="page"] svg{background:none;box-shadow:none;padding:0;width:19px;height:19px;border-radius:0;color:#ff9a5c}
+#toast{background:var(--navy);border-radius:999px}
+.modal-card{border-radius:24px}
+.login{background:linear-gradient(165deg,#eceef2 0%,#f3f1ee 50%,#fbf0e2 100%)}
+.login .card{box-shadow:var(--soft)}
+.two>*{min-width:0}
+input,select,textarea{min-width:0;max-width:100%;width:100%}
+input[type=checkbox],input[type=radio]{width:auto}
 
 @media (prefers-reduced-motion:reduce){.dial,.colon{animation:none}}
 </style>
@@ -742,9 +805,9 @@ body{font-size:14px}
     }
 
     setMain('<div class="narrow">' + longShift +
+      '<div class="page-h"><h2>Hari ini</h2><span>' + h(d.label) + '</span></div>' +
       '<section class="card hero">' +
-      '<div class="chips"><span class="pill">' + h(d.label) + '</span>' + (sy.kod && sy.kategori !== 'Rehat' ? '<span class="pill">' + h(S.me.cawangan) + ' · ' + h(sy.kategori) + '</span>' : '') + '</div>' +
-      '<div class="led" role="timer" aria-label="Masa sekarang"><span class="led-dot' + (done ? ' ok' : '') + '"></span><span class="led-hm" id="led-hm">--:--</span><small id="led-s">--</small></div>' +
+      '<div class="chips">' + (sy.kod && sy.kategori !== 'Rehat' ? '<span class="pill">' + h(S.me.cawangan) + ' · ' + h(sy.kategori) + '</span>' : '') + (done ? '<span class="pill ok">Lengkap</span>' : '') + '</div>' +
       '<div class="shift-line"><b>' + h(shiftTitle) + '</b>' + (shiftSub && shiftSub !== shiftTitle ? '<span class="muted">' + h(shiftSub) + '</span>' : '') + '</div>' +
       dial + times +
       '<span class="muted geo-note">' + ico('pin') + h(note) + (stale ? ' · memuat semula…' : '') + '</span></section>' +
@@ -866,14 +929,14 @@ body{font-size:14px}
       var w = res[0];
       var rows = w.days.map(function (d) {
         var chip = d.cuti ? 'red' : d.kategori === 'Petang' ? 'orange' : d.kategori === 'Pagi' ? 'blue' : '';
-        return '<div class="today-day' + (d.hariIni ? ' now' : '') + '">' +
+        return '<div class="today-day' + (d.hariIni ? ' now' : '') + (/^(Jum|Sab)/.test(d.hari) ? ' wkend' : '') + '">' +
           '<div style="width:62px"><div style="font-weight:600">' + h(d.hari) + '</div><div class="muted">' + h(d.tarikh) + '</div></div>' +
           '<div class="grow"><div style="font-weight:500">' + h(d.cuti || d.teks) + '</div><div class="muted">' + h(d.cuti ? 'Cuti' : d.kategori) + (d.hariIni ? ' · hari ini' : '') + '</div></div>' +
           (d.kod || d.cuti ? '<span class="chip ' + chip + '">' + h(d.cuti ? 'CUTI' : d.kod) + '</span>' : '') + '</div>';
       }).join('');
       setMain('<div class="narrow">' +
         '<div class="between"><button class="btn ghost small" data-act="week" data-v="-1" aria-label="Minggu sebelum">‹</button>' +
-        '<div style="text-align:center"><div style="font-weight:700">Jadual saya</div><div class="muted">' + h(w.label) + '</div></div>' +
+        '<div class="page-h" style="text-align:center;margin:0"><h2>Jadual</h2><span>' + h(w.label) + '</span></div>' +
         '<button class="btn ghost small" data-act="week" data-v="1" aria-label="Minggu seterusnya">›</button></div>' +
         '<div class="card" style="padding:4px 0">' + rows + '</div>' +
         '<div class="tiles"><div class="tile"><b>' + h(w.jam || 0) + '</b><span class="muted">jam minggu ini</span></div>' +
