@@ -387,6 +387,26 @@ input,select,textarea{background:#f6f6f8;box-shadow:none;border:1px solid #e6e8e
 .two>*{min-width:0}
 .aa-btn{width:34px;height:34px;border-radius:50%;border:var(--hair);background:#fff;color:var(--ink);font-weight:600;font-size:13px;cursor:pointer;font-family:inherit}
 .aa-btn:active{background:#f4f4f6}
+/* PRISM 3 · log masuk, onboarding, ucapan */
+.auth{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:calc(30px + env(safe-area-inset-top)) 24px 30px}
+.auth-hero{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.auth-logo svg{width:76px;height:76px;filter:drop-shadow(0 10px 20px rgba(18,26,46,.18))}
+.auth-brand{font-size:24px;font-weight:300;letter-spacing:.06em}.auth-brand b{font-weight:600;color:var(--orange)}
+.auth-card{width:100%;max-width:380px;background:rgba(255,255,255,.9);border:var(--hair);box-shadow:var(--soft);border-radius:26px;padding:24px 22px;display:flex;flex-direction:column;gap:12px}
+.auth-card h1{font-size:26px;font-weight:500}
+.auth-card label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:500}
+.auth-links{display:flex;gap:10px}
+.link{background:none;border:0;color:var(--orange-ink);font-weight:600;font-size:13px;cursor:pointer;padding:4px 0;font-family:inherit}
+.onb{display:flex;flex-direction:column;gap:12px;text-align:center;padding:4px 0}
+.onb h3{font-size:20px;font-weight:500}
+.onb-ico{font-size:46px;line-height:1;margin-top:6px}
+.onb-dots{display:flex;gap:6px;justify-content:center}.onb-dots i{width:22px;height:5px;border-radius:9px;background:#e6e8ee}.onb-dots i.on{background:var(--orange)}
+.greet{position:fixed;inset:0;z-index:80;background:rgba(18,26,46,.55);display:flex;align-items:flex-end;justify-content:center;padding:18px;animation:fadeIn .25s ease}
+.greet-card{width:100%;max-width:420px;background:#fff;border-radius:26px;overflow:hidden;display:flex;flex-direction:column;gap:12px;padding-bottom:16px;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+.greet-card img{width:100%;max-height:62vh;object-fit:cover;display:block}
+.greet-txt{display:flex;flex-direction:column;gap:3px;padding:0 18px;text-align:center}.greet-txt b{font-size:17px}.greet-txt span{color:var(--muted);font-size:13px}
+.greet-card .btn{margin:0 18px;width:auto}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 input,select,textarea{min-width:0;max-width:100%;width:100%}
 input[type=checkbox],input[type=radio]{width:auto}
 
@@ -452,7 +472,7 @@ input[type=checkbox],input[type=radio]{width:auto}
     'Dikesan': 'Detected', 'Perlu disahkan': 'To verify', 'Baharu': 'New', 'Tindakan diambil': 'Actioned',
     'Patuh': 'Compliant', 'Tidak patuh': 'Non-compliant', 'Perlu tindakan': 'Action needed', 'Belum disemak': 'Not reviewed', 'Tidak berkaitan': 'N/A',
     'Notis': 'Notice', 'Polisi': 'Policy', 'Makluman': 'Info', 'Aktif': 'Active', 'Disekat': 'Blocked', 'Automatik': 'Automatic',
-    'Penuh': 'Full day', 'Separuh (pagi)': 'Half day (AM)', 'Separuh (petang)': 'Half day (PM)', 'Isn': 'Mon', 'Sel': 'Tue', 'Rab': 'Wed', 'Kha': 'Thu', 'Jum': 'Fri', 'Sab': 'Sat', 'Ahd': 'Sun'
+    'Hari rehat': 'Rest day', 'Rehat ganti': 'Replacement rest day', 'Cuti umum': 'Public holiday', 'Penuh': 'Full day', 'Separuh (pagi)': 'Half day (AM)', 'Separuh (petang)': 'Half day (PM)', 'Isn': 'Mon', 'Sel': 'Tue', 'Rab': 'Wed', 'Kha': 'Thu', 'Jum': 'Fri', 'Sab': 'Sat', 'Ahd': 'Sun'
   };
   function tr(v) { return Object.prototype.hasOwnProperty.call(EN, v) ? EN[v] : v; }
   function pad(n) { return ('0' + n).slice(-2); }
@@ -475,7 +495,8 @@ input[type=checkbox],input[type=radio]{width:auto}
     if (r.code === 'AUTH') { logoutLocal(); }
     if (r.code === 'PIN' && S.me && !S.gate) { S.me.tukarPin = true; pinGate(); }
     var err = new Error(r.error);
-    err.busy = /Sistem sibuk/.test(r.error);
+    err.busy = /System busy|Sistem sibuk/.test(r.error);
+    err.code = r.code || '';
     reject(err);
   }
   function fetchCall(action, payload, timeoutMs) {
@@ -517,7 +538,8 @@ input[type=checkbox],input[type=radio]{width:auto}
           if (r.code === 'AUTH') { logoutLocal(); }
           if (r.code === 'PIN' && S.me && !S.gate) { S.me.tukarPin = true; pinGate(); }
           var err = new Error(r.error);
-          err.busy = /Sistem sibuk/.test(r.error);
+          err.busy = /System busy|Sistem sibuk/.test(r.error);
+          err.code = r.code || '';
           reject(err);
         })
         .withFailureHandler(function (e) {
@@ -674,7 +696,10 @@ input[type=checkbox],input[type=radio]{width:auto}
   }
 
   /* ======================= Log masuk ======================= */
+  /* PRISM 3: log masuk E-mel + Kata laluan (gaya QuickHR). Mod lama ID + PIN hanya untuk ujian (PRISM_PIN_LOGIN). */
+  var LOGIN_HERO = '<div class="auth-hero"><div class="auth-logo"><svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" rx="30" fill="#121a2e"/><circle cx="60" cy="60" r="34" fill="none" stroke="#2c3652" stroke-width="9"/><path d="M60 26a34 34 0 1 1-34 34" fill="none" stroke="#f26210" stroke-width="9" stroke-linecap="round"/><path d="M50 78V44h13a10 10 0 0 1 0 20H50" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="auth-brand">PRISM <b>HR</b></div><div class="muted">Sofwah Arabic Grill</div></div>';
   function renderLogin(msg) {
+    if (!window.PRISM_PIN_LOGIN) { renderEmailLogin(msg); return; }
     var id = LS.get('prism_id') || '';
     $('app').innerHTML =
       '<div class="login"><div class="card">' +
@@ -688,6 +713,48 @@ input[type=checkbox],input[type=radio]{width:auto}
       '</form></div></div>';
     var f = document.querySelector('[name=' + (id ? 'pin' : 'id') + ']');
     if (f) f.focus();
+  }
+
+  function renderEmailLogin(msg) {
+    var em = LS.get('prism_email') || '';
+    $('app').innerHTML = '<div class="auth">' + LOGIN_HERO +
+      '<form class="auth-card" data-form="loginEmail" autocomplete="on"><h1>Sign in</h1><p class="muted">Use the email registered with Sofwah HR.</p>' +
+      '<label>Email<input name="email" type="email" value="' + h(em) + '" autocomplete="username" inputmode="email" required placeholder="Enter your email address"></label>' +
+      '<label>Password<input name="password" type="password" autocomplete="current-password" required placeholder="Enter your password"></label>' +
+      '<div class="between auth-links"><button type="button" class="link" data-act="authCode" data-v="forgot">Forgot password?</button><button type="button" class="link" data-act="authCode" data-v="verify">Verify email</button></div>' +
+      (msg ? '<div class="err">' + h(msg) + '</div>' : '') +
+      '<button class="btn block" type="submit">Sign in</button>' +
+      '<p class="hint" style="text-align:center">First time? Tap <b>Verify email</b> to create your password.</p></form></div>';
+    var f = document.querySelector('[name=' + (em ? 'password' : 'email') + ']');
+    if (f) f.focus();
+  }
+
+  function renderCodeScreen(mode, email, sent, msg) {
+    var title = mode === 'forgot' ? 'Reset password' : 'Verify email';
+    $('app').innerHTML = '<div class="auth">' + LOGIN_HERO +
+      (sent ? '<form class="auth-card" data-form="setPassword" data-mode="' + mode + '"><h1>' + title + '</h1><p class="muted">Enter the 6-digit code sent to <b>' + h(email) + '</b>, then create your password.</p>' +
+        '<input type="hidden" name="email" value="' + h(email) + '">' +
+        '<label>Verification code<input name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" required placeholder="6-digit code"></label>' +
+        '<label>New password<input name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="At least 8 characters, letters + numbers"></label>' +
+        '<label>Confirm password<input name="password2" type="password" autocomplete="new-password" minlength="8" required placeholder="Re-enter password"></label>' +
+        (msg ? '<div class="err">' + h(msg) + '</div>' : '') +
+        '<button class="btn block" type="submit">Save password & sign in</button>' +
+        '<div class="between auth-links"><button type="button" class="link" data-act="authCode" data-v="' + mode + '" data-email="' + h(email) + '">Resend code</button><button type="button" class="link" data-act="authBack">Back</button></div></form>'
+      : '<form class="auth-card" data-form="emailCode" data-mode="' + mode + '"><h1>' + title + '</h1><p class="muted">We’ll email you a 6-digit code' + (mode === 'forgot' ? ' to reset your password.' : '. Use the email registered with Sofwah HR (same as QuickHR).') + '</p>' +
+        '<label>Email<input name="email" type="email" value="' + h(email || LS.get('prism_email') || '') + '" autocomplete="username" inputmode="email" required placeholder="Enter your email address"></label>' +
+        (msg ? '<div class="err">' + h(msg) + '</div>' : '') +
+        '<button class="btn block" type="submit">Send code</button>' +
+        '<div class="auth-links" style="justify-content:center"><button type="button" class="link" data-act="authBack">Back</button></div></form>') +
+      '</div>';
+    var f = document.querySelector(sent ? '[name=code]' : '[name=email]');
+    if (f) f.focus();
+  }
+
+  function signedIn(r) {
+    S.token = r.token; S.me = r.me; S.tab = 'hari';
+    LS.set('prism_token', r.token); LS.set('prism_me', JSON.stringify(r.me));
+    if (r.me.email) LS.set('prism_email', r.me.email);
+    renderShell();
   }
 
   function logoutLocal() {
@@ -721,7 +788,7 @@ input[type=checkbox],input[type=radio]{width:auto}
     // Skrin dimuat selepas pintu (privasi / PIN sementara) dilepasi supaya tiada ralat "sila tukar PIN" di latar
     if (!me.privasi) privacyGate();
     else if (me.tukarPin) pinGate();
-    else route();
+    else { route(); onboarding(); }
   }
 
   function setMain(html) { var m = $('main'); if (m) m.innerHTML = html; }
@@ -782,7 +849,7 @@ input[type=checkbox],input[type=radio]{width:auto}
     var shiftTitle, shiftSub;
     if (d.cuti) { shiftTitle = 'Cuti'; shiftSub = d.cuti; }
     else if (!sy.kod) { shiftTitle = 'No shift scheduled'; shiftSub = 'Contact your manager if you should be on duty.'; }
-    else if (sy.kategori === 'Rehat') { shiftTitle = 'Rest day'; shiftSub = sy.nama || sy.kod; }
+    else if (sy.kategori === 'Rehat') { shiftTitle = 'Rest day'; shiftSub = tr(sy.nama || sy.kod); }
     else { shiftTitle = sy.teks; shiftSub = sy.kod + ' · ' + tr(sy.kategori) + (sy.rehat ? ' · break ' + sy.rehat + ' min' : ''); }
 
     var times = '<div class="times">' +
@@ -1030,8 +1097,9 @@ input[type=checkbox],input[type=radio]{width:auto}
   /* ======================= Lagi: profil, notis, PIN ======================= */
   function loadLagi() {
     loading();
-    Promise.all([call('notices'), call('myPayslips').catch(function () { return []; })]).then(function (res) {
-      var d = res[0], slips = res[1];
+    Promise.all([call('notices'), call('myPayslips').catch(function (e) { return e && e.code === 'PINREQ' ? 'LOCKED' : []; })]).then(function (res) {
+      var d = res[0], slips = res[1], locked = slips === 'LOCKED';
+      if (locked) slips = [];
       var me = S.me;
       var notis = d.senarai.length ? d.senarai.map(function (n) {
         var read = d.dibaca.indexOf(n.row) >= 0;
@@ -1047,14 +1115,84 @@ input[type=checkbox],input[type=radio]{width:auto}
         zoomCard() +
         pushCard() +
         '<section class="card"><span class="eyebrow">Announcements</span><div class="list">' + notis + '</div></section>' +
-        '<section class="card"><span class="eyebrow">Payslip</span><div class="list">' + (slips.length ? slips.map(function (p) {
+        '<section class="card"><div class="between"><span class="eyebrow">Payslip</span>' + (S.me.pinSet ? '<span class="chip">🔒 PIN</span>' : '') + '</div><div class="list">' + (locked ? '<div class="empty">Payslips are protected by your PIN.<br><button class="btn small" data-act="unlockPin" style="margin-top:10px">Unlock with PIN</button></div>' : slips.length ? slips.map(function (p) {
           return '<div class="li"><div><div style="font-weight:600">' + h(p.label) + '</div><div class="muted">Net ' + rm(p.bersih) + (p.tarikhBayar ? ' · paid ' + h(p.tarikhBayar) : '') + '</div></div><div class="row"><button class="btn ghost small" data-act="mySlip" data-v="' + h(p.bulan) + '">PDF</button>' +
             '<a class="btn ghost small" target="_blank" rel="noopener" href="https://wa.me/?text=' + encodeURIComponent('Salary summary ' + p.label + ' (Sofwah Arabic Grill): net pay RM ' + rm(p.bersih) + (p.tarikhBayar ? ', paid ' + p.tarikhBayar : '') + '. Full payslip in the PRISM HR app.') + '">Share</a></div></div>';
         }).join('') : '<div class="empty">Payslips appear here once salary is paid through PRISM.</div>') + '</div></section>' +
-        '<section class="card"><span class="eyebrow">Change PIN</span>' + PIN_FORM + '</section>' +
+        calendarCard() + securityCard() +
         '<button class="btn ghost block" data-act="myAtt">My attendance</button>' +
         '<button class="btn ghost block" data-act="logout">Sign out</button></div>');
     }).catch(function (e) { setMain(errBox(e)); });
+  }
+
+  /* ======================= PRISM 3 · Onboarding, kalendar, keselamatan, ucapan ======================= */
+  function onbKey() { return 'prism_onb_' + (S.me ? S.me.id : ''); }
+  /** Selepas log masuk pertama di peranti ini: notifikasi → lokasi → kalendar (setiap satu sekali tekan). */
+  function onboarding(step) {
+    if (window.PRISM_PIN_LOGIN) return; // mod ujian lama
+    if (!step && S.onbShown) return;
+    S.onbShown = true;
+    if (!S.me || LS.get(onbKey()) === 'done') { showGreeting(); return; }
+    step = step || 1;
+    var ps = pushState();
+    var steps = [
+      { k: 1, ico: '🔔', t: 'Turn on notifications', d: 'Shift reminders 30 minutes before you start, leave decisions and HR announcements.', btn: ps.s === 'aktif' ? '' : ps.s === 'sedia' ? 'Allow notifications' : '', note: ps.s === 'sedia' || ps.s === 'aktif' ? '' : ps.t, act: 'onbPush' },
+      { k: 2, ico: '📍', t: 'Allow location', d: 'Used only when you clock in or out, to confirm you are at your branch.', btn: 'Allow location', act: 'onbLoc' },
+      { k: 3, ico: '📅', t: 'Add your shifts to Calendar', d: 'Your shifts, leave and public holidays appear in your phone calendar and update automatically.', btn: 'Add to Calendar', act: 'onbCal' }
+    ];
+    var x = steps[step - 1];
+    if (!x) { LS.set(onbKey(), 'done'); closeModal(); toast('You’re all set. Welcome to PRISM HR.'); showGreeting(); return; }
+    S.onbStep = step;
+    modal('Welcome to PRISM HR', '<div class="onb"><div class="onb-dots">' + steps.map(function (y) { return '<i class="' + (y.k <= step ? 'on' : '') + '"></i>'; }).join('') + '</div>' +
+      '<div class="onb-ico">' + x.ico + '</div><h3>' + h(x.t) + '</h3><p class="muted">' + h(x.d) + '</p>' + (x.note ? '<p class="hint">' + h(x.note) + '</p>' : '') +
+      (x.btn ? '<button class="btn block" data-act="' + x.act + '">' + h(x.btn) + '</button>' : '<div class="chip green" style="align-self:center">Already on ✓</div>') +
+      '<button class="btn ghost block" data-act="onbNext">' + (step < steps.length ? 'Skip for now' : 'Finish') + '</button></div>');
+  }
+
+  function calendarCard() {
+    return '<section class="card" id="cal-card"><div class="between"><span class="eyebrow">Calendar sync</span><span class="muted">Shifts · leave · holidays</span></div>' +
+      '<div class="muted">Your PRISM schedule appears in your phone’s calendar and updates by itself, with a reminder 30 minutes before each shift.</div>' +
+      '<div class="row wrap"><button class="btn small" data-act="calAdd" data-v="apple">Apple Calendar</button><button class="btn ghost small" data-act="calAdd" data-v="google">Google Calendar</button><button class="btn ghost small" data-act="calAdd" data-v="copy">Copy link</button></div></section>';
+  }
+  function calOpen(kind, link) {
+    if (kind === 'google') window.open(link.google, '_blank', 'noopener');
+    else if (kind === 'copy') { try { navigator.clipboard.writeText(link.https); toast('Calendar link copied. Keep it private.'); } catch (e) { modal('Calendar link', '<p class="muted">Copy this private link into your calendar app (Add subscription):</p><input value="' + h(link.https) + '" readonly onclick="this.select()">'); } }
+    else window.location.href = link.webcal;
+  }
+
+  function securityCard() {
+    var set = S.me && S.me.pinSet;
+    return '<section class="card" id="sec-card"><div class="between"><span class="eyebrow">Security</span><span class="chip ' + (set ? 'green' : '') + '">' + (set ? 'PIN on' : 'No PIN') + '</span></div>' +
+      '<div class="muted">' + (set ? 'Your 6-digit PIN protects Payslip and Profile.' : 'Set a 6-digit PIN to protect your Payslip and Profile. Optional.') + '</div>' +
+      '<form data-form="setPin">' + (set ? '<label>Current PIN<input name="currentPin" type="password" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" required autocomplete="off"></label>' : '') +
+      '<div class="two"><label>' + (set ? 'New PIN' : 'Enter PIN') + '<input name="pin" type="password" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" required autocomplete="off"></label>' +
+      '<label>Confirm PIN<input name="pin2" type="password" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" required autocomplete="off"></label></div>' +
+      '<button class="btn dark block" type="submit">' + (set ? 'Change PIN' : 'Set PIN') + '</button></form>' +
+      '<p class="hint">🛡 This keeps your details secure. Forgot your password? Sign out › Forgot password.</p></section>';
+  }
+
+  function pinPrompt(then) {
+    S.pinThen = then;
+    modal('Enter your PIN', '<form data-form="unlockPin"><p class="muted">Your PIN protects Payslip and Profile.</p><label>PIN<input name="pin" type="password" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" required autocomplete="off" autofocus></label><button class="btn block" type="submit">Unlock</button></form>');
+  }
+
+  /** Banner ucapan / iklan HR: sekali sehari bagi setiap banner. */
+  function showGreeting() {
+    if (S.greetShown || !S.me) return;
+    S.greetShown = true;
+    call('greeting').then(function (g) {
+      if (!g) return;
+      var key = 'prism_greet_' + g.id + '_' + ymd(today());
+      if (LS.get(key)) return;
+      LS.set(key, '1');
+      var ov = document.createElement('div');
+      ov.className = 'greet';
+      ov.innerHTML = '<div class="greet-card" role="dialog" aria-label="' + h(g.tajuk) + '">' +
+        (g.gambar ? '<img src="' + h(g.gambar) + '" alt="' + h(g.tajuk) + '" referrerpolicy="no-referrer">' : '') +
+        '<div class="greet-txt"><b>' + h(g.tajuk) + '</b>' + (g.ringkasan ? '<span>' + h(g.ringkasan) + '</span>' : '') + '</div>' +
+        '<button class="btn block" data-act="greetClose">Close</button></div>';
+      document.body.appendChild(ov);
+    }).catch(function () { /* abaikan */ });
   }
 
   /* ======================= Saiz paparan (zoom) ======================= */
@@ -1095,7 +1233,7 @@ input[type=checkbox],input[type=radio]{width:auto}
   function loadScript(src) {
     return new Promise(function (res, rej) { var x = document.createElement('script'); x.src = src; x.onload = res; x.onerror = function () { rej(new Error('Failed to load ' + src)); }; document.head.appendChild(x); });
   }
-  function pushOn(btn) {
+  function pushOn(btn, after) {
     // iOS: permintaan kebenaran mesti berlaku terus dalam sentuhan pengguna (sebelum await)
     var perm = Notification.permission === 'granted' ? Promise.resolve('granted') : Notification.requestPermission();
     busy(btn, true, 'Connecting…');
@@ -1118,7 +1256,8 @@ input[type=checkbox],input[type=radio]{width:auto}
       LS.set('prism_push_ok', S.me.id);
       toast('Notifications on. Tap "Send test" to try.');
       var c = $('push-card'); if (c) c.outerHTML = pushCard();
-    }).catch(function (e) { busy(btn, false); fail(e); });
+      if (after) after();
+    }).catch(function (e) { busy(btn, false); fail(e); if (after) after(); });
   }
 
   /* ======================= Urus (Manager / HR) ======================= */
@@ -1579,7 +1718,7 @@ input[type=checkbox],input[type=radio]{width:auto}
           '<td><input data-skop="' + h(r.id) + '" value="' + h(r.skop) + '" placeholder="sendiri" style="min-width:120px;min-height:38px"></td>' +
           '<td><span class="chip ' + (r.adaPin ? chipFor(r.status) : 'orange') + '">' + h(r.adaPin ? tr(r.status) : 'No PIN') + '</span>' + (r.privasi ? '<div class="hint">PDPA ✓</div>' : '') + '</td>' +
           '<td class="muted">' + h(r.terakhir || '-') + '</td>' +
-          '<td><button class="btn small ' + (r.adaPin ? 'ghost' : '') + '" data-act="genPin" data-id="' + h(r.id) + '" data-nama="' + h(r.nama) + '">' + (r.adaPin ? 'Reset PIN' : 'Jana PIN') + '</button></td></tr>';
+          '<td><button class="btn small ghost" data-act="resetSignin" data-id="' + h(r.id) + '" data-nama="' + h(r.nama) + '">Reset sign-in</button></td></tr>';
       }).join('');
       var noPin = rows.filter(function (r) { return !r.adaPin; }).length;
       urusBody('<div class="hint">' + noPin + '  staff have no PIN. A PIN is shown once only; send it directly to the staff member. Manager scope: blank = own branch, "Semua" (all), or a comma-separated list.</div>' +
@@ -1590,13 +1729,15 @@ input[type=checkbox],input[type=radio]{width:auto}
   }
 
   function uNotis() {
+    S.docs = {};
     urusBody('<section class="card narrow" style="margin:0"><h2 style="font-size:16px">Post announcement</h2><form data-form="notice">' +
       '<label>Title<input name="tajuk" required maxlength="120"></label>' +
-      '<div class="two"><label>Category<select name="kategori"><option value="Memo">Memo</option><option value="Notis">Notice</option><option value="Polisi">Policy</option><option value="Makluman">Info</option></select></label>' +
+      '<div class="two"><label>Category<select name="kategori"><option value="Memo">Memo</option><option value="Notis">Notice</option><option value="Polisi">Policy</option><option value="Makluman">Info</option><option value="Ucapan">Greeting banner</option></select></label>' +
       '<label>Target<select name="sasaran"><option value="Semua">All</option>' + S.me.scope.map(function (b) { return '<option>' + h(b) + '</option>'; }).join('') + '</select></label></div>' +
       '<label>Summary<textarea name="ringkasan" maxlength="500"></textarea></label>' +
       '<label>Document link<input name="pautan" type="url" placeholder="https://drive.google.com/…"></label>' +
       '<div class="two"><label>Show until<input type="date" name="hingga"></label><label style="flex-direction:row;align-items:center;gap:8px;margin-top:22px"><input type="checkbox" name="wajib" style="width:auto;min-height:auto"> Wajib baca</label></div>' +
+      '<div class="row"><button type="button" class="btn ghost small" data-act="pickDoc" data-v="greet">Banner image</button><span class="hint" id="doc-greet">For Greeting banner (shown once a day when staff open the app)</span></div>' +
       '<label style="flex-direction:row;align-items:center;gap:8px"><input type="checkbox" name="telefon" checked style="width:auto;min-height:auto"> Send to staff phones (notification)</label>' +
       '<button class="btn block" type="submit">Post</button></form></section>');
   }
@@ -1688,7 +1829,7 @@ input[type=checkbox],input[type=radio]{width:auto}
     call(forStaff ? 'myPayslip' : 'payrollPayslip', { bulan: bulan, id: id }).then(function (r) {
       downloadB64(r.nama, r.b64, 'application/pdf');
       toast('Slip ' + bulan + ' downloaded.');
-    }).catch(fail);
+    }).catch(function (e) { if (e && e.code === 'PINREQ') pinPrompt(function () { showPayslip(bulan, id, forStaff); }); else fail(e); });
   }
 
   /* ======================= Tindakan (klik) ======================= */
@@ -1777,6 +1918,41 @@ input[type=checkbox],input[type=radio]{width:auto}
     newRec: function () { recordForm(null); },
     editRec: function (el) { recordForm(el.dataset.row); },
     pushOn: function (el) { pushOn(el); },
+    authCode: function (el) {
+      var mode = el.dataset.v, email = el.dataset.email || (document.querySelector('[name=email]') || {}).value || '';
+      if (el.dataset.email) { busy(el, true); call('emailCode', { email: email }).then(function (r) { busy(el, false); toast(r.mesej); }).catch(function (e) { busy(el, false); fail(e); }); return; }
+      renderCodeScreen(mode, email, false);
+    },
+    authBack: function () { renderEmailLogin(); },
+    onbNext: function () { onboarding((S.onbStep || 1) + 1); },
+    onbPush: function (el) {
+      if (pushState().s !== 'sedia') { onboarding((S.onbStep || 1) + 1); return; }
+      pushOn(el, function () { onboarding((S.onbStep || 1) + 1); });
+    },
+    onbLoc: function (el) {
+      busy(el, true, 'Waiting…');
+      getPos().then(function () { toast('Location allowed ✓'); }).catch(function (e) { toast(e.message, true); })
+        .then(function () { onboarding((S.onbStep || 1) + 1); });
+    },
+    onbCal: function (el) {
+      busy(el, true);
+      call('calendarLink').then(function (l) {
+        LS.set(onbKey(), 'done'); closeModal();
+        calOpen(/Android/.test(navigator.userAgent) ? 'google' : 'apple', l);
+        showGreeting();
+      }).catch(function (e) { busy(el, false); fail(e); });
+    },
+    calAdd: function (el) {
+      busy(el, true);
+      call('calendarLink').then(function (l) { busy(el, false); calOpen(el.dataset.v, l); }).catch(function (e) { busy(el, false); fail(e); });
+    },
+    unlockPin: function () { pinPrompt(function () { loadLagi(); }); },
+    greetClose: function (el) { var g = el.closest('.greet'); if (g) g.remove(); },
+    resetSignin: function (el) {
+      if (!window.confirm('Reset sign-in for ' + el.dataset.nama + '? Their password and PIN will be cleared and they must tap "Verify email" to create a new password.')) return;
+      busy(el, true);
+      call('resetSignin', { id: el.dataset.id }).then(function (r) { busy(el, false); toast('Sign-in reset for ' + r.nama + (r.email ? ' (' + r.email + ')' : ' — no email on file') + '.'); }).catch(function (e) { busy(el, false); fail(e); });
+    },
     zoom: function (el) { setZoom(Number(el.dataset.v)); var c = $('zoom-card'); if (c) c.outerHTML = zoomCard(); },
     zoomCycle: function () { var i = ZOOMS.indexOf(curZoom()); setZoom(ZOOMS[(i + 1) % ZOOMS.length]); toast('Text size ' + Math.round(curZoom() * 100) + '%'); var c = $('zoom-card'); if (c) c.outerHTML = zoomCard(); },
     pushTest: function (el) {
@@ -1884,7 +2060,7 @@ input[type=checkbox],input[type=radio]{width:auto}
       busy(el, true);
       call('acceptPrivacy').then(function () {
         S.me.privasi = true; S.gate = false; if (PWA) LS.set('prism_me', JSON.stringify(S.me)); closeModal(); toast('Thank you. Welcome to PRISM HR.');
-        if (S.me.tukarPin) pinGate(); else route();
+        if (S.me.tukarPin) pinGate(); else { route(); onboarding(); }
       }).catch(function (e) { busy(el, false); fail(e); });
     },
     refreshData: function (el) {
@@ -2050,6 +2226,36 @@ input[type=checkbox],input[type=radio]{width:auto}
       var d = formData(f); d.id = f.dataset.id;
       call('lcSaveCheck', d).then(function () { closeModal(); toast('Check saved.'); uPematuhan(); }).catch(function (e) { busy(btn, false); fail(e); });
     },
+    loginEmail: function (f, btn) {
+      var d = formData(f);
+      d.email = String(d.email || '').trim();
+      call('loginEmail', d).then(signedIn).catch(function (e) { busy(btn, false); LS.set('prism_email', d.email); renderEmailLogin(e.message); });
+    },
+    emailCode: function (f, btn) {
+      var d = formData(f), mode = f.dataset.mode;
+      d.email = String(d.email || '').trim();
+      call('emailCode', d).then(function (r) { toast(r.mesej); renderCodeScreen(mode, d.email, true); })
+        .catch(function (e) { busy(btn, false); renderCodeScreen(mode, d.email, false, e.message); });
+    },
+    setPassword: function (f, btn) {
+      var d = formData(f);
+      if (d.password !== d.password2) { busy(btn, false); toast('Passwords don’t match.', true); return; }
+      call('setPassword', { email: d.email, code: d.code, password: d.password }).then(function (r) { toast('Password saved. Welcome!'); signedIn(r); })
+        .catch(function (e) { busy(btn, false); toast(e.message, true); });
+    },
+    setPin: function (f, btn) {
+      var d = formData(f);
+      if (d.pin !== d.pin2) { busy(btn, false); toast('PINs don’t match.', true); return; }
+      call('setPin', { pin: d.pin, currentPin: d.currentPin || '' }).then(function () {
+        S.me.pinSet = true; if (PWA) LS.set('prism_me', JSON.stringify(S.me));
+        toast('PIN saved. Payslip and Profile are now protected.');
+        var c = $('sec-card'); if (c) c.outerHTML = securityCard();
+      }).catch(function (e) { busy(btn, false); fail(e); });
+    },
+    unlockPin: function (f, btn) {
+      call('unlockPin', formData(f)).then(function () { closeModal(); var t = S.pinThen; S.pinThen = null; if (t) t(); })
+        .catch(function (e) { busy(btn, false); fail(e); });
+    },
     login: function (f, btn) {
       var d = formData(f);
       d.id = d.id.trim();
@@ -2095,6 +2301,8 @@ input[type=checkbox],input[type=radio]{width:auto}
     },
     notice: function (f, btn) {
       var d = formData(f); d.telefon = !!(f.elements.telefon && f.elements.telefon.checked);
+      if (S.docs && S.docs.greet) d.gambar = S.docs.greet;
+      if (d.kategori === 'Ucapan' && !d.gambar) { busy(btn, false); toast('Add a banner image for the Greeting.', true); return; }
       call('addNotice', d).then(function (r) { toast('Announcement posted' + (d.telefon ? ' · sent to ' + (r.telefon || 0) + ' telefon' : '') + '.'); f.reset(); busy(btn, false); }).catch(function (e) { busy(btn, false); fail(e); });
     },
     paySetup: function (f, btn) {
