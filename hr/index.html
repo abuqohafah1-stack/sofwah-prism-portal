@@ -1447,6 +1447,7 @@ th{background:#eef1f5} td.name{background:#f7f8fb}
       '<label>Ringkasan<textarea name="ringkasan" maxlength="500"></textarea></label>' +
       '<label>Pautan dokumen<input name="pautan" type="url" placeholder="https://drive.google.com/…"></label>' +
       '<div class="two"><label>Papar hingga<input type="date" name="hingga"></label><label style="flex-direction:row;align-items:center;gap:8px;margin-top:22px"><input type="checkbox" name="wajib" style="width:auto;min-height:auto"> Wajib baca</label></div>' +
+      '<label style="flex-direction:row;align-items:center;gap:8px"><input type="checkbox" name="telefon" checked style="width:auto;min-height:auto"> Hantar ke telefon staf (notifikasi)</label>' +
       '<button class="btn block" type="submit">Terbitkan</button></form></section>');
   }
 
@@ -1941,7 +1942,8 @@ th{background:#eef1f5} td.name{background:#f7f8fb}
       call('fixAttendance', d).then(function () { closeModal(); toast('Kehadiran dibetulkan.'); uKehadiran(); }).catch(function (e) { busy(btn, false); fail(e); });
     },
     notice: function (f, btn) {
-      call('addNotice', formData(f)).then(function () { toast('Notis diterbitkan.'); f.reset(); busy(btn, false); }).catch(function (e) { busy(btn, false); fail(e); });
+      var d = formData(f); d.telefon = !!(f.elements.telefon && f.elements.telefon.checked);
+      call('addNotice', d).then(function (r) { toast('Notis diterbitkan' + (d.telefon ? ' · dihantar ke ' + (r.telefon || 0) + ' telefon' : '') + '.'); f.reset(); busy(btn, false); }).catch(function (e) { busy(btn, false); fail(e); });
     },
     paySetup: function (f, btn) {
       call('payrollSetup', formData(f)).then(function (r) { toast('PRISM Payroll sedia.'); modal('PRISM Payroll dipasang', '<p>' + r.notes.map(h).join('<br>') + '</p><a class="btn block" href="' + h(r.url) + '" target="_blank" rel="noopener">Buka fail dan isi Gaji Staf</a>'); uPayroll(); })
