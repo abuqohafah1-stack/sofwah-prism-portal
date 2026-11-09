@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#e9ecf2">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>PRISM HR · Sofwah</title>
+<link rel="preconnect" href="https://script.google.com">
+<link rel="preconnect" href="https://script.googleusercontent.com">
+<link rel="manifest" href="/hr/manifest.webmanifest">
+<link rel="icon" href="/hr/icons/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/hr/icons/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="PRISM HR">
+<style>
+html,body{margin:0;height:100%;background:#e9ecf2;color:#121a2e;font-family:Poppins,Arial,system-ui,sans-serif;overflow:hidden}
+iframe{position:fixed;inset:0;width:100%;height:100%;border:0;opacity:0;transition:opacity .4s}
+iframe.on{opacity:1}
+.load{position:fixed;inset:0;display:grid;place-items:center;text-align:center}
+.load .p{width:84px;height:84px;margin:0 auto;border-radius:26px;background:#f26210;color:#fff;font-weight:800;font-size:44px;display:grid;place-items:center;box-shadow:10px 10px 24px #c6cbd6,-10px -10px 24px #fff,0 0 30px rgba(242,98,16,.45);animation:p 1.6s ease-in-out infinite}
+.load b{display:block;margin-top:18px;letter-spacing:.35em;font-size:18px;padding-left:.35em}
+.load small{display:block;color:#c24e08;letter-spacing:.14em;font-size:10.5px;margin-top:4px;font-weight:700}
+.load p{color:#56607a;font-size:12px;margin-top:22px;max-width:300px}
+.load a{color:#c24e08}
+@keyframes p{50%{transform:scale(1.06)}}
+</style>
+</head>
+<body>
+<div class="load" id="ld"><div><div class="p">P</div><b>PRISM HR</b><small>SOFWAH ARABIC GRILL</small><p id="msg">Memuatkan…</p></div></div>
+<iframe id="app" title="PRISM HR" allow="camera; geolocation; clipboard-write; fullscreen" allowfullscreen></iframe>
+<script>
+(function () {
+  var EXEC = 'https://script.google.com/macros/s/AKfycbxLxTchG8_9XJyBkmER5AqQWBFnNbtCcajuoTQKWC_W7kqBVP3_Z4ZgIjgEs5LiDTbS/exec';
+  var f = document.getElementById('app'), ld = document.getElementById('ld');
+  function boot() {
+    f.src = EXEC;
+    f.onload = function () { f.className = 'on'; setTimeout(function () { ld.style.display = 'none'; }, 400); };
+    setTimeout(function () { if (f.className !== 'on') document.getElementById('msg').innerHTML = 'Sambungan perlahan. <a href="' + EXEC + '" rel="noopener">Buka terus</a> atau muat semula.'; }, 15000);
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/hr/sw.js', { scope: '/hr/' }).catch(function () {});
+  }
+  // Paksa HTTPS (GPS & kamera hanya berfungsi di HTTPS)
+  if (location.protocol === 'http:' && /(^|\.)sofwah\.my$/.test(location.hostname)) {
+    var u = 'https://' + location.host + location.pathname + location.search + location.hash;
+    var settled = false, done = function (ok) { if (settled) return; settled = true; if (ok) location.replace(u); else boot(); };
+    fetch('https://' + location.hostname + '/hr/manifest.webmanifest?probe=' + Date.now(), { mode: 'no-cors', cache: 'no-store' })
+      .then(function () { done(true); }, function () { done(false); });
+    setTimeout(function () { done(false); }, 3500);
+  } else boot();
+})();
+</script>
+</body>
+</html>
