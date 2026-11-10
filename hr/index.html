@@ -410,6 +410,30 @@ input,select,textarea{background:#f6f6f8;box-shadow:none;border:1px solid #e6e8e
 input,select,textarea{min-width:0;max-width:100%;width:100%}
 input[type=checkbox],input[type=radio]{width:auto}
 
+/* PRISM 3 · aliran akaun (Create account / Reset): langkah, OTP, kata laluan */
+.auth-links{flex-wrap:wrap;align-items:center}.auth-links .muted{font-size:13px}
+.auth-or{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px;margin-top:4px}
+.auth-or:before,.auth-or:after{content:"";flex:1;height:1px;background:#e6e8ee}
+.steps{display:flex;align-items:center;gap:6px;margin-bottom:2px}
+.step{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);white-space:nowrap}
+.step i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:11px;font-weight:600;background:#eef0f4;color:var(--muted)}
+.step.on{color:var(--ink);font-weight:600}.step.on i{background:var(--navy);color:#fff}
+.step.done i{background:var(--orange);color:#fff}
+.step-bar{flex:1;height:2px;min-width:8px;background:#e6e8ee;border-radius:2px}
+.otp{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:4px 0}
+.otp-box{height:54px;text-align:center;font-size:24px;font-weight:600;border-radius:14px;border:1.5px solid #d5dae4;background:#fff;padding:0;caret-color:var(--orange)}
+.otp-box:invalid,.otp-box:user-invalid{border-color:#d5dae4;box-shadow:none}
+.otp-box:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 4px var(--orange-soft)}
+.otp-box.shake{animation:shake .35s;border-color:#d93a3a}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.link[disabled]{color:var(--muted);cursor:default}
+.pw-wrap{position:relative;display:block}.pw-wrap input{padding-right:62px}
+.pw-eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--orange-ink);font:600 12px inherit;font-family:inherit;cursor:pointer;padding:6px}
+.pw-rules{list-style:none;display:flex;flex-wrap:wrap;gap:6px 12px;margin:-2px 0 2px;padding:0;font-size:12px;color:var(--muted)}
+.pw-rules li:before{content:"○ "}.pw-rules li.met{color:#1d8a52}.pw-rules li.met:before{content:"● "}
+.ok-dot{color:#1d8a52;font-weight:700}
+@media (prefers-reduced-motion:reduce){.otp-box.shake{animation:none}}
+
 @media (prefers-reduced-motion:reduce){.dial,.colon{animation:none}}
 </style>
 
@@ -484,7 +508,7 @@ input[type=checkbox],input[type=radio]{width:auto}
   function isMgr() { return S.me && ['Manager', 'HR', 'Admin'].indexOf(S.me.role) >= 0; }
   function isHR() { return S.me && (S.me.role === 'HR' || S.me.role === 'Admin'); }
 
-  var WRITE_ACTIONS = { clock: 1, pushRegister: 1, pushTest: 1, applyLeave: 1, submitClaim: 1, saveWeek: 1, saveTasks: 1, saveRecord: 1, decideLeave: 1, decideClaim: 1, payrollRun: 1, payrollFiles: 1, payrollPaid: 1, payrollConfirm: 1, payrollReopen: 1, payrollSetup: 1, addAttendance: 1, resetPin: 1, changePin: 1, addNotice: 1, exportPayroll: 1, staffingRefresh: 1, approveOT: 1, fixAttendance: 1, cancelLeave: 1, setRole: 1, acceptPrivacy: 1, lcPropose: 1, lcDecide: 1, lcApproveSeeds: 1, lcScan: 1, lcMonitor: 1, lcReview: 1, lcAddUpdate: 1, lcAmendStatus: 1, lcSaveCheck: 1 };
+  var WRITE_ACTIONS = { loginEmail: 1, emailCode: 1, verifyCode: 1, setPassword: 1, clock: 1, pushRegister: 1, pushTest: 1, applyLeave: 1, submitClaim: 1, saveWeek: 1, saveTasks: 1, saveRecord: 1, decideLeave: 1, decideClaim: 1, payrollRun: 1, payrollFiles: 1, payrollPaid: 1, payrollConfirm: 1, payrollReopen: 1, payrollSetup: 1, addAttendance: 1, resetPin: 1, changePin: 1, addNotice: 1, exportPayroll: 1, staffingRefresh: 1, approveOT: 1, fixAttendance: 1, cancelLeave: 1, setRole: 1, acceptPrivacy: 1, lcPropose: 1, lcDecide: 1, lcApproveSeeds: 1, lcScan: 1, lcMonitor: 1, lcReview: 1, lcAddUpdate: 1, lcAmendStatus: 1, lcSaveCheck: 1 };
   // Tindakan payroll boleh ambil beberapa minit (slip PDF setiap staf): had masa klien dipanjangkan
   var LONG_ACTIONS = { payrollRun: 300000, payrollFiles: 330000, exportPayroll: 120000, payrollSetup: 120000, staffing: 120000, staffingRefresh: 180000, lcMonitor: 300000, lcScan: 120000, lcDashboard: 90000, lcApproveSeeds: 120000, lcDecide: 90000 };
 
@@ -696,7 +720,7 @@ input[type=checkbox],input[type=radio]{width:auto}
   }
 
   /* ======================= Log masuk ======================= */
-  /* PRISM 3: log masuk E-mel + Kata laluan (gaya QuickHR). Mod lama ID + PIN hanya untuk ujian (PRISM_PIN_LOGIN). */
+  /* PRISM 3: Sign in (e-mel + kata laluan) · Create account (E-mel → OTP → Kata laluan). Mod lama ID + PIN hanya untuk ujian (PRISM_PIN_LOGIN). */
   var LOGIN_HERO = '<div class="auth-hero"><div class="auth-logo"><svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" rx="30" fill="#121a2e"/><circle cx="60" cy="60" r="34" fill="none" stroke="#2c3652" stroke-width="9"/><path d="M60 26a34 34 0 1 1-34 34" fill="none" stroke="#f26210" stroke-width="9" stroke-linecap="round"/><path d="M50 78V44h13a10 10 0 0 1 0 20H50" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="auth-brand">PRISM <b>HR</b></div><div class="muted">Sofwah Arabic Grill</div></div>';
   function renderLogin(msg) {
     if (!window.PRISM_PIN_LOGIN) { renderEmailLogin(msg); return; }
@@ -716,38 +740,113 @@ input[type=checkbox],input[type=radio]{width:auto}
   }
 
   function renderEmailLogin(msg) {
+    clearInterval(S.otpTimer);
     var em = LS.get('prism_email') || '';
     $('app').innerHTML = '<div class="auth">' + LOGIN_HERO +
-      '<form class="auth-card" data-form="loginEmail" autocomplete="on"><h1>Sign in</h1><p class="muted">Use the email registered with Sofwah HR.</p>' +
-      '<label>Email<input name="email" type="email" value="' + h(em) + '" autocomplete="username" inputmode="email" required placeholder="Enter your email address"></label>' +
-      '<label>Password<input name="password" type="password" autocomplete="current-password" required placeholder="Enter your password"></label>' +
-      '<div class="between auth-links"><button type="button" class="link" data-act="authCode" data-v="forgot">Forgot password?</button><button type="button" class="link" data-act="authCode" data-v="verify">Verify email</button></div>' +
+      '<form class="auth-card" data-form="loginEmail" autocomplete="on"><h1>Welcome back</h1><p class="muted">Sign in to your PRISM HR account.</p>' +
+      '<label>Email<input name="email" type="email" value="' + h(em) + '" autocomplete="username" inputmode="email" required placeholder="name@email.com"></label>' +
+      '<label>Password<span class="pw-wrap"><input name="password" type="password" autocomplete="current-password" required placeholder="Your password"><button type="button" class="pw-eye" data-act="pwEye" aria-label="Show password">Show</button></span></label>' +
+      '<div class="auth-links" style="justify-content:flex-end"><button type="button" class="link" data-act="authFlow" data-v="forgot">Forgot password?</button></div>' +
       (msg ? '<div class="err">' + h(msg) + '</div>' : '') +
       '<button class="btn block" type="submit">Sign in</button>' +
-      '<p class="hint" style="text-align:center">First time? Tap <b>Verify email</b> to create your password.</p></form></div>';
+      '<div class="auth-or"><span>New to PRISM HR?</span></div>' +
+      '<button type="button" class="btn ghost block" data-act="authFlow" data-v="signup">Create account</button></form></div>';
     var f = document.querySelector('[name=' + (em ? 'password' : 'email') + ']');
     if (f) f.focus();
   }
 
-  function renderCodeScreen(mode, email, sent, msg) {
-    var title = mode === 'forgot' ? 'Reset password' : 'Verify email';
-    $('app').innerHTML = '<div class="auth">' + LOGIN_HERO +
-      (sent ? '<form class="auth-card" data-form="setPassword" data-mode="' + mode + '"><h1>' + title + '</h1><p class="muted">Enter the 6-digit code sent to <b>' + h(email) + '</b>, then create your password.</p>' +
+  /* Aliran akaun 3 langkah: 1 E-mel → 2 Kod OTP → 3 Kata laluan. mode: signup | forgot */
+  var FLOW = {
+    signup: { t1: 'Create account', s1: 'Enter your work email to get started. We’ll send you a verification code.', t3: 'Create password', b3: 'Create account' },
+    forgot: { t1: 'Reset password', s1: 'Enter your account email. We’ll send you a code to reset your password.', t3: 'New password', b3: 'Save & sign in' }
+  };
+  function flowSteps(step) {
+    return '<div class="steps">' + ['Email', 'Verify', 'Password'].map(function (l, i) {
+      var n = i + 1;
+      return '<div class="step' + (n < step ? ' done' : n === step ? ' on' : '') + '"><i>' + (n < step ? '✓' : n) + '</i><span>' + l + '</span></div>';
+    }).join('<b class="step-bar' + '"></b>') + '</div>';
+  }
+  function renderFlow(mode, step, email, msg) {
+    clearInterval(S.otpTimer);
+    var F = FLOW[mode] || FLOW.signup, body;
+    if (step === 1) {
+      body = '<form class="auth-card" data-form="emailCode" data-mode="' + mode + '">' + flowSteps(1) + '<h1>' + F.t1 + '</h1><p class="muted">' + F.s1 + '</p>' +
+        '<label>Email<input name="email" type="email" value="' + h(email || LS.get('prism_email') || '') + '" autocomplete="username" inputmode="email" required placeholder="name@email.com"></label>' +
+        (msg ? '<div class="err">' + h(msg) + '</div>' : '') +
+        '<button class="btn block" type="submit">Send verification code</button>' +
+        '<div class="auth-links" style="justify-content:center">' + (mode === 'signup' ? '<span class="muted">Already have an account?</span>' : '') + '<button type="button" class="link" data-act="authBack">' + (mode === 'signup' ? 'Sign in' : 'Back to sign in') + '</button></div></form>';
+    } else if (step === 2) {
+      var boxes = '';
+      for (var i = 0; i < 6; i++) boxes += '<input class="otp-box" data-i="' + i + '" inputmode="numeric" maxlength="1" pattern="[0-9]" aria-label="Digit ' + (i + 1) + '"' + (i === 0 ? ' autocomplete="one-time-code"' : ' autocomplete="off"') + '>';
+      body = '<form class="auth-card" data-form="verifyCode" data-mode="' + mode + '">' + flowSteps(2) + '<h1>Check your email</h1><p class="muted">Enter the 6-digit code we sent to<br><b>' + h(email) + '</b></p>' +
+        '<input type="hidden" name="email" value="' + h(email) + '"><input type="hidden" name="code">' +
+        '<div class="otp">' + boxes + '</div>' +
+        (msg ? '<div class="err">' + h(msg) + '</div>' : '') +
+        '<button class="btn block" type="submit">Verify</button>' +
+        '<div class="auth-links" style="justify-content:center"><span class="muted">Didn’t get it? Check spam or</span><button type="button" class="link" data-act="otpResend" data-mode="' + mode + '" data-email="' + h(email) + '" disabled>Resend code</button></div>' +
+        '<div class="auth-links" style="justify-content:center"><button type="button" class="link" data-act="authFlow" data-v="' + mode + '" data-email="' + h(email) + '">Change email</button></div></form>';
+    } else {
+      body = '<form class="auth-card" data-form="setPassword" data-mode="' + mode + '">' + flowSteps(3) + '<h1>' + F.t3 + '</h1><p class="muted">Email verified <span class="ok-dot">✓</span> ' + h(email) + '</p>' +
         '<input type="hidden" name="email" value="' + h(email) + '">' +
-        '<label>Verification code<input name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" required placeholder="6-digit code"></label>' +
-        '<label>New password<input name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="At least 8 characters, letters + numbers"></label>' +
+        '<label>Password<span class="pw-wrap"><input name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="Create a password"><button type="button" class="pw-eye" data-act="pwEye" aria-label="Show password">Show</button></span></label>' +
+        '<ul class="pw-rules"><li data-r="len">At least 8 characters</li><li data-r="let">Contains a letter</li><li data-r="num">Contains a number</li></ul>' +
         '<label>Confirm password<input name="password2" type="password" autocomplete="new-password" minlength="8" required placeholder="Re-enter password"></label>' +
         (msg ? '<div class="err">' + h(msg) + '</div>' : '') +
-        '<button class="btn block" type="submit">Save password & sign in</button>' +
-        '<div class="between auth-links"><button type="button" class="link" data-act="authCode" data-v="' + mode + '" data-email="' + h(email) + '">Resend code</button><button type="button" class="link" data-act="authBack">Back</button></div></form>'
-      : '<form class="auth-card" data-form="emailCode" data-mode="' + mode + '"><h1>' + title + '</h1><p class="muted">We’ll email you a 6-digit code' + (mode === 'forgot' ? ' to reset your password.' : '. Use the email registered with Sofwah HR (same as QuickHR).') + '</p>' +
-        '<label>Email<input name="email" type="email" value="' + h(email || LS.get('prism_email') || '') + '" autocomplete="username" inputmode="email" required placeholder="Enter your email address"></label>' +
-        (msg ? '<div class="err">' + h(msg) + '</div>' : '') +
-        '<button class="btn block" type="submit">Send code</button>' +
-        '<div class="auth-links" style="justify-content:center"><button type="button" class="link" data-act="authBack">Back</button></div></form>') +
-      '</div>';
-    var f = document.querySelector(sent ? '[name=code]' : '[name=email]');
-    if (f) f.focus();
+        '<button class="btn block" type="submit">' + F.b3 + '</button></form>';
+    }
+    $('app').innerHTML = '<div class="auth">' + LOGIN_HERO + body + '</div>';
+    if (step === 2) otpWire(mode, email);
+    if (step === 3) {
+      var pw = document.querySelector('[name=password]');
+      pw.addEventListener('input', function () {
+        var v = pw.value, t = { len: v.length >= 8, let: /[A-Za-z]/.test(v), num: /\d/.test(v) };
+        Object.keys(t).forEach(function (k) { document.querySelector('[data-r=' + k + ']').classList.toggle('met', t[k]); });
+      });
+      pw.focus();
+    }
+    if (step === 1) { var e = document.querySelector('[name=email]'); if (e) e.focus(); }
+  }
+
+  /* Kotak OTP: auto-lompat, Backspace, tampal 6 digit, auto-hantar bila lengkap; kira detik 60 s untuk hantar semula */
+  function otpWire(mode, email) {
+    var bx = [].slice.call(document.querySelectorAll('.otp-box')), form = document.querySelector('[data-form=verifyCode]');
+    var sync = function () {
+      var v = bx.map(function (b) { return b.value; }).join('');
+      form.querySelector('[name=code]').value = v;
+      if (/^\d{6}$/.test(v) && !form.dataset.busy) { form.dataset.busy = '1'; form.requestSubmit ? form.requestSubmit() : form.querySelector('[type=submit]').click(); }
+    };
+    var fill = function (from, digits) {
+      digits.split('').forEach(function (d, j) { if (bx[from + j]) bx[from + j].value = d; });
+      var nx = bx[Math.min(from + digits.length, 5)]; if (nx) nx.focus();
+      sync();
+    };
+    bx.forEach(function (b, i) {
+      b.addEventListener('input', function () {
+        var d = b.value.replace(/\D/g, '');
+        if (d.length > 1) { fill(i, d.slice(0, 6 - i)); return; }
+        b.value = d;
+        if (d && bx[i + 1]) bx[i + 1].focus();
+        sync();
+      });
+      b.addEventListener('keydown', function (e) {
+        if (e.key === 'Backspace' && !b.value && bx[i - 1]) { bx[i - 1].focus(); bx[i - 1].value = ''; e.preventDefault(); }
+      });
+      b.addEventListener('paste', function (e) {
+        var t = ((e.clipboardData || window.clipboardData).getData('text') || '').replace(/\D/g, '');
+        if (t) { e.preventDefault(); fill(0, t.slice(0, 6)); }
+      });
+      b.addEventListener('focus', function () { b.select(); });
+    });
+    bx[0].focus();
+    var rs = document.querySelector('[data-act=otpResend]'), left = 60;
+    var tick = function () {
+      if (!document.body.contains(rs)) { clearInterval(S.otpTimer); return; }
+      left--;
+      rs.disabled = left > 0;
+      rs.textContent = left > 0 ? 'Resend in ' + left + 's' : 'Resend code';
+      if (left <= 0) clearInterval(S.otpTimer);
+    };
+    tick(); S.otpTimer = setInterval(tick, 1000);
   }
 
   function signedIn(r) {
@@ -1918,10 +2017,18 @@ input[type=checkbox],input[type=radio]{width:auto}
     newRec: function () { recordForm(null); },
     editRec: function (el) { recordForm(el.dataset.row); },
     pushOn: function (el) { pushOn(el); },
-    authCode: function (el) {
-      var mode = el.dataset.v, email = el.dataset.email || (document.querySelector('[name=email]') || {}).value || '';
-      if (el.dataset.email) { busy(el, true); call('emailCode', { email: email }).then(function (r) { busy(el, false); toast(r.mesej); }).catch(function (e) { busy(el, false); fail(e); }); return; }
-      renderCodeScreen(mode, email, false);
+    authFlow: function (el) {
+      var email = el.dataset.email || (document.querySelector('[name=email]') || {}).value || '';
+      renderFlow(el.dataset.v, 1, email);
+    },
+    otpResend: function (el) {
+      busy(el, true);
+      call('emailCode', { email: el.dataset.email, mode: el.dataset.mode }).then(function () { toast('New code sent.'); renderFlow(el.dataset.mode, 2, el.dataset.email); })
+        .catch(function (e) { busy(el, false); fail(e); });
+    },
+    pwEye: function (el) {
+      var i = el.parentNode.querySelector('input'), show = i.type === 'password';
+      i.type = show ? 'text' : 'password'; el.textContent = show ? 'Hide' : 'Show';
     },
     authBack: function () { renderEmailLogin(); },
     onbNext: function () { onboarding((S.onbStep || 1) + 1); },
@@ -1949,7 +2056,7 @@ input[type=checkbox],input[type=radio]{width:auto}
     unlockPin: function () { pinPrompt(function () { loadLagi(); }); },
     greetClose: function (el) { var g = el.closest('.greet'); if (g) g.remove(); },
     resetSignin: function (el) {
-      if (!window.confirm('Reset sign-in for ' + el.dataset.nama + '? Their password and PIN will be cleared and they must tap "Verify email" to create a new password.')) return;
+      if (!window.confirm('Reset sign-in for ' + el.dataset.nama + '? Their password and PIN will be cleared and they must tap "Create account" again with the same email.')) return;
       busy(el, true);
       call('resetSignin', { id: el.dataset.id }).then(function (r) { busy(el, false); toast('Sign-in reset for ' + r.nama + (r.email ? ' (' + r.email + ')' : ' — no email on file') + '.'); }).catch(function (e) { busy(el, false); fail(e); });
     },
@@ -2233,15 +2340,28 @@ input[type=checkbox],input[type=radio]{width:auto}
     },
     emailCode: function (f, btn) {
       var d = formData(f), mode = f.dataset.mode;
-      d.email = String(d.email || '').trim();
-      call('emailCode', d).then(function (r) { toast(r.mesej); renderCodeScreen(mode, d.email, true); })
-        .catch(function (e) { busy(btn, false); renderCodeScreen(mode, d.email, false, e.message); });
+      d.email = String(d.email || '').trim().toLowerCase(); d.mode = mode;
+      call('emailCode', d).then(function () { LS.set('prism_email', d.email); renderFlow(mode, 2, d.email); })
+        .catch(function (e) { busy(btn, false); renderFlow(mode, 1, d.email, e.message); });
+    },
+    verifyCode: function (f, btn) {
+      var d = formData(f), mode = f.dataset.mode;
+      if (!/^\d{6}$/.test(d.code || '')) { busy(btn, false); delete f.dataset.busy; toast('Enter the 6-digit code.', true); return; }
+      call('verifyCode', { email: d.email, code: d.code }).then(function (r) { S.ticket = r.ticket; renderFlow(mode, 3, d.email); })
+        .catch(function (e) {
+          busy(btn, false); delete f.dataset.busy;
+          if (/expired|Too many/.test(e.message)) { renderFlow(mode, 1, d.email, e.message); return; }
+          var err = f.querySelector('.err') || f.insertBefore(document.createElement('div'), f.querySelector('[type=submit]'));
+          err.className = 'err'; err.textContent = e.message;
+          [].forEach.call(f.querySelectorAll('.otp-box'), function (b) { b.value = ''; b.classList.add('shake'); setTimeout(function () { b.classList.remove('shake'); }, 400); });
+          f.querySelector('.otp-box').focus();
+        });
     },
     setPassword: function (f, btn) {
       var d = formData(f);
       if (d.password !== d.password2) { busy(btn, false); toast('Passwords don’t match.', true); return; }
-      call('setPassword', { email: d.email, code: d.code, password: d.password }).then(function (r) { toast('Password saved. Welcome!'); signedIn(r); })
-        .catch(function (e) { busy(btn, false); toast(e.message, true); });
+      call('setPassword', { email: d.email, ticket: S.ticket, password: d.password }).then(function (r) { S.ticket = null; toast(f.dataset.mode === 'forgot' ? 'Password updated. Welcome back!' : 'Account created. Welcome to PRISM HR!'); signedIn(r); })
+        .catch(function (e) { busy(btn, false); if (/expired/.test(e.message)) renderFlow(f.dataset.mode, 1, d.email, e.message); else toast(e.message, true); });
     },
     setPin: function (f, btn) {
       var d = formData(f);
