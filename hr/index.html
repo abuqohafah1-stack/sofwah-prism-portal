@@ -454,6 +454,32 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
 .auth{padding-left:28px;padding-right:28px}
 .auth-card{max-width:360px}
 
+/* PRISM 3.2 · audit UI/UX: grid 2 lajur, kepala padat, rangka pemuatan, peralihan lembut */
+.tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tile{min-width:0}.tile b{font-size:24px}
+.top-meta{margin-top:6px}
+.top.compact .top-meta{display:none}
+.top.compact .avatar{width:34px;height:34px;font-size:14px}
+.top.compact h1{font-size:15px}.top.compact .sub{font-size:11.5px}
+.top .avatar,.top h1{transition:all .2s ease}
+.main.enter>*{animation:rise .28s cubic-bezier(.2,.7,.2,1) both}
+.main.enter>*:nth-child(2){animation-delay:.04s}.main.enter>*:nth-child(3){animation-delay:.08s}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.skel{display:flex;flex-direction:column;gap:12px;padding:6px 0}
+.skel i{display:block;height:13px;border-radius:8px;background:linear-gradient(90deg,#eceef2 25%,#f7f7f9 45%,#eceef2 65%);background-size:300% 100%;animation:shim 1.2s linear infinite}
+.skel i:first-child{height:18px}
+@keyframes shim{from{background-position:100% 0}to{background-position:0 0}}
+.btn,.nav button,.seg button,.quick button{transition:transform .12s ease,background-color .15s ease,box-shadow .15s ease;-webkit-tap-highlight-color:transparent}
+.btn:active,.seg button:active,.quick button:active{transform:scale(.96)}
+.nav button:active{transform:scale(.92)}
+.btn-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:8px}.btn-grid .btn{padding-left:6px;padding-right:6px;white-space:nowrap}
+.fold summary{list-style:none;cursor:pointer;text-align:center}.fold summary::-webkit-details-marker{display:none}
+.fold[open] summary{display:none}.fold form{margin-top:4px}
+.two input[type=date]{padding-left:10px;padding-right:6px;font-size:15px}
+.seg{margin-bottom:2px}
+.narrow>.seg+*{margin-top:0}
+@media (prefers-reduced-motion:reduce){.main.enter>*,.skel i{animation:none}}
+
 @media (prefers-reduced-motion:reduce){.dial,.colon{animation:none}}
 </style>
 
@@ -528,6 +554,7 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
   function isMgr() { return S.me && ['Manager', 'HR', 'Admin'].indexOf(S.me.role) >= 0; }
   function isHR() { return S.me && (S.me.role === 'HR' || S.me.role === 'Admin'); }
 
+  var AUTH_ACTIONS = { loginEmail: 1, emailCode: 1, verifyCode: 1, setPassword: 1, pushRegister: 1, pushTest: 1 };
   var WRITE_ACTIONS = { loginEmail: 1, emailCode: 1, verifyCode: 1, setPassword: 1, clock: 1, pushRegister: 1, pushTest: 1, applyLeave: 1, submitClaim: 1, saveWeek: 1, saveTasks: 1, saveRecord: 1, decideLeave: 1, decideClaim: 1, payrollRun: 1, payrollFiles: 1, payrollPaid: 1, payrollConfirm: 1, payrollReopen: 1, payrollSetup: 1, addAttendance: 1, resetPin: 1, changePin: 1, addNotice: 1, exportPayroll: 1, staffingRefresh: 1, approveOT: 1, fixAttendance: 1, cancelLeave: 1, setRole: 1, acceptPrivacy: 1, lcPropose: 1, lcDecide: 1, lcApproveSeeds: 1, lcScan: 1, lcMonitor: 1, lcReview: 1, lcAddUpdate: 1, lcAmendStatus: 1, lcSaveCheck: 1 };
   // Tindakan payroll boleh ambil beberapa minit (slip PDF setiap staf): had masa klien dipanjangkan
   var LONG_ACTIONS = { payrollRun: 300000, payrollFiles: 330000, exportPayroll: 120000, payrollSetup: 120000, staffing: 120000, staffingRefresh: 180000, lcMonitor: 300000, lcScan: 120000, lcDashboard: 90000, lcApproveSeeds: 120000, lcDecide: 90000 };
@@ -602,7 +629,7 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
    */
   function call(action, payload, attempt) {
     attempt = attempt || 0;
-    return rawCall(action, payload, LONG_ACTIONS[action]).catch(function (e) {
+    return rawCall(action, payload, LONG_ACTIONS[action]).then(function (d) { if (WRITE_ACTIONS[action] && !AUTH_ACTIONS[action]) swrClear(); return d; }).catch(function (e) {
       if (e.busy && attempt < 3) { toast('Many people are using it now. Retrying in ' + (2 + attempt * 2) + ' saat…'); return wait((2 + attempt * 2) * 1000).then(function () { return call(action, payload, attempt + 1); }); }
       if (e.transport && !WRITE_ACTIONS[action] && attempt < 1) { return wait(1500).then(function () { return call(action, payload, attempt + 1); }); }
       throw e;
@@ -622,6 +649,44 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
   function cacheKey(k) { return 'prism_c_' + (S.me ? S.me.id : '') + '_' + k; }
   function cacheGet(k) { try { var v = JSON.parse(LS.get(cacheKey(k)) || 'null'); return v && Date.now() - v.t < 86400000 ? v.d : null; } catch (e) { return null; } }
   function cacheSet(k, d) { LS.set(cacheKey(k), JSON.stringify({ t: Date.now(), d: d })); }
+
+  /* Papar-dahulu (stale-while-revalidate): tab dibuka serta-merta daripada data terakhir, kemudian
+   * dikemas kini senyap dari pelayan. mem:true = ingatan sesi sahaja (slip gaji, data pengurus) —
+   * tidak disimpan dalam telefon. Sebarang tindakan menulis mengosongkan cache ini. */
+  var MEM = {};
+  function swrKey(a, pl) { return 'q_' + a + (pl ? '_' + JSON.stringify(pl) : ''); }
+  function swrGet(spec) { var k = swrKey(spec.a, spec.p); return MEM[k] !== undefined ? MEM[k] : (spec.mem ? null : cacheGet(k)); }
+  function swrPut(spec, d) { var k = swrKey(spec.a, spec.p); MEM[k] = d; if (!spec.mem) cacheSet(k, d); }
+  function swrFetch(spec) {
+    return call(spec.a, spec.p).catch(function (e) { if (spec.fallback) return spec.fallback(e); throw e; }).then(function (d) { swrPut(spec, d); return d; });
+  }
+  function swrClear() {
+    MEM = {};
+    try { var pre = 'prism_c_', del = []; for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (k && k.indexOf(pre) === 0 && k.indexOf('_q_') > 0) del.push(k); } del.forEach(function (k) { localStorage.removeItem(k); }); } catch (e) { /* abaikan */ }
+  }
+  /** specs: [{a, p, mem, fallback}] → render(dataArr, stale). Tidak menimpa skrin jika pengguna sudah bertukar tab atau sedang mengisi borang. */
+  function swr(specs, render, onErr) {
+    var nav = S.navSeq, cached = specs.map(swrGet);
+    var have = cached.every(function (c) { return c !== null && c !== undefined; });
+    if (have) render(cached, true);
+    Promise.all(specs.map(swrFetch)).then(function (fresh) {
+      if (S.navSeq !== nav) return;
+      if (have && (JSON.stringify(fresh) === JSON.stringify(cached) || S.dirty)) return;
+      render(fresh, false);
+    }).catch(function (e) { if (S.navSeq !== nav) return; if (!have) onErr(e); });
+    return have;
+  }
+  function prefetch() {
+    if (S.prefetched || !S.me) return; S.prefetched = true;
+    var go = function () {
+      var list = [{ a: 'myWeek', p: { minggu: ymd(monday(today())) } }, { a: 'myLeave' }, { a: 'notices' },
+        { a: 'myPayslips', mem: true, fallback: function (e) { return e && e.code === 'PINREQ' ? 'LOCKED' : []; } }];
+      if (isMgr()) list.push({ a: 'dashboard', mem: true });
+      list.forEach(function (sp) { swrFetch(sp).catch(function () { /* senyap */ }); });
+    };
+    (window.requestIdleCallback || function (f) { setTimeout(f, 600); })(go);
+  }
+  document.addEventListener('input', function (e) { if (e.target && e.target.closest && e.target.closest('#main')) S.dirty = true; });
 
   var toastTimer;
   function toast(msg, bad) {
@@ -877,6 +942,7 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
   }
 
   function logoutLocal() {
+    swrClear(); S.prefetched = false;
     S.token = null; S.me = null; S.data = {};
     LS.del('prism_token'); LS.del('prism_me');
     renderLogin('Session expired. Please sign in again.');
@@ -901,7 +967,7 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
       '<header class="top"><div class="top-row"><div class="row"><div class="avatar">' + h(String(me.nama || '?').trim().charAt(0)) + '</div>' +
       '<div><div class="sub">Assalamualaikum,</div><h1>' + h(me.nama) + '</h1></div></div>' +
       '<div class="row" style="gap:8px"><div class="brand"><div class="logo">P</div><span>PRISM ' + (isHR() ? 'HR' : isMgr() ? 'Manager' : 'Crew') + '</span></div></div></div>' +
-      '<div class="sub" style="margin-top:6px">' + h(me.id) + ' · ' + h(me.cawangan) + (me.bahagian ? ' · ' + h(me.bahagian) : '') + (me.penyelia ? ' · Supervisor: ' + h(me.penyelia) : '') + '</div></header>' +
+      '<div class="sub top-meta">' + h(me.id) + ' · ' + h(me.cawangan) + (me.bahagian ? ' · ' + h(me.bahagian) : '') + (me.penyelia && me.penyelia !== me.nama ? ' · Supervisor: ' + h(me.penyelia) : '') + '</div></header>' +
       '<main class="main" id="main"></main>' +
       '<nav class="nav" aria-label="Menu utama"><div class="nav-in">' + nav + '</div></nav></div>';
     // Skrin dimuat selepas pintu (privasi / PIN sementara) dilepasi supaya tiada ralat "sila tukar PIN" di latar
@@ -911,11 +977,15 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
   }
 
   function setMain(html) { var m = $('main'); if (m) m.innerHTML = html; }
-  function loading() { setMain('<div class="card"><div class="empty">Loading…</div></div>'); }
+  var SKEL = '<div class="skel" aria-busy="true" aria-label="Loading"><i style="width:42%"></i><i></i><i style="width:76%"></i><i style="width:58%"></i></div>';
+  function loading() { setMain('<div class="narrow"><div class="card">' + SKEL + '</div><div class="card">' + SKEL + '</div></div>'); }
 
   function route() {
     window.scrollTo(0, 0);
     clearInterval(S.ledTimer);
+    S.navSeq = (S.navSeq || 0) + 1; S.dirty = false;
+    var top = document.querySelector('.top'); if (top) top.classList.toggle('compact', S.tab !== 'hari');
+    var m = $('main'); if (m) { m.classList.remove('enter'); void m.offsetWidth; m.classList.add('enter'); }
     if (S.tab === 'bara' || S.tab === 'game') S.tab = 'hari';
     var r = { hari: loadToday, jadual: loadWeek, mohon: loadMohon, urus: loadUrus, lagi: loadLagi }[S.tab] || loadToday;
     r();
@@ -925,7 +995,7 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
   function loadToday() {
     var cached = cacheGet('today');
     if (cached && cached.tarikh === ymd(today())) { S.data.today = cached; renderToday(cached, true); } else loading();
-    call('today').then(function (d) { S.data.today = d; cacheSet('today', d); renderToday(d); })
+    call('today').then(function (d) { S.data.today = d; cacheSet('today', d); renderToday(d); prefetch(); })
       .catch(function (e) { if (!cached) setMain(errBox(e)); else toast(e.message, true); });
   }
   function errBox(e) {
@@ -1124,15 +1194,15 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
 
   /* ======================= Jadual saya ======================= */
   function loadWeek() {
-    loading();
+    S.navSeq = (S.navSeq || 0) + 1;
     var mon = addDays(monday(today()), S.weekOff * 7);
-    Promise.all([call('myWeek', { minggu: ymd(mon) })]).then(function (res) {
+    var have = swr([{ a: 'myWeek', p: { minggu: ymd(mon) } }], function (res) {
       var w = res[0];
       var rows = w.days.map(function (d) {
         var chip = d.cuti ? 'red' : d.kategori === 'Petang' ? 'orange' : d.kategori === 'Pagi' ? 'blue' : '';
         return '<div class="today-day' + (d.hariIni ? ' now' : '') + (/^(Jum|Sab)/.test(d.hari) ? ' wkend' : '') + '">' +
           '<div style="width:62px"><div style="font-weight:600">' + h(tr(d.hari)) + '</div><div class="muted">' + h(d.tarikh) + '</div></div>' +
-          '<div class="grow"><div style="font-weight:500">' + h(d.cuti || d.teks) + '</div><div class="muted">' + h(d.cuti ? 'Leave' : tr(d.kategori)) + (d.hariIni ? ' · today' : '') + '</div></div>' +
+          '<div class="grow"><div style="font-weight:500">' + h(d.cuti || tr(d.teks)) + '</div><div class="muted">' + h(d.cuti ? 'Leave' : tr(d.teks) === tr(d.kategori) ? 'No shift' : tr(d.kategori)) + (d.hariIni ? ' · today' : '') + '</div></div>' +
           (d.kod || d.cuti ? '<span class="chip ' + chip + '">' + h(d.cuti ? 'CUTI' : d.kod) + '</span>' : '') + '</div>';
       }).join('');
       setMain('<div class="narrow">' +
@@ -1140,10 +1210,11 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
         '<div class="page-h" style="text-align:center;margin:0"><h2>Schedule</h2><span>' + h(w.label) + '</span></div>' +
         '<button class="btn ghost small" data-act="week" data-v="1" aria-label="Next week">›</button></div>' +
         '<div class="card" style="padding:4px 0">' + rows + '</div>' +
-        '<div class="tiles"><div class="tile"><b>' + h(w.jam || 0) + '</b><span class="muted">hours this week</span></div>' +
+        '<div class="tiles"><div class="tile"><b>' + h(w.jam || 0) + '</b><span class="muted">hours worked this week</span></div>' +
         '<div class="tile"><b>' + w.days.filter(function (d) { return d.kategori && ['Pagi', 'Tengah', 'Petang', 'Split'].indexOf(d.kategori) >= 0; }).length + '</b><span class="muted">working days</span></div></div>' +
         '<button class="btn ghost block" data-act="myAtt">My attendance (30 days)</button></div>');
-    }).catch(function (e) { setMain(errBox(e)); });
+    }, function (e) { setMain(errBox(e)); });
+    if (!have) loading();
   }
 
   function showMyAttendance() {
@@ -1162,9 +1233,10 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
     var seg = '<div class="seg" role="group" aria-label="Jenis permohonan">' +
       '<button data-act="mohon" data-v="cuti" aria-pressed="' + (S.mohon === 'cuti') + '">Leave</button>' +
       '<button data-act="mohon" data-v="tuntutan" aria-pressed="' + (S.mohon === 'tuntutan') + '">Claims</button></div>';
-    setMain('<div class="narrow">' + seg + '<div id="mohon-body"><div class="card"><div class="empty">Loading…</div></div></div></div>');
-    if (S.mohon === 'cuti') call('myLeave').then(renderLeave).catch(function (e) { $('mohon-body').innerHTML = errBox(e); });
-    else call('myClaims').then(renderClaims).catch(function (e) { $('mohon-body').innerHTML = errBox(e); });
+    setMain('<div class="narrow">' + seg + '<div id="mohon-body"><div class="card">' + SKEL + '</div></div></div>');
+    var cuti = S.mohon === 'cuti';
+    S.navSeq = (S.navSeq || 0) + 1; S.dirty = false;
+    swr([{ a: cuti ? 'myLeave' : 'myClaims' }], function (r) { if ($('mohon-body')) (cuti ? renderLeave : renderClaims)(r[0]); }, function (e) { if ($('mohon-body')) $('mohon-body').innerHTML = errBox(e); });
   }
 
   function renderLeave(d) {
@@ -1215,8 +1287,7 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
 
   /* ======================= Lagi: profil, notis, PIN ======================= */
   function loadLagi() {
-    loading();
-    Promise.all([call('notices'), call('myPayslips').catch(function (e) { return e && e.code === 'PINREQ' ? 'LOCKED' : []; })]).then(function (res) {
+    var have = swr([{ a: 'notices' }, { a: 'myPayslips', mem: true, fallback: function (e) { return e && e.code === 'PINREQ' ? 'LOCKED' : []; } }], function (res) {
       var d = res[0], slips = res[1], locked = slips === 'LOCKED';
       if (locked) slips = [];
       var me = S.me;
@@ -1240,7 +1311,8 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
         calendarCard() + securityCard() +
         '<button class="btn ghost block" data-act="myAtt">My attendance</button>' +
         '<button class="btn ghost block" data-act="logout">Sign out</button></div>');
-    }).catch(function (e) { setMain(errBox(e)); });
+    }, function (e) { setMain(errBox(e)); });
+    if (!have) loading();
   }
 
   /* ======================= PRISM 3 · Onboarding, kalendar, keselamatan, ucapan ======================= */
@@ -1271,7 +1343,7 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
   function calendarCard() {
     return '<section class="card" id="cal-card"><div class="between"><span class="eyebrow">Calendar sync</span><span class="muted">Shifts · leave · holidays</span></div>' +
       '<div class="muted">Your PRISM schedule appears in your phone’s calendar and updates by itself, with a reminder 30 minutes before each shift.</div>' +
-      '<div class="row wrap"><button class="btn small" data-act="calAdd" data-v="apple">Apple Calendar</button><button class="btn ghost small" data-act="calAdd" data-v="google">Google Calendar</button><button class="btn ghost small" data-act="calAdd" data-v="copy">Copy link</button></div></section>';
+      '<div class="btn-grid"><button class="btn small" data-act="calAdd" data-v="' + (/Android/.test(navigator.userAgent) ? 'google">Google Calendar' : 'apple">Apple Calendar') + '</button><button class="btn ghost small" data-act="calAdd" data-v="' + (/Android/.test(navigator.userAgent) ? 'apple">Apple' : 'google">Google') + '</button><button class="btn ghost small" data-act="calAdd" data-v="copy">Copy link</button></div></section>';
   }
   function calOpen(kind, link) {
     if (kind === 'google') window.open(link.google, '_blank', 'noopener');
@@ -1283,11 +1355,11 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
     var set = S.me && S.me.pinSet;
     return '<section class="card" id="sec-card"><div class="between"><span class="eyebrow">Security</span><span class="chip ' + (set ? 'green' : '') + '">' + (set ? 'PIN on' : 'No PIN') + '</span></div>' +
       '<div class="muted">' + (set ? 'Your 6-digit PIN protects Payslip and Profile.' : 'Set a 6-digit PIN to protect your Payslip and Profile. Optional.') + '</div>' +
-      '<form data-form="setPin">' + (set ? '<label>Current PIN<input name="currentPin" type="password" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" required autocomplete="off"></label>' : '') +
+      '<details class="fold"><summary class="btn ghost block">' + (set ? 'Change PIN' : 'Set a PIN') + '</summary><form data-form="setPin">' + (set ? '<label>Current PIN<input name="currentPin" type="password" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" required autocomplete="off"></label>' : '') +
       '<div class="two"><label>' + (set ? 'New PIN' : 'Enter PIN') + '<input name="pin" type="password" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" required autocomplete="off"></label>' +
       '<label>Confirm PIN<input name="pin2" type="password" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" required autocomplete="off"></label></div>' +
       '<button class="btn dark block" type="submit">' + (set ? 'Change PIN' : 'Set PIN') + '</button></form>' +
-      '<p class="hint">🛡 This keeps your details secure. Forgot your password? Sign out › Forgot password.</p></section>';
+      '<p class="hint">Forgot your password? Sign out › Forgot password.</p></details></section>';
   }
 
   function pinPrompt(then) {
@@ -1338,7 +1410,7 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
     var btns = st.s === 'sedia' ? '<button class="btn small" data-act="pushOn">Turn on notifications</button>'
       : st.s === 'aktif' ? '<button class="btn ghost small" data-act="pushTest">Send test</button><button class="btn ghost small" data-act="pushOn">Re-register</button>' : '';
     return '<section class="card" id="push-card"><div class="between"><span class="eyebrow">Phone notifications</span>' +
-      '<span class="chip ' + (st.s === 'aktif' ? 'green' : 'orange') + '">' + (st.s === 'aktif' ? 'Aktif' : st.s === 'sedia' ? 'Off' : 'Action needed') + '</span></div>' +
+      '<span class="chip ' + (st.s === 'aktif' ? 'green' : 'orange') + '">' + (st.s === 'aktif' ? 'On' : st.s === 'sedia' ? 'Off' : st.s === 'ios' ? 'Install app first' : 'Action needed') + '</span></div>' +
       '<div class="muted">' + h(st.t) + '</div>' + (btns || install ? '<div class="row wrap" style="margin-top:10px">' + btns + install + '</div>' : '') + '</section>';
   }
   var SCRIPTS = {};
@@ -1404,7 +1476,7 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
     var sel = needBranch && S.me.scope.length > 1 ? '<label style="max-width:260px">Branch<select data-act="branch">' + S.me.scope.map(function (b) {
       return '<option' + (b === S.branch ? ' selected' : '') + '>' + h(b) + '</option>';
     }).join('') + '</select></label>' : '';
-    setMain('<div class="seg" role="group" aria-label="Modul">' + seg + '</div>' + sel + '<div id="urus-body"><div class="card"><div class="empty">Loading…</div></div></div>');
+    setMain('<div class="seg" role="group" aria-label="Modul">' + seg + '</div>' + sel + '<div id="urus-body"><div class="card">' + SKEL + '</div></div>');
     var fn = { ringkasan: uRingkasan, liputan: uLiputan, kelulusan: uKelulusan, jadual: uJadual, tugasan: uTugasan,
       kehadiran: uKehadiran, staffing: uStaffing, rekod: uRekod, akses: uAkses, notis: uNotis, payroll: uPayroll, pematuhan: uPematuhan }[S.urus];
     fn();
@@ -1413,10 +1485,12 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
   function urusErr(e) { urusBody(errBox(e)); }
 
   function uRingkasan() {
-    call('dashboard').then(function (d) {
+    swr([{ a: 'dashboard', mem: true }], function (res) {
+      var d = res[0];
+      if (!$('urus-body') || S.urus !== 'ringkasan') return;
       var t = d.jumlah;
       var tiles = [
-        ['Active staff', t.aktif, (t.keperluan ? 'Keperluan ' + t.keperluan : '')],
+        ['Active staff', t.aktif, (t.keperluan ? 'Required ' + t.keperluan : '')],
         ['Scheduled today', t.dijadual, t.belum ? t.belum + ' not scheduled' : 'all scheduled'],
         ['Clocked in', t.hadir, (t.lewat || 0) + ' late · ' + (t.luar || 0) + ' outside area'],
         ['Pending leave', d.cutiMenunggu, 'need a decision'],
@@ -1437,7 +1511,7 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
       urusBody('<div class="muted">' + h(d.tarikh) + '</div><div class="tiles">' + tiles + '</div>' +
         '<div class="cols"><section class="card"><span class="eyebrow">Branches today</span><div class="table-box"><table><thead><tr><th>Branch</th><th>Active</th><th>Scheduled</th><th>Clock in</th><th>Late</th><th>Not yet</th><th>Leave</th><th>Issues</th><th>Next wk</th></tr></thead><tbody>' + rows + '</tbody></table></div></section>' +
         '<section class="card"><span class="eyebrow">HR actions (contracts, probation)</span><div class="list">' + act + '</div></section></div>');
-    }).catch(urusErr);
+    }, urusErr);
   }
 
   function uLiputan() {
@@ -1650,7 +1724,7 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
   }
   function uPematuhan() {
     var fn = { ringkasan: lcRingkasan, kemaskini: lcKemasKini, peraturan: lcPeraturan, akta: lcAkta, semakan: lcSemakan }[S.lcTab || 'ringkasan'];
-    urusBody(lcSeg() + '<div id="lc-body"><div class="card"><div class="empty">Loading…</div></div></div>');
+    urusBody(lcSeg() + '<div id="lc-body"><div class="card">' + SKEL + '</div></div>');
     fn();
   }
   function lcBody(html) { var b = $('lc-body'); if (b) b.innerHTML = html; }
