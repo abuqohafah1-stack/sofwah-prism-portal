@@ -2,7 +2,7 @@
 <html lang="ms">
 <head>
   <script>window.__t0 = Date.now();</script>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <meta name="robots" content="noindex,nofollow">
   <meta name="referrer" content="no-referrer">
   <title>PRISM HR · Sofwah</title>
@@ -385,8 +385,6 @@ input,select,textarea{background:#f6f6f8;box-shadow:none;border:1px solid #e6e8e
 .login{background:linear-gradient(165deg,#eceef2 0%,#f3f1ee 50%,#fbf0e2 100%)}
 .login .card{box-shadow:var(--soft)}
 .two>*{min-width:0}
-.aa-btn{width:34px;height:34px;border-radius:50%;border:var(--hair);background:#fff;color:var(--ink);font-weight:600;font-size:13px;cursor:pointer;font-family:inherit}
-.aa-btn:active{background:#f4f4f6}
 /* PRISM 3 · log masuk, onboarding, ucapan */
 .auth{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:calc(30px + env(safe-area-inset-top)) 24px 30px}
 .auth-hero{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
@@ -433,6 +431,27 @@ input[type=checkbox],input[type=radio]{width:auto}
 .pw-rules li:before{content:"○ "}.pw-rules li.met{color:#1d8a52}.pw-rules li.met:before{content:"● "}
 .ok-dot{color:#1d8a52;font-weight:700}
 @media (prefers-reduced-motion:reduce){.otp-box.shake{animation:none}}
+
+/* PRISM 3.1 · saiz tetap (tiada zoom) + lebih ruang dari tepi skrin */
+html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{overflow-x:hidden}
+input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila menaip */
+.roster select{font-size:16px}
+.top{padding-left:32px;padding-right:32px}
+.main{padding-left:32px;padding-right:32px}
+.narrow{max-width:380px}
+.nav{padding-left:24px;padding-right:24px}
+.nav-in{max-width:380px}
+/* Tetingkap bawah terapung, tidak penuh skrin */
+.modal{padding:0 16px calc(16px + env(safe-area-inset-bottom));align-items:flex-end}
+.modal-card{max-width:420px;border-radius:26px;padding:18px 20px 20px;max-height:86vh}
+.onb{gap:10px}
+.onb-ico{font-size:36px;margin-top:2px}
+.onb h3{font-size:18px}
+.onb p{font-size:14px;line-height:1.45}
+.onb .btn{min-height:46px}
+.auth{padding-left:28px;padding-right:28px}
+.auth-card{max-width:360px}
 
 @media (prefers-reduced-motion:reduce){.dial,.colon{animation:none}}
 </style>
@@ -880,7 +899,7 @@ input[type=checkbox],input[type=radio]{width:auto}
       '<div class="shell">' +
       '<header class="top"><div class="top-row"><div class="row"><div class="avatar">' + h(String(me.nama || '?').trim().charAt(0)) + '</div>' +
       '<div><div class="sub">Assalamualaikum,</div><h1>' + h(me.nama) + '</h1></div></div>' +
-      '<div class="row" style="gap:8px"><button class="aa-btn" data-act="zoomCycle" aria-label="Text size">Aa</button><div class="brand"><div class="logo">P</div><span>PRISM ' + (isHR() ? 'HR' : isMgr() ? 'Manager' : 'Crew') + '</span></div></div></div>' +
+      '<div class="row" style="gap:8px"><div class="brand"><div class="logo">P</div><span>PRISM ' + (isHR() ? 'HR' : isMgr() ? 'Manager' : 'Crew') + '</span></div></div></div>' +
       '<div class="sub" style="margin-top:6px">' + h(me.id) + ' · ' + h(me.cawangan) + (me.bahagian ? ' · ' + h(me.bahagian) : '') + (me.penyelia ? ' · Supervisor: ' + h(me.penyelia) : '') + '</div></header>' +
       '<main class="main" id="main"></main>' +
       '<nav class="nav" aria-label="Menu utama"><div class="nav-in">' + nav + '</div></nav></div>';
@@ -1211,7 +1230,6 @@ input[type=checkbox],input[type=radio]{width:auto}
       setMain('<div class="narrow">' +
         '<section class="card"><span class="eyebrow">Profile</span><div style="font-weight:700;font-size:18px">' + h(me.namaPenuh || me.nama) + '</div>' +
         '<div class="muted">' + h(me.id) + ' · ' + h(me.cawangan) + (me.jawatan ? ' · ' + h(me.jawatan) : '') + (me.stesen ? ' · ' + h(me.stesen) : '') + ' · Role ' + h(me.role) + '</div><div class="hint">PRISM HR ' + h(me.versi || '') + '</div></section>' +
-        zoomCard() +
         pushCard() +
         '<section class="card"><span class="eyebrow">Announcements</span><div class="list">' + notis + '</div></section>' +
         '<section class="card"><div class="between"><span class="eyebrow">Payslip</span>' + (S.me.pinSet ? '<span class="chip">🔒 PIN</span>' : '') + '</div><div class="list">' + (locked ? '<div class="empty">Payslips are protected by your PIN.<br><button class="btn small" data-act="unlockPin" style="margin-top:10px">Unlock with PIN</button></div>' : slips.length ? slips.map(function (p) {
@@ -1242,6 +1260,7 @@ input[type=checkbox],input[type=radio]{width:auto}
     var x = steps[step - 1];
     if (!x) { LS.set(onbKey(), 'done'); closeModal(); toast('You’re all set. Welcome to PRISM HR.'); showGreeting(); return; }
     S.onbStep = step;
+    if (step === 1 && ps.s === 'sedia') pushPrefetch();
     modal('Welcome to PRISM HR', '<div class="onb"><div class="onb-dots">' + steps.map(function (y) { return '<i class="' + (y.k <= step ? 'on' : '') + '"></i>'; }).join('') + '</div>' +
       '<div class="onb-ico">' + x.ico + '</div><h3>' + h(x.t) + '</h3><p class="muted">' + h(x.d) + '</p>' + (x.note ? '<p class="hint">' + h(x.note) + '</p>' : '') +
       (x.btn ? '<button class="btn block" data-act="' + x.act + '">' + h(x.btn) + '</button>' : '<div class="chip green" style="align-self:center">Already on ✓</div>') +
@@ -1295,18 +1314,10 @@ input[type=checkbox],input[type=radio]{width:auto}
   }
 
   /* ======================= Saiz paparan (zoom) ======================= */
-  var ZOOMS = [0.9, 1, 1.12, 1.25];
-  function curZoom() { var z = Number(LS.get('prism_zoom') || 1); return ZOOMS.indexOf(z) >= 0 ? z : 1; }
-  function setZoom(z) { LS.set('prism_zoom', String(z)); applyZoom(); }
-  function applyZoom() { try { document.documentElement.style.zoom = curZoom() === 1 ? '' : String(curZoom()); } catch (e) { /* abaikan */ } }
-  applyZoom();
-  function zoomCard() {
-    var z = curZoom();
-    return '<section class="card" id="zoom-card"><div class="between"><span class="eyebrow">Display size</span><span class="muted">' + Math.round(z * 100) + '%</span></div>' +
-      '<div class="seg">' + [[0.9, 'S'], [1, 'M'], [1.12, 'L'], [1.25, 'XL']].map(function (o) {
-        return '<button data-act="zoom" data-v="' + o[0] + '" aria-pressed="' + (o[0] === z) + '">' + o[1] + '</button>';
-      }).join('') + '</div><div class="hint">You can also pinch to zoom, or tap Aa at the top.</div></section>';
-  }
+  /* Saiz paparan tetap: tiada zoom (pinch / double-tap / auto-zoom input iOS) */
+  try { document.documentElement.style.zoom = ''; LS.del('prism_zoom'); } catch (e) { /* abaikan */ }
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (ev) { document.addEventListener(ev, function (e) { e.preventDefault(); }, { passive: false }); });
+  document.addEventListener('touchmove', function (e) { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
 
   /* ======================= Notifikasi telefon & pasang app (PWA) ======================= */
   var IOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -1329,34 +1340,50 @@ input[type=checkbox],input[type=radio]{width:auto}
       '<span class="chip ' + (st.s === 'aktif' ? 'green' : 'orange') + '">' + (st.s === 'aktif' ? 'Aktif' : st.s === 'sedia' ? 'Off' : 'Action needed') + '</span></div>' +
       '<div class="muted">' + h(st.t) + '</div>' + (btns || install ? '<div class="row wrap" style="margin-top:10px">' + btns + install + '</div>' : '') + '</section>';
   }
+  var SCRIPTS = {};
   function loadScript(src) {
-    return new Promise(function (res, rej) { var x = document.createElement('script'); x.src = src; x.onload = res; x.onerror = function () { rej(new Error('Failed to load ' + src)); }; document.head.appendChild(x); });
+    if (!SCRIPTS[src]) SCRIPTS[src] = new Promise(function (res, rej) { var x = document.createElement('script'); x.src = src; x.onload = res; x.onerror = function () { delete SCRIPTS[src]; rej(new Error('Failed to load ' + src)); }; document.head.appendChild(x); });
+    return SCRIPTS[src];
+  }
+  function timeout(p, ms, msg) { return Promise.race([p, new Promise(function (_, rej) { setTimeout(function () { rej(new Error(msg)); }, ms); })]); }
+  /* Muat awal konfigurasi + Firebase SDK sebaik kad notifikasi dipaparkan, supaya tekan butang terasa segera */
+  function pushPrefetch() {
+    if (!S.pushPre) {
+      var base = 'https://www.gstatic.com/firebasejs/10.12.5/';
+      S.pushPre = Promise.all([call('pushConfig'), loadScript(base + 'firebase-app-compat.js').then(function () { return loadScript(base + 'firebase-messaging-compat.js'); })])
+        .then(function (r) { return r[0]; });
+      S.pushPre.catch(function () { S.pushPre = null; });
+    }
+    return S.pushPre;
   }
   function pushOn(btn, after) {
     // iOS: permintaan kebenaran mesti berlaku terus dalam sentuhan pengguna (sebelum await)
     var perm = Notification.permission === 'granted' ? Promise.resolve('granted') : Notification.requestPermission();
-    busy(btn, true, 'Connecting…');
-    var cfg;
-    Promise.all([perm, call('pushConfig')]).then(function (r) {
-      if (r[0] !== 'granted') throw new Error('Notification permission not granted.');
-      cfg = r[1];
+    busy(btn, true, 'Waiting…');
+    pushPrefetch();
+    perm.then(function (p) {
+      if (p !== 'granted') throw new Error('Notification permission not granted.');
+      // Izin diberi: terus ke langkah seterusnya, sambungan peranti berjalan di latar belakang
+      if (after) { var a = after; after = null; a(); } else busy(btn, true, 'Connecting…');
+      return timeout(pushPrefetch(), 25000, 'Connection is slow. Try again from More › Phone notifications.');
+    }).then(function (cfg) {
       if (!cfg.aktif) throw new Error('Notifications not enabled by HQ yet.');
-      var base = 'https://www.gstatic.com/firebasejs/10.12.5/';
-      return loadScript(base + 'firebase-app-compat.js').then(function () { return loadScript(base + 'firebase-messaging-compat.js'); });
-    }).then(function () {
       if (!firebase.apps.length) firebase.initializeApp(cfg.firebase);
-      return navigator.serviceWorker.ready.then(function (reg) {
+      return timeout(navigator.serviceWorker.ready.then(function (reg) {
         return firebase.messaging().getToken({ vapidKey: cfg.vapidKey, serviceWorkerRegistration: reg });
-      });
+      }), 25000, 'Connection is slow. Try again from More › Phone notifications.');
     }).then(function (token) {
       if (!token) throw new Error('Device token not received.');
       return call('pushRegister', { token: token, platform: (IOS ? 'iOS' : /Android/.test(navigator.userAgent) ? 'Android' : 'Desktop') + (STANDALONE ? ' · app' : ' · browser') });
     }).then(function () {
       LS.set('prism_push_ok', S.me.id);
-      toast('Notifications on. Tap "Send test" to try.');
+      toast('Notifications on ✓');
       var c = $('push-card'); if (c) c.outerHTML = pushCard();
+    }).catch(function (e) {
+      if (document.body.contains(btn)) busy(btn, false);
+      toast(e.message, true);
       if (after) after();
-    }).catch(function (e) { busy(btn, false); fail(e); if (after) after(); });
+    });
   }
 
   /* ======================= Urus (Manager / HR) ======================= */
@@ -2060,8 +2087,6 @@ input[type=checkbox],input[type=radio]{width:auto}
       busy(el, true);
       call('resetSignin', { id: el.dataset.id }).then(function (r) { busy(el, false); toast('Sign-in reset for ' + r.nama + (r.email ? ' (' + r.email + ')' : ' — no email on file') + '.'); }).catch(function (e) { busy(el, false); fail(e); });
     },
-    zoom: function (el) { setZoom(Number(el.dataset.v)); var c = $('zoom-card'); if (c) c.outerHTML = zoomCard(); },
-    zoomCycle: function () { var i = ZOOMS.indexOf(curZoom()); setZoom(ZOOMS[(i + 1) % ZOOMS.length]); toast('Text size ' + Math.round(curZoom() * 100) + '%'); var c = $('zoom-card'); if (c) c.outerHTML = zoomCard(); },
     pushTest: function (el) {
       busy(el, true, 'Sending…');
       call('pushTest').then(function (r) { busy(el, false); toast(r.mesej + ' The notification should appear in a few seconds.'); }).catch(function (e) { busy(el, false); fail(e); });
