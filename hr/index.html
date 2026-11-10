@@ -17,470 +17,483 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="PRISM HR">
   <meta charset="utf-8">
-  <meta name="theme-color" content="#f1f0ee">
+  <meta name="theme-color" content="#ffffff">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap"><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <style>
+/* =====================================================================
+   PRISM 2030 · Sofwah Arabic Grill
+   Kertas putih, kolam "mist" biru pucat, SATU blok slate (kad syif) bercorak
+   kekisi khatam. Oren Sofwah hanya untuk: tindakan, hari ini, hujung minggu (Jum–Sab).
+   Tiada bayang pada kad; bayang hanya untuk benda terapung (nav, modal, toast).
+   ===================================================================== */
 :root{
-  --navy:#121a2e; --navy-2:#1f2940; --orange:#f26210; --orange-ink:#c24e08; --orange-soft:#fff1e8;
-  --ink:#121a2e; --muted:#5b6b8c; --line:#dde1e8; --bg:#eef0f3; --card:#ffffff;
-  --green:#1d793c; --green-soft:#e6f4e9; --red:#c62828; --red-soft:#fdecea; --blue:#1d4ead; --blue-soft:#e7effc;
-  --radius:16px; --nav-h:68px;
+  --paper:#ffffff; --mist:#eef3f7; --mist-2:#e2eaf1; --line:#dbe4ec;
+  --slate:#244a66; --slate-2:#1c3b53; --slate-3:#5b86a6;
+  --ink:#0f1b2a; --ink-2:#3a4a5c; --haze:#728397;
+  --ember:#f26210; --ember-2:#ff8a3d; --ember-soft:#fff0e6; --ember-ink:#b9470a;
+  --sky:#8fbbdb; --sky-soft:#e3eff8; --mint:#23905a; --mint-2:#6fe0a1; --mint-soft:#e2f4ea;
+  --violet:#7b6cd9; --violet-soft:#eeebfb; --error:#d03f3f; --error-soft:#fdeceb;
+  --r-xl:30px; --r-lg:24px; --r-md:16px; --r-sm:12px;
+  --float:0 14px 36px rgba(15,27,42,.14),0 2px 6px rgba(15,27,42,.06);
+  --nav-h:56px;
+  /* nama lama (masih digunakan dalam kod) */
+  --navy:var(--slate); --orange:var(--ember); --orange-ink:var(--ember-ink); --orange-soft:var(--ember-soft);
+  --muted:var(--haze); --bg:var(--mist); --card:var(--mist); --green:var(--mint); --green-soft:var(--mint-soft);
+  --red:var(--error); --red-soft:var(--error-soft); --blue:var(--slate); --blue-soft:var(--sky-soft);
+  --radius:var(--r-lg); --hair:1px solid var(--line); --neu:0 0 0 0 transparent; --soft:0 0 0 0 transparent;
+  --lattice:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23fff' stroke-width='1'%3E%3Cpath d='M15 15h18v18H15z'/%3E%3Cpath d='M24 11.27L36.73 24 24 36.73 11.27 24z'/%3E%3Cpath d='M24 0v11.27M24 36.73V48M0 24h11.27M36.73 24H48M15 15L0 0M33 15L48 0M15 33L0 48M33 33l15 15'/%3E%3C/g%3E%3C/svg%3E");
 }
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Poppins,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px;line-height:1.45;-webkit-text-size-adjust:100%}
-button,input,select,textarea{font-family:inherit;font-size:15px;color:inherit}
-a{color:var(--orange-ink)}
-h1,h2,h3{margin:0;line-height:1.2}
-.boot{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--muted)}
-.logo{width:40px;height:40px;border-radius:11px;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px}
+html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html,body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.5 Geist,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;letter-spacing:-.006em}
+body{overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+button,input,select,textarea{font:inherit;color:inherit;letter-spacing:inherit}
+a{color:var(--ember-ink);text-underline-offset:3px}
+h1,h2,h3{margin:0;line-height:1.15;font-weight:600;letter-spacing:-.02em}
+b,strong{font-weight:600}
+:focus-visible{outline:3px solid rgba(242,98,16,.45);outline-offset:2px}
+.num,.tnum{font-variant-numeric:tabular-nums}
 
-/* Kerangka */
+/* ---------- Pemula & jenama ---------- */
+.boot{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--haze)}
+.logo{width:40px;height:40px;border-radius:12px;background:var(--slate);color:#fff;display:grid;place-items:center;font-weight:700;font-size:19px}
+.mark{display:inline-grid;place-items:center;width:36px;height:36px;flex:0 0 auto}
+.mark svg{width:100%;height:100%;display:block}
+.brand{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:600;letter-spacing:-.02em;color:var(--ink);white-space:nowrap}
+.brand b{color:var(--ember)}
+
+/* ---------- Kerangka ---------- */
 .shell{min-height:100vh;display:flex;flex-direction:column}
-.top{background:var(--navy);color:#fff;padding:calc(18px + env(safe-area-inset-top)) 18px 18px}
-.top-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.brand{display:flex;align-items:center;gap:8px;font-weight:600;letter-spacing:.04em}
-.brand .logo{width:28px;height:28px;border-radius:8px;font-size:14px}
-.top .sub{color:#c9cfdb;font-size:12px}
-.top h1{font-size:22px;margin-top:10px}
-.main{flex:1;width:100%;max-width:1100px;margin:0 auto;padding:16px 16px calc(var(--nav-h) + 24px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px}
-.narrow{max-width:560px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:14px}
-.nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom);z-index:20}
-.nav-in{display:flex;width:100%;max-width:560px}
-.nav button{flex:1;min-height:var(--nav-h);background:none;border:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--muted);font-size:11px;cursor:pointer}
-.nav button[aria-current="page"]{color:var(--orange-ink);font-weight:600}
-.nav svg{width:22px;height:22px}
+.top{padding:calc(14px + env(safe-area-inset-top)) 20px 6px;display:flex;flex-direction:column;gap:18px;width:100%;max-width:1240px;margin:0 auto}
+.top-row{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px}
+.actions{display:flex;align-items:center;gap:8px}
+.icon-round{position:relative;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--ink);display:grid;place-items:center;cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent}
+.icon-round svg{width:20px;height:20px}
+.icon-round .dot{position:absolute;top:8px;right:9px;min-width:9px;height:9px;border-radius:9px;background:var(--ember);box-shadow:0 0 0 2px var(--paper)}
+.me-chip{display:flex;align-items:center;gap:10px;border:0;background:none;padding:0;cursor:pointer;text-align:left}
+.me-txt{display:none;flex-direction:column;line-height:1.2}
+.me-txt b{font-size:14px}.me-txt small{font-size:12px;color:var(--haze)}
+.av{--c:var(--slate);width:36px;height:36px;border-radius:50%;background:var(--c);color:#fff;display:inline-grid;place-items:center;font-weight:600;font-size:13px;letter-spacing:0;flex:0 0 auto}
+.av.av-lg{width:42px;height:42px;font-size:15px}
+.av.av-xl{width:64px;height:64px;font-size:22px}
+.avatar{width:42px;height:42px;border-radius:50%;background:var(--slate);color:#fff;display:grid;place-items:center;font-weight:600}
+.hello{display:flex;flex-direction:column;gap:4px}
+.hello .sub{font-size:15px;color:var(--haze)}
+.hello h1{font-size:32px;line-height:1.08;letter-spacing:-.035em;font-weight:600}
+.who{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.who span{font-size:12.5px;font-weight:500;color:var(--ink-2);background:var(--mist);border-radius:999px;padding:5px 11px}
+.top.compact{gap:14px}
+.top.compact .hello .sub,.top.compact .who{display:none}
+.top.compact .hello h1{font-size:30px}
+.top-meta{display:none}
+.main{flex:1;width:100%;max-width:1240px;margin:0 auto;padding:12px 20px calc(var(--nav-h) + 44px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px}
+.narrow{max-width:420px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:14px}
 
-/* Komponen */
-.card{background:var(--card);border-radius:var(--radius);padding:16px 18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 1px 2px rgba(18,26,46,.06)}
-.card.dark{background:var(--navy);color:#fff}
-.eyebrow{font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
-.card.dark .eyebrow{color:#c9cfdb}
-.big{font-size:30px;font-weight:700;line-height:1.1}
-.muted{color:var(--muted);font-size:13px}
+/* Nav bawah terapung: ikon sahaja, butang aktif mengembang dengan label */
+.nav{position:fixed;left:0;right:0;bottom:calc(12px + env(safe-area-inset-bottom));display:flex;justify-content:center;padding:0 16px;z-index:20;pointer-events:none}
+.nav-in{pointer-events:auto;display:flex;align-items:center;gap:4px;width:100%;max-width:400px;padding:6px;border-radius:999px;background:rgba(255,255,255,.9);border:1px solid var(--line);box-shadow:var(--float);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4)}
+.nav button{flex:1 1 0;min-width:0;height:var(--nav-h);border:0;border-radius:999px;background:none;color:var(--haze);display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;font-size:14px;font-weight:600;padding:0 8px;transition:flex-grow .25s cubic-bezier(.2,.7,.2,1),background-color .2s,color .2s;-webkit-tap-highlight-color:transparent}
+.nav svg{width:22px;height:22px;flex:0 0 auto}
+.nav button span{display:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav button[aria-current="page"]{flex-grow:2.9;background:var(--slate);color:#fff}
+.nav button[aria-current="page"] span{display:inline}
+.nav button[aria-current="page"] svg{color:var(--ember-2)}
+.nav button:active{transform:scale(.94)}
+
+/* ---------- Komponen ---------- */
+.card{background:var(--mist);border-radius:var(--r-lg);padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0;border:0;box-shadow:none}
+.card.dark{background:var(--slate);color:#fff}
+.card.dark .muted,.card.dark .eyebrow,.card.dark .hint{color:rgba(255,255,255,.72)}
+.card.flat{background:var(--paper);border:1px solid var(--line)}
+.card-h{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0}
+.card-h h3{font-size:17px}
+.eyebrow{font-size:13px;font-weight:500;color:var(--haze);letter-spacing:0;text-transform:none}
+.big{font-size:32px;font-weight:600;line-height:1.05;letter-spacing:-.03em}
+.muted{color:var(--haze);font-size:13.5px}
+.hint{font-size:12.5px;color:var(--haze)}
+.err{color:var(--error);font-size:13.5px}
 .row{display:flex;align-items:center;gap:10px}
 .between{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .wrap{flex-wrap:wrap}
 .grow{flex:1;min-width:0}
 .list{display:flex;flex-direction:column}
-.li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bg)}
+.li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(15,27,42,.07)}
 .li:last-child{border-bottom:0}
-.chip{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--bg);color:var(--muted);white-space:nowrap}
-.chip.orange{background:var(--orange-soft);color:#a8430a}
-.chip.green{background:var(--green-soft);color:var(--green)}
-.chip.red{background:var(--red-soft);color:var(--red)}
-.chip.blue{background:var(--blue-soft);color:var(--blue)}
-.btn{min-height:48px;border:0;border-radius:12px;padding:0 18px;font-weight:600;cursor:pointer;background:var(--orange);color:#fff;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
-.btn.dark{background:var(--navy)}
-.btn.ghost{background:#fff;color:var(--ink);border:1px solid #c9cfdb}
-.btn.green{background:var(--green)}
-.btn.small{min-height:40px;padding:0 14px;font-size:14px;border-radius:10px}
-.btn.block{width:100%}
-.btn:disabled{opacity:.55;cursor:default}
-.btn.huge{min-height:60px;font-size:18px;border-radius:14px}
-.icon-btn{min-width:44px;min-height:44px;border:0;background:none;font-size:18px;cursor:pointer;color:inherit}
-.seg{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
-.seg::-webkit-scrollbar{display:none}
-.seg button{flex:0 0 auto;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid #c9cfdb;background:#fff;color:var(--ink);font-size:14px;cursor:pointer}
-.seg button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:600}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-.tile{background:#fff;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:4px}
-.tile b{font-size:26px;line-height:1.1}
-.bar{height:8px;background:var(--bg);border-radius:4px;overflow:hidden}
-.bar>i{display:block;height:100%;border-radius:4px;background:var(--blue)}
-.empty{color:var(--muted);font-size:14px;text-align:center;padding:14px 0}
+.empty{color:var(--haze);font-size:14px;text-align:center;padding:16px 0}
+.link{background:none;border:0;color:var(--ember-ink);font-weight:600;font-size:13.5px;cursor:pointer;padding:4px 0;font-family:inherit}
+.link[disabled]{color:var(--haze);cursor:default}
+.page-h{display:flex;flex-direction:column;gap:2px}
+.page-h h2{font-size:26px;letter-spacing:-.03em}
+.page-h span{font-size:13px;color:var(--haze)}
 
-/* Borang */
-form{display:flex;flex-direction:column;gap:12px}
-label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted)}
-input,select,textarea{min-height:46px;padding:10px 12px;border:1px solid #c9cfdb;border-radius:10px;background:#fff;color:var(--ink);width:100%}
-textarea{min-height:80px;resize:vertical}
-input:focus,select:focus,textarea:focus,button:focus-visible,a:focus-visible{outline:3px solid rgba(242,98,16,.35);outline-offset:1px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.hint{font-size:12px;color:var(--muted)}
-.err{color:var(--red);font-size:13px}
+/* Cip status (titik + teks, gaya senarai gaji) */
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;line-height:1;padding:6px 10px;border-radius:999px;background:var(--paper);color:var(--ink-2);border:1px solid var(--line);white-space:nowrap}
+.chip.orange{color:var(--ember-ink);border-color:#ffd3b8;background:var(--ember-soft)}
+.chip.green{color:var(--mint);border-color:#bfe6cf;background:var(--mint-soft)}
+.chip.red{color:var(--error);border-color:#f3c5c3;background:var(--error-soft)}
+.chip.blue{color:var(--slate);border-color:#cfe0ee;background:var(--sky-soft)}
+.chip.orange::before,.chip.green::before,.chip.red::before,.chip.blue::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;flex:0 0 auto}
+.pill{font-size:12px;font-weight:500;padding:5px 11px;border-radius:999px;background:var(--mist);color:var(--ink-2)}
+.pill.ok{background:var(--mint-soft);color:var(--mint)}
 
-/* Jadual (grid pengurus) */
-.table-box{overflow-x:auto;background:#fff;border-radius:var(--radius)}
-table{border-collapse:collapse;width:100%;font-size:13px}
-th,td{padding:8px 6px;text-align:left;border-bottom:1px solid var(--bg);vertical-align:middle}
-th{font-size:12px;color:var(--muted);font-weight:600;white-space:nowrap;background:#fafbfc;position:sticky;top:0}
-td.name{white-space:nowrap;font-weight:600;position:sticky;left:0;background:#fff;z-index:1}
-.roster select{min-height:38px;padding:4px 6px;font-size:13px;min-width:86px;border-radius:8px}
-.roster select.k-Pagi{background:var(--blue-soft)}
-.roster select.k-Petang{background:var(--orange-soft)}
-.roster select.k-Split{background:#f1effa}
-.roster select.k-Rehat{background:var(--bg)}
-.roster select.changed{outline:2px solid var(--orange)}
-.cuti-tag{display:block;font-size:10px;color:var(--red);font-weight:600}
-.semakan{font-size:12px;color:var(--red);min-width:180px}
-
-/* Hari ini */
-.today-day{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--bg)}
-.today-day.now{background:#fff7f1;box-shadow:inset 3px 0 0 var(--orange)}
-.times{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.times div{background:var(--bg);border-radius:10px;padding:8px 10px}
-.times b{display:block;font-size:17px}
-
-/* Staffing Planner */
-.staff-slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-.staff-slot{border-top:4px solid var(--green)}
-.staff-slot.red{border-top-color:var(--red)}
-.staff-slot.orange{border-top-color:var(--orange)}
-.staff-meter{position:relative;height:10px;background:var(--bg);border-radius:5px}
-.staff-meter>i{display:block;height:100%;border-radius:5px;background:var(--navy)}
-.staff-meter>b{position:absolute;top:-4px;width:3px;height:18px;margin-left:-1px;background:var(--orange);border-radius:2px}
-.hchart{display:flex;flex-direction:column;gap:6px}
-.hrow{display:grid;grid-template-columns:46px 1fr 64px 64px;align-items:center;gap:8px;font-size:13px}
-.hlab{color:var(--muted)}
-.hval{text-align:right;font-weight:600}
-.hrm{text-align:right;color:var(--muted)}
-.hbar{position:relative;height:14px;background:var(--bg);border-radius:4px}
-.hbar>i{display:block;height:100%;border-radius:4px;background:var(--navy)}
-.hbar>i.red{background:var(--red)}
-.hbar>i.orange{background:#e8a33d}
-.hbar>b{position:absolute;top:-3px;width:3px;height:20px;margin-left:-1px;background:var(--orange);border-radius:2px}
-.lg{display:inline-block;width:10px;height:10px;border-radius:2px;vertical-align:middle;margin:0 2px 0 8px}
-.lg.ok{background:var(--navy)}
-.lg.mk{background:var(--orange);width:3px}
-@media (max-width:420px){.hrow{grid-template-columns:40px 1fr 56px}.hrm{display:none}}
-
-/* Modal & toast */
-.modal{position:fixed;inset:0;background:rgba(18,26,46,.55);display:flex;align-items:flex-end;justify-content:center;z-index:50}
-.modal[hidden]{display:none}
-.modal-card{background:#fff;width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:16px 18px calc(18px + env(safe-area-inset-bottom))}
-@media (min-width:700px){.modal{align-items:center}.modal-card{border-radius:20px}}
-.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.modal-head h2{font-size:18px}
-#offline{display:none;position:fixed;top:0;left:0;right:0;z-index:70;background:var(--red);color:#fff;font-size:13px;padding:8px 14px;text-align:center}
-#toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + 18px);transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 16px;border-radius:12px;font-size:14px;max-width:92vw;opacity:0;pointer-events:none;transition:opacity .2s;z-index:60}
-#toast.show{opacity:1}
-#toast.bad{background:var(--red)}
-.pin-show{font-size:40px;font-weight:700;letter-spacing:.2em;text-align:center;padding:12px;background:var(--bg);border-radius:12px}
-.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* Log masuk */
-.login{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px;background:var(--navy)}
-.login .card{width:100%;max-width:380px;padding:24px}
-.login h1{font-size:22px}
-
-@media (min-width:900px){
-  .cols{display:grid;grid-template-columns:3fr 2fr;gap:14px;align-items:start}
-}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-
-  /* Pematuhan */
-  .lc-seg { margin-bottom: 4px; }
-  .lc-hero { display: grid; grid-template-columns: 180px 1fr; gap: 14px; align-items: center; }
-  .lc-ring { width: 170px; height: 170px; border-radius: 50%; background: conic-gradient(var(--c) calc(var(--p) * 1%), #e8e6e1 0); display: grid; place-items: center; box-shadow: 0 8px 24px #121a2e1f; }
-  .lc-ring > div { width: 128px; height: 128px; border-radius: 50%; background: var(--card, #fff); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-  .lc-ring b { font-size: 34px; line-height: 1; } .lc-ring span { font-size: 11px; color: var(--muted, #6b7280); margin-top: 4px; }
-  .lc-mod { display: grid; grid-template-columns: 120px 1fr 44px; gap: 8px; align-items: center; padding: 6px 0; font-size: 13px; }
-  .lc-bar { height: 10px; border-radius: 6px; background: #eceae5; overflow: hidden; display: flex; }
-  .lc-bar i.ok { background: var(--green); } .lc-bar i.bad { background: var(--red); }
-  .lc-tl { display: block; position: relative; margin-left: 6px; padding: 8px 0 10px 18px; border-left: 2px solid #e5e2dc; }
-  .lc-dot { position: absolute; left: -7px; top: 12px; width: 12px; height: 12px; border-radius: 50%; background: var(--orange); }
-  .lc-tl.ok .lc-dot { background: var(--green); }
-  .lc-acts { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
-  .lc-acts .card { margin: 0; }
-  @media (max-width: 640px) { .lc-hero { grid-template-columns: 1fr; justify-items: center; } .lc-mod { grid-template-columns: 96px 1fr 40px; } }
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; } @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
-
-/* ===================== PRISM 2.0 · Soft 3D (warna Sofwah kekal) ===================== */
-:root{--bg:#e9ecf2;--card:#e9ecf2;--muted:#56607a;--line:#d6dbe4;
-  --neu:8px 8px 18px #c6cbd6,-8px -8px 18px #ffffff;--neu-s:5px 5px 11px #c6cbd6,-5px -5px 11px #ffffff;
-  --neu-in:inset 4px 4px 9px #c6cbd6,inset -4px -4px 9px #ffffff;--radius:24px}
-html,body{background:var(--bg)}
-.top{background:var(--bg);color:var(--ink);padding:calc(18px + env(safe-area-inset-top)) 18px 4px}
-.top .sub{color:var(--muted)}
-.top h1{font-size:20px;margin:0;letter-spacing:-.2px}
-.top .brand{font-size:12px;color:var(--muted);gap:6px}
-.avatar{width:46px;height:46px;border-radius:16px;background:var(--bg);box-shadow:var(--neu-s);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:var(--orange)}
-.main{padding-bottom:calc(var(--nav-h) + 40px + env(safe-area-inset-bottom))}
-.nav{background:transparent;border:0;bottom:calc(12px + env(safe-area-inset-bottom));padding:0 14px}
-.nav-in{background:var(--navy);border-radius:26px;box-shadow:0 14px 30px rgba(18,26,46,.32);padding:6px}
-.nav button{color:#aeb6c7;min-height:58px;border-radius:20px}
-.nav button[aria-current="page"]{color:#fff;font-weight:600}
-.nav button[aria-current="page"] svg{background:var(--orange);border-radius:12px;padding:5px;width:32px;height:32px;box-shadow:0 0 16px rgba(242,98,16,.6)}
-.card{background:var(--bg);box-shadow:var(--neu);border-radius:var(--radius)}
-.card.dark{background:linear-gradient(135deg,#121a2e,#1f2940);box-shadow:0 14px 28px rgba(18,26,46,.25)}
-.tile{background:var(--bg);box-shadow:var(--neu);border-radius:22px}
-.tile.dark{background:var(--navy);color:#fff}.tile.dark .muted{color:#c9cfdb}
-.btn{border-radius:16px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.16),0 10px 20px rgba(242,98,16,.3);transition:transform .12s}
+/* Butang */
+.btn{min-height:50px;border:0;border-radius:999px;padding:0 22px;font-weight:600;font-size:15px;background:var(--ember);color:#fff;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;text-decoration:none;transition:transform .12s ease,background-color .15s ease;-webkit-tap-highlight-color:transparent}
+.btn:hover{background:#e25808}
 .btn:active{transform:scale(.97)}
-.btn.dark{box-shadow:inset 0 -4px 0 rgba(0,0,0,.3),0 10px 20px rgba(18,26,46,.25)}
-.btn.green{box-shadow:inset 0 -4px 0 rgba(0,0,0,.2),0 10px 20px rgba(29,121,60,.25)}
-.btn.ghost{background:var(--bg);border:0;box-shadow:var(--neu-s)}
-.seg button{background:var(--bg);border:0;box-shadow:var(--neu-s)}
-.seg button[aria-pressed="true"]{background:var(--navy);box-shadow:0 8px 16px rgba(18,26,46,.25)}
-.seg{padding:6px 4px 10px}
-input,select,textarea{background:var(--bg);border:0;box-shadow:var(--neu-in);border-radius:14px}
-.chip{background:rgba(18,26,46,.07)}
-.li{border-bottom:1px solid rgba(18,26,46,.07)}
-.times div{background:var(--bg);box-shadow:var(--neu-in);border-radius:14px}
-.table-box{background:#f7f8fb;box-shadow:var(--neu);border-radius:20px}
-th{background:#eef1f5} td.name{background:#f7f8fb}
-.modal-card{background:var(--bg)}
-.login .card{box-shadow:var(--neu)}
-#toast{border-radius:16px;bottom:calc(var(--nav-h) + 40px)}
+.btn.dark{background:var(--slate)}.btn.dark:hover{background:var(--slate-2)}
+.btn.ghost{background:var(--paper);color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{background:#f7fafc}
+.card .btn.ghost,.tile .btn.ghost{border-color:transparent}
+.card.dark .btn.ghost{background:rgba(255,255,255,.12);color:#fff}
+.btn.green{background:var(--mint)}
+.btn.small{min-height:40px;padding:0 16px;font-size:14px}
+.btn.block{width:100%}
+.btn.huge{min-height:60px;font-size:17px}
+.btn:disabled{opacity:.5;cursor:default;transform:none}
+.row>.btn{flex:0 0 auto;white-space:nowrap}
+.btn-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:8px}.btn-grid .btn{padding-left:6px;padding-right:6px;white-space:nowrap}
+.icon-btn{width:40px;height:40px;border-radius:50%;border:0;background:var(--mist);font-size:15px;cursor:pointer;color:var(--ink);display:grid;place-items:center}
 
-/* Hari ini */
-.hero{align-items:center;text-align:center;gap:14px;padding:20px 18px 18px;position:relative}
-.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-.pill{font-size:12px;font-weight:600;padding:6px 12px;border-radius:999px;background:var(--bg);box-shadow:var(--neu-in)}
-.led{background:var(--navy);border-radius:20px;padding:8px 20px;display:inline-flex;align-items:center;gap:10px;color:#fff;box-shadow:inset 0 0 0 2px #1f2940,0 10px 20px rgba(18,26,46,.25)}
-.led.small{padding:6px 14px;border-radius:14px}
-.led-hm{font-family:"Space Grotesk",ui-monospace,monospace;font-size:32px;font-weight:700;letter-spacing:2px;text-shadow:0 0 14px rgba(242,98,16,.85)}
-.led.small .led-hm{font-size:18px}
-.led small{font-family:"Space Grotesk",monospace;color:#ff9a5c;font-size:14px}
-.led-dot{width:8px;height:8px;border-radius:50%;background:#ff8a3d;box-shadow:0 0 10px #ff8a3d}
-.led-dot.ok{background:#3ddc84;box-shadow:0 0 10px #3ddc84}
-.colon{animation:blink 1s steps(1) infinite}
-@keyframes blink{50%{opacity:.3}}
-.shift-line{display:flex;flex-direction:column;gap:2px}
-.shift-line b{font-size:20px}
-.dial-wrap{position:relative;width:236px;height:236px;margin:2px auto}
-.dial-pit{width:236px;height:236px;border-radius:50%;background:var(--bg);box-shadow:inset 10px 10px 22px #c4c9d4,inset -10px -10px 22px #fff;display:flex;align-items:center;justify-content:center}
-.dial-ring{--p:0;width:212px;height:212px;border-radius:50%;background:conic-gradient(var(--orange) calc(var(--p) * 1%),#d6dae3 0);display:flex;align-items:center;justify-content:center}
-.dial{width:176px;height:176px;border-radius:50%;border:0;cursor:pointer;color:#fff;background:radial-gradient(circle at 35% 28%,#34405e 0%,#1f2940 38%,#121a2e 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;animation:glow 2.4s ease-in-out infinite;transition:transform .15s;font-family:inherit}
-.dial b{font-size:17px}.dial small{font-size:11px;color:#c9cfdb;max-width:140px}
-.dial .dial-ico{width:40px;height:40px;color:#ff8a3d}
+/* Tab segmen (pil) */
+.seg{display:flex;gap:8px;overflow-x:auto;padding:2px 0 4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.seg::-webkit-scrollbar{display:none}
+.seg button{flex:0 0 auto;min-height:42px;padding:0 18px;border-radius:999px;border:0;background:var(--mist);color:var(--ink-2);font-size:14px;font-weight:500;cursor:pointer;transition:background-color .15s,color .15s}
+.seg button[aria-pressed="true"]{background:var(--slate);color:#fff}
+.seg button:active{transform:scale(.96)}
+
+/* Jubin statistik */
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.tile{position:relative;background:var(--mist);border-radius:var(--r-lg);padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.tile b{font-size:30px;font-weight:600;letter-spacing:-.035em;line-height:1.05;font-variant-numeric:tabular-nums}
+.tile b small{font-size:14px;font-weight:500;letter-spacing:0;color:var(--haze);margin-left:3px}
+.tile .muted,.tile .hint{font-size:12.5px;line-height:1.35}
+.tile .eyebrow{font-size:13px}
+.tile.dark,.tiles .tile.lead{background:var(--slate);color:#fff}
+.tile.dark .muted,.tiles .tile.lead .muted,.tiles .tile.lead .eyebrow,.tile.dark .eyebrow{color:rgba(255,255,255,.72)}
+.tile .ring{position:absolute;top:14px;right:14px;width:38px;height:38px}
+.bar{height:8px;background:var(--mist-2);border-radius:8px;overflow:hidden}
+.bar>i{display:block;height:100%;border-radius:8px;background:var(--slate)}
+
+/* Cincin & tolok (SVG) */
+.ring{display:block}
+.ring .trk{fill:none;stroke:var(--mist-2);stroke-width:7}
+.ring .val{fill:none;stroke:var(--slate);stroke-width:7;stroke-linecap:round;transition:stroke-dasharray .6s cubic-bezier(.2,.7,.2,1)}
+.ring.ember .val{stroke:var(--ember)}.ring.mint .val{stroke:var(--mint)}.ring.sky .val{stroke:var(--sky)}
+.tile.lead .ring .trk,.card.dark .ring .trk{stroke:rgba(255,255,255,.16)}
+.tile.lead .ring .val,.card.dark .ring .val{stroke:var(--ember-2)}
+.gauge{width:100%;max-width:280px;display:block;margin:0 auto}
+.gauge .g-trk{fill:none;stroke:var(--mist-2);stroke-width:22;stroke-linecap:round}
+.gauge .g-seg{fill:none;stroke-width:22;stroke-linecap:round}
+.g-in{stroke:var(--slate)}.g-late{stroke:var(--ember)}.g-leave{stroke:var(--sky)}
+.gauge-wrap{position:relative;display:flex;flex-direction:column;align-items:center}
+.gauge-num{position:absolute;bottom:4px;left:0;right:0;text-align:center;display:flex;flex-direction:column;align-items:center}
+.gauge-num b{font-size:38px;font-weight:600;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.gauge-num span{font-size:13px;color:var(--haze)}
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;font-size:13.5px}
+.legend div{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.legend span{display:flex;align-items:center;gap:8px;color:var(--ink-2)}
+.legend i{width:10px;height:10px;border-radius:50%;background:var(--mist-2);flex:0 0 auto}
+.legend i.g-in{background:var(--slate)}.legend i.g-late{background:var(--ember)}.legend i.g-leave{background:var(--sky)}
+.legend b{font-variant-numeric:tabular-nums}
+
+/* ---------- Borang ---------- */
+form{display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:500;color:var(--ink-2)}
+input,select,textarea{min-height:50px;padding:12px 14px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--paper);color:var(--ink);width:100%;min-width:0;max-width:100%;font-size:16px;transition:border-color .15s,box-shadow .15s}
+.card input,.card select,.card textarea,.tile input{border-color:transparent}
+select{-webkit-appearance:none;appearance:none;padding-right:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23728397' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+textarea{min-height:92px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ember);box-shadow:0 0 0 4px rgba(242,98,16,.14)}
+input[type=checkbox],input[type=radio]{width:auto;min-height:0;accent-color:var(--ember)}
+input[type=date]{padding-right:10px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.two>*{min-width:0}
+.two input[type=date]{padding-left:12px;padding-right:8px;font-size:15px}
+.fold summary{list-style:none;cursor:pointer;text-align:center}.fold summary::-webkit-details-marker{display:none}
+.fold[open] summary{display:none}.fold form{margin-top:4px}
+
+/* ---------- Jadual data ---------- */
+.table-box{overflow-x:auto;background:var(--paper);border-radius:var(--r-md);border:1px solid var(--line)}
+.card .table-box{border-color:transparent}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:11px 10px;text-align:left;border-bottom:1px solid var(--mist);vertical-align:middle}
+tbody tr:last-child td{border-bottom:0}
+th{font-size:12px;color:var(--haze);font-weight:500;white-space:nowrap;background:var(--paper);position:sticky;top:0}
+td.name{white-space:nowrap;font-weight:600;position:sticky;left:0;background:var(--paper);z-index:1}
+.roster select{min-height:40px;padding:6px 26px 6px 8px;font-size:16px;min-width:88px;border-radius:10px;border:1px solid var(--line);background-position:right 8px center}
+.roster select.k-Pagi{background-color:var(--sky-soft)}
+.roster select.k-Petang{background-color:var(--ember-soft)}
+.roster select.k-Split{background-color:var(--violet-soft)}
+.roster select.k-Tengah{background-color:#e6eef5}
+.roster select.k-Rehat{background-color:var(--mist)}
+.roster select.changed{outline:2px solid var(--ember)}
+.cuti-tag{display:block;font-size:10px;color:var(--error);font-weight:600}
+.semakan{font-size:12px;color:var(--error);min-width:180px}
+
+/* ---------- Hari ini · kad syif (satu-satunya blok gelap) ---------- */
+.hero.shift{position:relative;overflow:hidden;background:var(--slate);color:#fff;border-radius:var(--r-xl);padding:20px 20px 18px;gap:14px;align-items:stretch;text-align:left}
+.hero.shift::before{content:"";position:absolute;inset:0;background-image:var(--lattice);background-size:44px 44px;opacity:.09;-webkit-mask-image:radial-gradient(120% 85% at 100% 0%,#000 0%,rgba(0,0,0,.55) 45%,transparent 78%);mask-image:radial-gradient(120% 85% at 100% 0%,#000 0%,rgba(0,0,0,.55) 45%,transparent 78%);pointer-events:none}
+.hero.shift>*{position:relative}
+.shift-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.shift-day{font-size:13.5px;color:rgba(255,255,255,.75);font-weight:500}
+.live{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:rgba(255,255,255,.78);background:rgba(255,255,255,.1);border-radius:999px;padding:5px 11px 5px 9px;white-space:nowrap}
+.live i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.55)}
+.live i.on{background:var(--mint-2);box-shadow:0 0 0 0 rgba(111,224,161,.6);animation:beat 2s ease-out infinite}
+.live b{color:#fff;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.01em}
+@keyframes beat{0%{box-shadow:0 0 0 0 rgba(111,224,161,.55)}70%{box-shadow:0 0 0 7px rgba(111,224,161,0)}100%{box-shadow:0 0 0 0 rgba(111,224,161,0)}}
+.shift-body{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:120px}
+.shift-main{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1}
+.shift-time{font-size:48px;font-weight:600;letter-spacing:-.05em;line-height:.95;font-variant-numeric:tabular-nums}
+.shift-time.word{font-size:36px;letter-spacing:-.035em;line-height:1.05}
+.shift-end{font-size:17px;font-weight:500;color:#fff;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.shift-then{font-size:14px;color:rgba(255,255,255,.85);font-variant-numeric:tabular-nums}
+.shift-sub{font-size:13px;color:rgba(255,255,255,.72);line-height:1.45;margin-top:6px;white-space:pre-line}
+.hero.shift .geo-note{color:rgba(255,255,255,.7);justify-content:flex-start;text-align:left}
+.hero.shift.calm{padding-bottom:22px}
+.hero.shift.calm .shift-body{min-height:0}
+
+.dial-wrap{position:relative;width:146px;height:146px;flex:0 0 auto;margin:0 -4px 0 0}
+.dial-pit{width:100%;height:100%;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.05)}
+.dial-ring{--p:0;width:134px;height:134px;border-radius:50%;background:conic-gradient(var(--ember) calc(var(--p) * 1%),rgba(255,255,255,.14) 0);display:grid;place-items:center}
+.dial{width:110px;height:110px;border-radius:50%;border:0;cursor:pointer;color:#fff;background:radial-gradient(circle at 50% 28%,#ff8d45 0%,var(--ember) 62%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;font-family:inherit;box-shadow:0 0 0 6px var(--slate),0 14px 30px rgba(0,0,0,.28);transition:transform .15s ease,box-shadow .2s ease;padding:0 8px}
+.dial b{font-size:15px;font-weight:600;letter-spacing:-.01em;line-height:1.1}
+.dial small{font-size:10px;line-height:1.2;opacity:.9;max-width:84px;text-align:center}
+.dial .dial-ico{width:22px;height:22px}
 .dial.hold{transform:scale(.95)}
-.dial.full{animation:glowHot .5s ease-in-out infinite}
-.dial.done{animation:none;background:radial-gradient(circle at 35% 28%,#2b8a4b,#1d793c 45%,#145a2c);box-shadow:0 0 0 2px #1d793c,0 0 26px rgba(29,121,60,.45)}
-.dial.done .dial-ico{color:#fff}
-.dial:disabled{cursor:default;opacity:1}
-@keyframes glow{0%,100%{box-shadow:0 0 0 2px #f26210,0 0 24px 4px rgba(242,98,16,.5),inset 0 0 16px rgba(242,98,16,.3)}50%{box-shadow:0 0 0 2px #ff8a3d,0 0 42px 10px rgba(242,98,16,.7),inset 0 0 24px rgba(242,98,16,.45)}}
-@keyframes glowHot{0%,100%{box-shadow:0 0 0 3px #ff8a3d,0 0 50px 14px rgba(242,98,16,.85)}50%{box-shadow:0 0 0 3px #fff,0 0 60px 18px rgba(242,98,16,.95)}}
+.dial.full{box-shadow:0 0 0 6px var(--slate),0 0 0 11px rgba(242,98,16,.38),0 14px 30px rgba(0,0,0,.28)}
+.dial.done{background:rgba(255,255,255,.1);cursor:default}
+.dial.done .dial-ico{color:var(--mint-2)}
+.is-done .dial-ring{background:conic-gradient(var(--mint-2) 100%,transparent 0)}
+.dial:disabled{cursor:default}
+.times{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.times div{flex:1;background:rgba(255,255,255,.08);border-radius:14px;padding:8px 12px;display:flex;align-items:baseline;justify-content:space-between;gap:6px}
+.times span{font-size:12px;color:rgba(255,255,255,.68)}
+.times b{font-size:16px;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.geo-note{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--haze);text-align:center}
+.geo-note svg{width:14px;height:14px;flex:0 0 auto}
 .conf-layer{position:absolute;inset:0;pointer-events:none}
 .conf-layer i{position:absolute;left:50%;top:50%;width:9px;height:14px;border-radius:3px;animation:burst 1.3s cubic-bezier(.15,.7,.3,1) forwards}
 @keyframes burst{0%{transform:translate(0,0) rotate(0) scale(.4);opacity:1}100%{transform:translate(var(--dx),var(--dy)) rotate(540deg) scale(1);opacity:0}}
-@keyframes pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
-.geo-note{display:inline-flex;align-items:center;gap:6px;justify-content:center}
-.geo-note svg{width:15px;height:15px;color:var(--green)}
-.t-ico svg{width:20px;height:20px;color:#ff8a3d}
-.t-ico.fire svg{color:var(--orange)}.t-ico.blue svg{color:var(--blue)}
-@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-.quick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-.quick button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--ink);cursor:pointer;font-family:inherit}
-.quick span{width:58px;height:58px;border-radius:20px;background:var(--bg);box-shadow:var(--neu-s);display:flex;align-items:center;justify-content:center}
-.quick button:active span{box-shadow:var(--neu-in)}
-.quick svg{width:24px;height:24px}
 
+/* Pintasan (4) */
+.quick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.quick button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:7px;font-size:12.5px;font-weight:500;color:var(--ink-2);cursor:pointer;font-family:inherit;padding:0;-webkit-tap-highlight-color:transparent}
+.quick span{width:56px;height:56px;border-radius:20px;background:var(--mist);color:var(--slate);display:grid;place-items:center;transition:transform .12s,background-color .15s}
+.quick svg{width:23px;height:23px}
+.quick button:active span{transform:scale(.92);background:var(--mist-2)}
 
-/* ===================== PRISM 2.1 · Tenang & padat (lebih kecil, lebih lapang, mesra mata) ===================== */
-:root{--nav-h:50px;--radius:20px;
-  --neu:5px 5px 12px #cdd2dc,-5px -5px 12px #ffffff;--neu-s:3px 3px 8px #cdd2dc,-3px -3px 8px #ffffff;
-  --neu-in:inset 2px 2px 6px #cdd2dc,inset -2px -2px 6px #ffffff}
-body{font-size:14px}
-.top{padding:calc(12px + env(safe-area-inset-top)) 18px 0}
-.top h1{font-size:16px}
-.top .sub{font-size:11px}
-.top .sub[style]{margin-top:4px!important}
-.avatar{width:36px;height:36px;border-radius:12px;font-size:15px}
-.top .brand{font-size:11px}.brand .logo{width:24px;height:24px;border-radius:7px;font-size:12px}
-.main{gap:12px;padding:12px 16px calc(var(--nav-h) + 34px + env(safe-area-inset-bottom))}
-.narrow{max-width:460px;gap:12px}
-.card{padding:14px 16px;gap:8px}
-.eyebrow{font-size:10.5px}
-.hero{gap:9px;padding:14px 16px 14px}
-.pill{font-size:11px;padding:4px 10px}
-.led{padding:5px 14px;border-radius:14px;gap:8px;box-shadow:inset 0 0 0 1px #1f2940,0 6px 12px rgba(18,26,46,.18)}
-.led-hm{font-size:22px;letter-spacing:1.5px;text-shadow:0 0 8px rgba(242,98,16,.6)}
-.led small{font-size:11px}
-.led-dot{width:6px;height:6px}
-.shift-line b{font-size:15px}
-.shift-line .muted{font-size:12px}
-.dial-wrap{width:164px;height:164px;margin:0 auto}
-.dial-pit{width:164px;height:164px;box-shadow:inset 6px 6px 14px #cbd0da,inset -6px -6px 14px #fff}
-.dial-ring{width:146px;height:146px}
-.dial{width:120px;height:120px;gap:2px}
-.dial b{font-size:14px}.dial small{font-size:10px;max-width:96px;line-height:1.25}
-.dial .dial-ico{width:26px;height:26px}
-@keyframes glow{0%,100%{box-shadow:0 0 0 2px #f26210,0 0 12px 2px rgba(242,98,16,.35)}50%{box-shadow:0 0 0 2px #ff8a3d,0 0 20px 5px rgba(242,98,16,.45)}}
-.times{display:flex;gap:6px;width:100%;max-width:330px;justify-content:center}
-.times div{flex:1;text-align:center;max-width:110px}
-.times div{padding:5px 10px;border-radius:12px;font-size:11px}
-.times b{font-size:14px}
-.geo-note{font-size:11px}.geo-note svg{width:13px;height:13px}
-.quick{gap:8px}
-.quick button{font-size:10.5px;gap:5px}
-.quick span{width:44px;height:44px;border-radius:14px}
-.quick svg{width:19px;height:19px}
-.list .li{padding:8px 0;font-size:13px}
-.nav{bottom:calc(10px + env(safe-area-inset-bottom));padding:0 18px}
-.nav-in{max-width:420px;border-radius:20px;padding:4px;box-shadow:0 8px 20px rgba(18,26,46,.25)}
-.nav button{min-height:var(--nav-h);font-size:10px;border-radius:16px;gap:1px}
-.nav svg{width:19px;height:19px}
-.nav button[aria-current="page"] svg{width:26px;height:26px;padding:4px;border-radius:9px;box-shadow:0 0 10px rgba(242,98,16,.45)}
-.tile b{font-size:20px}
-/* 2.1b · lebih jauh dari tepi skrin */
-.top{padding-left:26px;padding-right:26px}
-.main{padding-left:26px;padding-right:26px;gap:14px}
-.narrow{max-width:400px;gap:14px}
-.hero{padding:14px 14px}
-.nav{padding:0 30px}
-.nav-in{max-width:360px}
-.quick{padding:0 6px}
-#toast{font-size:12.5px;line-height:1.4;padding:9px 14px;border-radius:14px;max-width:min(320px,calc(100% - 40px))}
+/* Minggu ini: jalur 7 hari */
+.wk{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.wk-d{border:0;background:none;padding:8px 0 9px;border-radius:16px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;color:var(--ink);font-family:inherit;-webkit-tap-highlight-color:transparent;transition:background-color .15s}
+.wk-d span{font-size:11.5px;color:var(--haze);font-weight:500}
+.wk-d b{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+.wk-d.wkend b{color:var(--ember-ink)}
+.wk-d.today b{background:var(--slate);color:#fff}
+.wk-d.sel{background:var(--paper)}
+.wk-d i{width:18px;height:4px;border-radius:4px;background:transparent}
+.k-Pagi{--k:#5b9ccc}.k-Tengah{--k:var(--slate-3)}.k-Petang{--k:var(--ember)}.k-Split{--k:var(--violet)}.k-Cuti{--k:var(--mint)}.k-Rehat{--k:var(--mist-2)}.k-Lain{--k:var(--haze)}
+.wk-d i[class]{background:var(--k)}
+.wk-d.k-Rehat i,.wk-d.k-Belum i{background:transparent}
+.wk-detail{display:flex;align-items:center;gap:12px;background:var(--paper);border-radius:var(--r-md);padding:12px 14px}
+.wk-detail .tl-bar{align-self:stretch}
+.wk-detail .grow b{display:block;font-size:15px;font-variant-numeric:tabular-nums}
+.wk-detail .grow span{font-size:12.5px;color:var(--haze)}
 
+/* Garis masa (jadual) */
+.tl-bar{width:4px;min-height:38px;border-radius:4px;background:var(--k,var(--mist-2));flex:0 0 auto}
+.today-day{display:flex;align-items:center;gap:14px;padding:13px 16px;border-bottom:1px solid rgba(15,27,42,.06)}
+.today-day:last-child{border-bottom:0}
+.tl-date{width:42px;display:flex;flex-direction:column;align-items:center;flex:0 0 auto}
+.tl-date span{font-size:11.5px;color:var(--haze);font-weight:500}
+.tl-date b{font-size:20px;line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.today-day.wkend .tl-date b{color:var(--ember-ink)}
+.today-day.now{background:var(--paper)}
+.today-day.now .tl-date b{color:var(--paper);background:var(--slate);width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:16px;margin-top:2px}
+.today-day .grow b{display:block;font-size:15.5px;font-variant-numeric:tabular-nums;letter-spacing:-.01em;white-space:pre-line;line-height:1.3}
+.today-day .grow span{font-size:12.5px;color:var(--haze)}
+.tl-card{padding:6px 0;gap:0;overflow:hidden}
+.wk-nav{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.wk-nav div{display:flex;flex-direction:column;align-items:center;line-height:1.25}
+.wk-nav div b{font-size:16px;letter-spacing:-.01em}
+.wk-nav div span{font-size:12.5px;color:var(--haze)}
 
-/* ===================== PRISM 3 · Lembut & lapang (rujukan HRMS antarabangsa) ===================== */
-:root{--bg:#f1f0ee;--card:#ffffff;--ink:#1d2433;--muted:#7a8296;--line:#ebecef;--radius:22px;
-  --soft:0 1px 2px rgba(29,36,51,.04),0 10px 28px rgba(29,36,51,.06);--hair:1px solid rgba(29,36,51,.06);
-  --neu:var(--soft);--neu-s:0 1px 2px rgba(29,36,51,.05);--neu-in:inset 0 0 0 1px #e6e8ee}
-html,body{background:linear-gradient(165deg,#eceef2 0%,#f3f1ee 50%,#fbf0e2 100%) fixed;font-family:Outfit,Poppins,system-ui,sans-serif;color:var(--ink)}
-button,input,select,textarea{font-family:Outfit,Poppins,system-ui,sans-serif}
-body{font-size:14.5px;letter-spacing:.005em}
-.shell{background:transparent}
-.top{background:transparent;padding:calc(16px + env(safe-area-inset-top)) 26px 0}
-.top h1{font-size:15px;font-weight:500}
-.top .sub{color:var(--muted);font-size:11.5px}
-.avatar{background:#fff;box-shadow:var(--hair),0 2px 6px rgba(29,36,51,.06);border-radius:50%;width:38px;height:38px;color:var(--ink);font-weight:600}
-.top .brand{color:var(--muted);font-weight:500}
-.brand .logo{background:var(--navy);border-radius:50%;box-shadow:none}
-.page-h{display:flex;flex-direction:column;gap:2px;margin:4px 2px 2px}
-.page-h h2{font-size:30px;font-weight:300;letter-spacing:-.6px;line-height:1.1;color:var(--ink)}
-.page-h span{font-size:12.5px;color:var(--muted)}
-.card,.tile,.table-box{background:rgba(255,255,255,.86);box-shadow:var(--soft);border:var(--hair);border-radius:var(--radius);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.card.dark{background:var(--navy);border:0}
-.eyebrow{color:var(--muted);font-weight:500;letter-spacing:.06em;font-size:10.5px}
-.muted{color:var(--muted)}
-.btn{border-radius:999px;box-shadow:none;font-weight:500}
-.btn.ghost{background:#fff;box-shadow:none;border:var(--hair)}
-.seg button{background:#fff;box-shadow:none;border:var(--hair);border-radius:999px}
-.seg button[aria-pressed="true"]{background:var(--navy);color:#fff;box-shadow:none}
-input,select,textarea{background:#f6f6f8;box-shadow:none;border:1px solid #e6e8ee;border-radius:14px}
-.chip{background:#f1f2f5;font-weight:500}
-.li{border-bottom:var(--hair)}
-.hero{gap:10px;padding:18px 16px 16px;align-items:center}
-.pill{background:#f4f4f6;box-shadow:none;border:var(--hair);font-weight:500;color:var(--ink)}
-.pill.ok{background:var(--green-soft);color:var(--green);border-color:transparent}
-.led{display:none}
-.shift-line b{font-size:24px;font-weight:300;letter-spacing:-.4px}
-.shift-line .muted{font-size:12px}
-.dial-wrap{width:150px;height:150px}
-.dial-pit{width:150px;height:150px;background:transparent;box-shadow:none}
-.dial-ring{width:140px;height:140px;background:conic-gradient(var(--orange) calc(var(--p) * 1%),#eceef2 0)}
-.dial{width:118px;height:118px;background:var(--navy);animation:none;box-shadow:0 8px 18px rgba(18,26,46,.18)}
-.dial.full{animation:none;box-shadow:0 0 0 3px rgba(242,98,16,.35),0 8px 18px rgba(18,26,46,.18)}
-.dial .dial-ico{color:#ff9a5c}
-.dial b{font-weight:500}
-.times div{background:#f6f6f8;box-shadow:none;border:var(--hair)}
-.times b{font-weight:500}
-.quick button{font-weight:500;color:var(--ink)}
-.quick span{background:#fff;box-shadow:var(--soft);border:var(--hair);border-radius:16px}
-.quick button:active span{box-shadow:none;background:#f6f6f8}
-.today-day{border-bottom:var(--hair);border-radius:0}
-.today-day.now{background:#fff6ec;box-shadow:inset 3px 0 0 var(--orange)}
-.today-day.wkend{background-image:repeating-linear-gradient(135deg,rgba(242,98,16,.07) 0 6px,transparent 6px 12px)}
-.nav{padding:0 30px;bottom:calc(12px + env(safe-area-inset-bottom))}
-.nav-in{background:rgba(255,255,255,.92);border:var(--hair);box-shadow:0 10px 30px rgba(29,36,51,.12);border-radius:999px;padding:5px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.nav button{color:#7a8296;border-radius:999px;min-height:46px;font-size:10px;font-weight:500}
-.nav button[aria-current="page"]{background:var(--navy);color:#fff}
-.nav button[aria-current="page"] svg{background:none;box-shadow:none;padding:0;width:19px;height:19px;border-radius:0;color:#ff9a5c}
-#toast{background:var(--navy);border-radius:999px}
-.modal-card{border-radius:24px}
-.login{background:linear-gradient(165deg,#eceef2 0%,#f3f1ee 50%,#fbf0e2 100%)}
-.login .card{box-shadow:var(--soft)}
-.two>*{min-width:0}
-/* PRISM 3 · log masuk, onboarding, ucapan */
-.auth{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:calc(30px + env(safe-area-inset-top)) 24px 30px}
-.auth-hero{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
-.auth-logo svg{width:76px;height:76px;filter:drop-shadow(0 10px 20px rgba(18,26,46,.18))}
-.auth-brand{font-size:24px;font-weight:300;letter-spacing:.06em}.auth-brand b{font-weight:600;color:var(--orange)}
-.auth-card{width:100%;max-width:380px;background:rgba(255,255,255,.9);border:var(--hair);box-shadow:var(--soft);border-radius:26px;padding:24px 22px;display:flex;flex-direction:column;gap:12px}
-.auth-card h1{font-size:26px;font-weight:500}
-.auth-card label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:500}
-.auth-links{display:flex;gap:10px}
-.link{background:none;border:0;color:var(--orange-ink);font-weight:600;font-size:13px;cursor:pointer;padding:4px 0;font-family:inherit}
-.onb{display:flex;flex-direction:column;gap:12px;text-align:center;padding:4px 0}
-.onb h3{font-size:20px;font-weight:500}
-.onb-ico{font-size:46px;line-height:1;margin-top:6px}
-.onb-dots{display:flex;gap:6px;justify-content:center}.onb-dots i{width:22px;height:5px;border-radius:9px;background:#e6e8ee}.onb-dots i.on{background:var(--orange)}
-.greet{position:fixed;inset:0;z-index:80;background:rgba(18,26,46,.55);display:flex;align-items:flex-end;justify-content:center;padding:18px;animation:fadeIn .25s ease}
-.greet-card{width:100%;max-width:420px;background:#fff;border-radius:26px;overflow:hidden;display:flex;flex-direction:column;gap:12px;padding-bottom:16px;box-shadow:0 20px 50px rgba(0,0,0,.3)}
-.greet-card img{width:100%;max-height:62vh;object-fit:cover;display:block}
-.greet-txt{display:flex;flex-direction:column;gap:3px;padding:0 18px;text-align:center}.greet-txt b{font-size:17px}.greet-txt span{color:var(--muted);font-size:13px}
-.greet-card .btn{margin:0 18px;width:auto}
+/* Senarai orang (rakan sesyif) */
+.person-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(15,27,42,.07)}
+.person-row:last-child{border-bottom:0}
+.person-row .grow b{display:block;font-size:14.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.person-row .grow span{font-size:12.5px;color:var(--haze)}
+.note-row{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid rgba(15,27,42,.07)}
+.note-row:last-child{border-bottom:0}
+.note-row .tick{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--haze);flex:0 0 auto;margin-top:2px}
+.note-row .tick.on{background:var(--slate);border-color:var(--slate);box-shadow:inset 0 0 0 4px var(--mist)}
+.note-row .grow b{display:block;font-size:14.5px}
+.note-row .grow p{margin:2px 0 8px;font-size:13px;color:var(--haze);line-height:1.45}
+
+/* Profil (kad orang) */
+.person{gap:16px}
+.person-top{display:flex;align-items:center;gap:14px}
+.person-top b{display:block;font-size:18px;letter-spacing:-.02em;line-height:1.2}
+.person-top span{font-size:13px;color:var(--haze)}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:0;background:var(--paper);border-radius:var(--r-md);overflow:hidden}
+.facts div{padding:12px 14px;border-bottom:1px solid var(--mist);min-width:0}
+.facts div:nth-child(odd){border-right:1px solid var(--mist)}
+.facts dt{font-size:12px;color:var(--haze);margin:0}
+.facts dd{margin:2px 0 0;font-size:14px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.facts div:nth-last-child(-n+2){border-bottom:0}
+
+/* Ruang kerja Hari ini (telefon: satu lajur; desktop: dua lajur) */
+.today-grid{display:grid;gap:14px;grid-template-columns:minmax(0,1fr);grid-template-areas:"warn" "hero" "quick" "week" "stats" "notes" "mates" "tasks";align-items:start}
+.ga-warn{grid-area:warn}.ga-hero{grid-area:hero}.ga-quick{grid-area:quick}.ga-week{grid-area:week}.ga-stats{grid-area:stats}.ga-notes{grid-area:notes}.ga-mates{grid-area:mates}.ga-tasks{grid-area:tasks}
+.ga-quick{padding:2px 0}
+.stat2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.warn-card{background:var(--ember-soft);border:1px solid #ffd3b8}
+
+/* ---------- Staffing Planner & Pematuhan (modul HR) ---------- */
+.staff-slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.staff-slot{border-top:4px solid var(--mint)}
+.staff-slot.red{border-top-color:var(--error)}
+.staff-slot.orange{border-top-color:var(--ember)}
+.staff-meter{position:relative;height:10px;background:var(--mist-2);border-radius:5px}
+.staff-meter>i{display:block;height:100%;border-radius:5px;background:var(--slate)}
+.staff-meter>b{position:absolute;top:-4px;width:3px;height:18px;margin-left:-1px;background:var(--ember);border-radius:2px}
+.hchart{display:flex;flex-direction:column;gap:6px}
+.hrow{display:grid;grid-template-columns:46px 1fr 64px 64px;align-items:center;gap:8px;font-size:13px}
+.hlab{color:var(--haze)}
+.hval{text-align:right;font-weight:600}
+.hrm{text-align:right;color:var(--haze)}
+.hbar{position:relative;height:14px;background:var(--mist-2);border-radius:5px}
+.hbar>i{display:block;height:100%;border-radius:5px;background:var(--slate)}
+.hbar>i.red{background:var(--error)}
+.hbar>i.orange{background:#e8a33d}
+.hbar>b{position:absolute;top:-3px;width:3px;height:20px;margin-left:-1px;background:var(--ember);border-radius:2px}
+.lg{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:middle;margin:0 2px 0 8px}
+.lg.ok{background:var(--slate)}
+.lg.mk{background:var(--ember);width:3px}
+@media (max-width:420px){.hrow{grid-template-columns:40px 1fr 56px}.hrm{display:none}}
+.lc-seg{margin-bottom:4px}
+.lc-hero{display:grid;grid-template-columns:180px 1fr;gap:14px;align-items:center}
+.lc-ring{width:170px;height:170px;border-radius:50%;background:conic-gradient(var(--c) calc(var(--p) * 1%),var(--mist-2) 0);display:grid;place-items:center}
+.lc-ring>div{width:130px;height:130px;border-radius:50%;background:var(--mist);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.lc-ring b{font-size:34px;line-height:1;letter-spacing:-.03em}.lc-ring span{font-size:11px;color:var(--haze);margin-top:4px}
+.lc-mod{display:grid;grid-template-columns:120px 1fr 44px;gap:8px;align-items:center;padding:6px 0;font-size:13px}
+.lc-bar{height:10px;border-radius:6px;background:var(--mist-2);overflow:hidden;display:flex}
+.lc-bar i.ok{background:var(--mint)}.lc-bar i.bad{background:var(--error)}
+.lc-tl{display:block;position:relative;margin-left:6px;padding:8px 0 10px 18px;border-left:2px solid var(--mist-2)}
+.lc-dot{position:absolute;left:-7px;top:12px;width:12px;height:12px;border-radius:50%;background:var(--ember)}
+.lc-tl.ok .lc-dot{background:var(--mint)}
+.lc-acts{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.lc-acts .card{margin:0}
+@media (max-width:640px){.lc-hero{grid-template-columns:1fr;justify-items:center}.lc-mod{grid-template-columns:96px 1fr 40px}}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media (max-width:760px){.grid2{grid-template-columns:1fr}}
+.cols{display:flex;flex-direction:column;gap:14px}
+.dash-grid{display:flex;flex-direction:column;gap:14px}
+#urus-body,#lc-body,#mohon-body{display:flex;flex-direction:column;gap:14px;min-width:0}
+.dash-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+
+/* ---------- Modal, toast, luar talian ---------- */
+.modal{position:fixed;inset:0;background:rgba(15,27,42,.42);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;align-items:flex-end;justify-content:center;z-index:50;padding:0 12px calc(12px + env(safe-area-inset-bottom));animation:fadeIn .2s ease}
+.modal[hidden]{display:none}
+.modal-card{background:var(--paper);width:100%;max-width:440px;max-height:86vh;overflow:auto;border-radius:var(--r-xl);padding:20px 20px 22px;box-shadow:var(--float);animation:sheet .28s cubic-bezier(.2,.8,.2,1)}
+.modal-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.modal-head h2{font-size:19px}
+@keyframes sheet{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-input,select,textarea{min-width:0;max-width:100%;width:100%}
-input[type=checkbox],input[type=radio]{width:auto}
-
-/* PRISM 3 · aliran akaun (Create account / Reset): langkah, OTP, kata laluan */
-.auth-links{flex-wrap:wrap;align-items:center}.auth-links .muted{font-size:13px}
-.auth-or{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px;margin-top:4px}
-.auth-or:before,.auth-or:after{content:"";flex:1;height:1px;background:#e6e8ee}
-.steps{display:flex;align-items:center;gap:6px;margin-bottom:2px}
-.step{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);white-space:nowrap}
-.step i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:11px;font-weight:600;background:#eef0f4;color:var(--muted)}
-.step.on{color:var(--ink);font-weight:600}.step.on i{background:var(--navy);color:#fff}
-.step.done i{background:var(--orange);color:#fff}
-.step-bar{flex:1;height:2px;min-width:8px;background:#e6e8ee;border-radius:2px}
-.otp{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:4px 0}
-.otp-box{height:54px;text-align:center;font-size:24px;font-weight:600;border-radius:14px;border:1.5px solid #d5dae4;background:#fff;padding:0;caret-color:var(--orange)}
-.otp-box:invalid,.otp-box:user-invalid{border-color:#d5dae4;box-shadow:none}
-.otp-box:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 4px var(--orange-soft)}
-.otp-box.shake{animation:shake .35s;border-color:#d93a3a}
-@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-.link[disabled]{color:var(--muted);cursor:default}
-.pw-wrap{position:relative;display:block}.pw-wrap input{padding-right:62px}
-.pw-eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--orange-ink);font:600 12px inherit;font-family:inherit;cursor:pointer;padding:6px}
-.pw-rules{list-style:none;display:flex;flex-wrap:wrap;gap:6px 12px;margin:-2px 0 2px;padding:0;font-size:12px;color:var(--muted)}
-.pw-rules li:before{content:"○ "}.pw-rules li.met{color:#1d8a52}.pw-rules li.met:before{content:"● "}
-.ok-dot{color:#1d8a52;font-weight:700}
-@media (prefers-reduced-motion:reduce){.otp-box.shake{animation:none}}
-
-/* PRISM 3.1 · saiz tetap (tiada zoom) + lebih ruang dari tepi skrin */
-html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{overflow-x:hidden}
-input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila menaip */
-.roster select{font-size:16px}
-.top{padding-left:32px;padding-right:32px}
-.main{padding-left:32px;padding-right:32px}
-.narrow{max-width:380px}
-.nav{padding-left:24px;padding-right:24px}
-.nav-in{max-width:380px}
-/* Tetingkap bawah terapung, tidak penuh skrin */
-.modal{padding:0 16px calc(16px + env(safe-area-inset-bottom));align-items:flex-end}
-.modal-card{max-width:420px;border-radius:26px;padding:18px 20px 20px;max-height:86vh}
-.onb{gap:10px}
-.onb-ico{font-size:36px;margin-top:2px}
-.onb h3{font-size:18px}
-.onb p{font-size:14px;line-height:1.45}
-.onb .btn{min-height:46px}
-.auth{padding-left:28px;padding-right:28px}
-.auth-card{max-width:360px}
-
-/* PRISM 3.2 · audit UI/UX: grid 2 lajur, kepala padat, rangka pemuatan, peralihan lembut */
-.tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.tile{min-width:0}.tile b{font-size:24px}
-.top-meta{margin-top:6px}
-.top.compact .top-meta{display:none}
-.top.compact .avatar{width:34px;height:34px;font-size:14px}
-.top.compact h1{font-size:15px}.top.compact .sub{font-size:11.5px}
-.top .avatar,.top h1{transition:all .2s ease}
-.main.enter>*{animation:rise .28s cubic-bezier(.2,.7,.2,1) both}
-.main.enter>*:nth-child(2){animation-delay:.04s}.main.enter>*:nth-child(3){animation-delay:.08s}
-@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+#offline{display:none;position:fixed;top:0;left:0;right:0;z-index:70;background:var(--ink);color:#fff;font-size:13px;padding:9px 14px;text-align:center}
+#toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + 40px + env(safe-area-inset-bottom));transform:translate(-50%,8px);background:var(--ink);color:#fff;padding:11px 18px;border-radius:999px;font-size:13.5px;line-height:1.4;max-width:min(360px,calc(100% - 40px));opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:60;text-align:center;box-shadow:var(--float)}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#toast.bad{background:var(--error)}
+.pin-show{font-size:40px;font-weight:600;letter-spacing:.2em;text-align:center;padding:12px;background:var(--mist);border-radius:var(--r-md)}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
+.btn.ghost .spinner,.icon-btn .spinner{border-color:rgba(15,27,42,.2);border-top-color:var(--ink)}
+@keyframes spin{to{transform:rotate(360deg)}}
 .skel{display:flex;flex-direction:column;gap:12px;padding:6px 0}
-.skel i{display:block;height:13px;border-radius:8px;background:linear-gradient(90deg,#eceef2 25%,#f7f7f9 45%,#eceef2 65%);background-size:300% 100%;animation:shim 1.2s linear infinite}
+.skel i{display:block;height:13px;border-radius:8px;background:linear-gradient(90deg,var(--mist-2) 25%,#f4f7fa 45%,var(--mist-2) 65%);background-size:300% 100%;animation:shim 1.2s linear infinite}
 .skel i:first-child{height:18px}
 @keyframes shim{from{background-position:100% 0}to{background-position:0 0}}
-.btn,.nav button,.seg button,.quick button{transition:transform .12s ease,background-color .15s ease,box-shadow .15s ease;-webkit-tap-highlight-color:transparent}
-.btn:active,.seg button:active,.quick button:active{transform:scale(.96)}
-.nav button:active{transform:scale(.92)}
-.btn-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:8px}.btn-grid .btn{padding-left:6px;padding-right:6px;white-space:nowrap}
-.fold summary{list-style:none;cursor:pointer;text-align:center}.fold summary::-webkit-details-marker{display:none}
-.fold[open] summary{display:none}.fold form{margin-top:4px}
-.two input[type=date]{padding-left:10px;padding-right:6px;font-size:15px}
-.seg{margin-bottom:2px}
-.narrow>.seg+*{margin-top:0}
-@media (prefers-reduced-motion:reduce){.main.enter>*,.skel i{animation:none}}
+.main.enter>*{animation:rise .3s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-@media (prefers-reduced-motion:reduce){.dial,.colon{animation:none}}
+/* ---------- Log masuk & aliran akaun ---------- */
+.login{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px;background:var(--paper)}
+.login .card{width:100%;max-width:380px;padding:24px}
+.login h1{font-size:22px}
+.auth{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;padding:calc(30px + env(safe-area-inset-top)) 22px 30px;position:relative;overflow:hidden;isolation:isolate}
+.auth::before{content:"";position:absolute;left:-10%;right:-10%;top:0;height:260px;background:var(--slate);background-image:var(--lattice);background-size:44px 44px;border-radius:0 0 50% 50% / 0 0 40px 40px;opacity:1;z-index:-1}
+.auth::after{content:"";position:absolute;left:-10%;right:-10%;top:0;height:260px;background:linear-gradient(180deg,rgba(36,74,102,.55),var(--slate));border-radius:0 0 50% 50% / 0 0 40px 40px;z-index:-1}
+.auth-hero{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;color:#fff}
+.auth-hero .muted{color:rgba(255,255,255,.75)}
+.auth-logo svg{width:72px;height:72px;display:block;filter:drop-shadow(0 10px 24px rgba(0,0,0,.25))}
+.auth-brand{font-size:24px;font-weight:600;letter-spacing:-.02em}.auth-brand b{color:var(--ember-2)}
+.auth-card{width:100%;max-width:380px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--float);border-radius:var(--r-xl);padding:24px 22px;display:flex;flex-direction:column;gap:14px}
+.auth-card h1{font-size:26px;letter-spacing:-.03em}
+.auth-card label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:500}
+.auth-card input{background:var(--mist);border-color:transparent}
+.auth-card input:focus{background:var(--paper);border-color:var(--ember)}
+.auth-links{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.auth-links .muted{font-size:13px}
+.auth-or{display:flex;align-items:center;gap:10px;color:var(--haze);font-size:12.5px;margin-top:2px}
+.auth-or:before,.auth-or:after{content:"";flex:1;height:1px;background:var(--line)}
+.steps{display:flex;align-items:center;gap:6px;margin-bottom:2px}
+.step{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--haze);white-space:nowrap}
+.step i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:11px;font-weight:600;background:var(--mist);color:var(--haze)}
+.step.on{color:var(--ink);font-weight:600}.step.on i{background:var(--slate);color:#fff}
+.step.done i{background:var(--ember);color:#fff}
+.step-bar{flex:1;height:2px;min-width:8px;background:var(--line);border-radius:2px}
+.otp{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:4px 0}
+.otp-box{height:56px;text-align:center;font-size:24px;font-weight:600;border-radius:var(--r-md);border:1.5px solid var(--line);background:var(--paper);padding:0;caret-color:var(--ember);font-variant-numeric:tabular-nums}
+.auth-card .otp-box{background:var(--paper);border-color:var(--line)}
+.otp-box:invalid,.otp-box:user-invalid{border-color:var(--line);box-shadow:none}
+.otp-box:focus{outline:none;border-color:var(--ember);box-shadow:0 0 0 4px rgba(242,98,16,.14)}
+.otp-box.shake{animation:shake .35s;border-color:var(--error)}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.pw-wrap{position:relative;display:block}.pw-wrap input{padding-right:64px}
+.pw-eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--ember-ink);font-weight:600;font-size:12.5px;font-family:inherit;cursor:pointer;padding:6px}
+.pw-rules{list-style:none;display:flex;flex-wrap:wrap;gap:6px 12px;margin:-2px 0 2px;padding:0;font-size:12px;color:var(--haze)}
+.pw-rules li:before{content:"○ "}.pw-rules li.met{color:var(--mint)}.pw-rules li.met:before{content:"● "}
+.ok-dot{color:var(--mint);font-weight:700}
+
+/* Onboarding & banner ucapan */
+.onb{display:flex;flex-direction:column;gap:10px;text-align:center;padding:2px 0}
+.onb h3{font-size:19px}
+.onb p{font-size:14px;line-height:1.5;margin:0}
+.onb-ico{font-size:36px;line-height:1;margin-top:4px}
+.onb-dots{display:flex;gap:6px;justify-content:center}.onb-dots i{width:22px;height:5px;border-radius:9px;background:var(--mist-2)}.onb-dots i.on{background:var(--ember)}
+.onb .btn{min-height:48px}
+.greet{position:fixed;inset:0;z-index:80;background:rgba(15,27,42,.5);display:flex;align-items:flex-end;justify-content:center;padding:18px;animation:fadeIn .25s ease}
+.greet-card{width:100%;max-width:420px;background:var(--paper);border-radius:var(--r-xl);overflow:hidden;display:flex;flex-direction:column;gap:12px;padding-bottom:16px;box-shadow:var(--float)}
+.greet-card img{width:100%;max-height:62vh;object-fit:cover;display:block}
+.greet-txt{display:flex;flex-direction:column;gap:3px;padding:0 18px;text-align:center}.greet-txt b{font-size:17px}.greet-txt span{color:var(--haze);font-size:13px}
+.greet-card .btn{margin:0 18px;width:auto}
+
+/* ---------- Desktop / tablet besar (HQ) ---------- */
+@media (min-width:1000px){
+  .top{padding:22px 36px 4px;gap:22px}
+  .top-row{min-height:52px}
+  .me-txt{display:flex}
+  .hello h1{font-size:40px}
+  .top.compact .hello h1{font-size:34px}
+  .main{padding:14px 36px 56px;gap:18px}
+  .narrow{max-width:760px}
+  /* nav menjadi baris pil di atas (tengah), seperti papan pemuka */
+  .nav{position:absolute;top:24px;bottom:auto;left:50%;right:auto;transform:translateX(-50%);padding:0;width:auto}
+  .nav-in{width:auto;max-width:none;background:var(--mist);border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:5px}
+  .nav button{flex:0 0 auto;height:42px;padding:0 18px;font-size:14px;font-weight:500;color:var(--ink-2)}
+  .nav button span{display:inline}
+  .nav button svg{width:18px;height:18px}
+  .nav button[aria-current="page"]{flex-grow:0}
+  #toast{bottom:32px}
+  .tiles{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  .stat2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .today-grid{grid-template-columns:minmax(360px,420px) minmax(0,1fr);column-gap:22px;row-gap:18px;
+    grid-template-areas:"warn warn" "hero week" "hero stats" "quick notes" "mates notes" "mates tasks"}
+  .cols{display:grid;grid-template-columns:3fr 2fr;gap:18px;align-items:start}
+  .modal{align-items:center}
+  .dash-grid{display:grid;grid-template-columns:minmax(320px,380px) minmax(0,1fr);gap:18px;align-items:stretch}
+  .dash-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (min-width:1000px) and (max-width:1239px){.nav button{padding:0 14px}.me-txt{display:none}}
+@media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 </style>
 
 </head>
@@ -679,7 +692,7 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
   function prefetch() {
     if (S.prefetched || !S.me) return; S.prefetched = true;
     var go = function () {
-      var list = [{ a: 'myWeek', p: { minggu: ymd(monday(today())) } }, { a: 'myLeave' }, { a: 'notices' },
+      var list = [{ a: 'myWeek', p: { minggu: ymd(monday(today())) } }, { a: 'myLeave' }, { a: 'notices' }, { a: 'myAttendance' },
         { a: 'myPayslips', mem: true, fallback: function (e) { return e && e.code === 'PINREQ' ? 'LOCKED' : []; } }];
       if (isMgr()) list.push({ a: 'dashboard', mem: true });
       list.forEach(function (sp) { swrFetch(sp).catch(function () { /* senyap */ }); });
@@ -806,7 +819,7 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
 
   /* ======================= Log masuk ======================= */
   /* PRISM 3: Sign in (e-mel + kata laluan) · Create account (E-mel → OTP → Kata laluan). Mod lama ID + PIN hanya untuk ujian (PRISM_PIN_LOGIN). */
-  var LOGIN_HERO = '<div class="auth-hero"><div class="auth-logo"><svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" rx="30" fill="#121a2e"/><circle cx="60" cy="60" r="34" fill="none" stroke="#2c3652" stroke-width="9"/><path d="M60 26a34 34 0 1 1-34 34" fill="none" stroke="#f26210" stroke-width="9" stroke-linecap="round"/><path d="M50 78V44h13a10 10 0 0 1 0 20H50" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="auth-brand">PRISM <b>HR</b></div><div class="muted">Sofwah Arabic Grill</div></div>';
+  var LOGIN_HERO = '<div class="auth-hero"><div class="auth-logo"><svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" rx="32" fill="#244a66"/><circle cx="60" cy="60" r="34" fill="none" stroke="#3d6584" stroke-width="9"/><path d="M60 26a34 34 0 1 1-34 34" fill="none" stroke="#f26210" stroke-width="9" stroke-linecap="round"/><path d="M50 78V44h13a10 10 0 0 1 0 20H50" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="auth-brand">PRISM <b>HR</b></div><div class="muted">Sofwah Arabic Grill</div></div>';
   function renderLogin(msg) {
     if (!window.PRISM_PIN_LOGIN) { renderEmailLogin(msg); return; }
     var id = LS.get('prism_id') || '';
@@ -942,7 +955,7 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
   }
 
   function logoutLocal() {
-    swrClear(); S.prefetched = false;
+    swrClear(); S.prefetched = false; S.wkHtml = S.statHtml = S.wkData = null; S.wkSel = null;
     S.token = null; S.me = null; S.data = {};
     LS.del('prism_token'); LS.del('prism_me');
     renderLogin('Session expired. Please sign in again.');
@@ -952,29 +965,81 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
   function tabsFor() {
     var t = [{ k: 'hari', l: 'Today' }, { k: 'jadual', l: 'Schedule' }, { k: 'mohon', l: 'Requests' }];
     if (isMgr()) t.push({ k: 'urus', l: isHR() ? 'HR' : 'Team' });
-    t.push({ k: 'lagi', l: 'More' });
+    t.push({ k: 'lagi', l: 'Me' });
     return t;
   }
 
+  /* ======================= PRISM 2030 · kerangka ======================= */
+  var MARK = '<svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" rx="32" fill="#244a66"/><circle cx="60" cy="60" r="34" fill="none" stroke="#3d6584" stroke-width="9"/><path d="M60 26a34 34 0 1 1-34 34" fill="none" stroke="#f26210" stroke-width="9" stroke-linecap="round"/><path d="M50 78V44h13a10 10 0 0 1 0 20H50" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var BELL = 'M6 9a6 6 0 1 1 12 0c0 6.5 2.5 8.5 2.5 8.5h-17S6 15.5 6 9M10.2 20.5a2 2 0 0 0 3.6 0';
+  var TAB_TITLE = { jadual: 'Schedule', mohon: 'Requests', urus: '', lagi: 'Me' };
+  function roleName() { return isHR() ? (S.me.role === 'Admin' ? 'Admin' : 'HR') : isMgr() ? 'Manager' : 'Crew'; }
   function renderShell() {
     var me = S.me;
     if (PWA && me) LS.set('prism_me', JSON.stringify(me));
     var nav = tabsFor().map(function (t) {
-      return '<button data-act="tab" data-v="' + t.k + '"' + (S.tab === t.k ? ' aria-current="page"' : '') + '>' + svg(ICON[t.k]) + '<span>' + t.l + '</span></button>';
+      return '<button data-act="tab" data-v="' + t.k + '"' + (S.tab === t.k ? ' aria-current="page"' : '') + ' aria-label="' + t.l + '" title="' + t.l + '">' + svg(ICON[t.k]) + '<span>' + t.l + '</span></button>';
     }).join('');
+    var title = S.tab === 'urus' ? (isHR() ? 'HR' : 'Team') : TAB_TITLE[S.tab];
+    var unread = ((S.data.today && S.data.today.notis) || []).filter(function (n) { return n.wajib; }).length;
     $('app').innerHTML =
       '<div class="shell">' +
-      '<header class="top"><div class="top-row"><div class="row"><div class="avatar">' + h(String(me.nama || '?').trim().charAt(0)) + '</div>' +
-      '<div><div class="sub">Assalamualaikum,</div><h1>' + h(me.nama) + '</h1></div></div>' +
-      '<div class="row" style="gap:8px"><div class="brand"><div class="logo">P</div><span>PRISM ' + (isHR() ? 'HR' : isMgr() ? 'Manager' : 'Crew') + '</span></div></div></div>' +
-      '<div class="sub top-meta">' + h(me.id) + ' · ' + h(me.cawangan) + (me.bahagian ? ' · ' + h(me.bahagian) : '') + (me.penyelia && me.penyelia !== me.nama ? ' · Supervisor: ' + h(me.penyelia) : '') + '</div></header>' +
+      '<header class="top' + (S.tab !== 'hari' ? ' compact' : '') + '">' +
+      '<div class="top-row"><div class="brand"><span class="mark">' + MARK + '</span><span>PRISM <b>HR</b></span></div>' +
+      '<div class="actions"><button class="icon-round" data-act="goto" data-v="lagi" aria-label="Announcements" id="bell">' + svg(BELL) + (unread ? '<i class="dot"></i>' : '') + '</button>' +
+      '<button class="me-chip" data-act="goto" data-v="lagi" aria-label="Profile">' + avatar(me.nama, 'av-lg', '#244a66') + '<span class="me-txt"><b>' + h(titleCase(me.nama)) + '</b><small>' + roleName() + ', ' + h(me.cawangan) + '</small></span></button></div></div>' +
+      (S.tab === 'hari'
+        ? '<div class="hello"><span class="sub">Assalamualaikum,</span><h1>' + h(titleCase(me.nama)) + '</h1>' +
+          '<div class="who"><span>' + h(me.cawangan) + '</span><span>' + h(isMgr() ? roleName() : (me.bahagian || 'Crew')) + '</span><span>' + h(me.id) + '</span></div></div>'
+        : '<div class="hello"><h1>' + h(title) + '</h1></div>') +
+      '</header>' +
       '<main class="main" id="main"></main>' +
-      '<nav class="nav" aria-label="Menu utama"><div class="nav-in">' + nav + '</div></nav></div>';
+      '<nav class="nav" aria-label="Main menu"><div class="nav-in">' + nav + '</div></nav></div>';
     // Skrin dimuat selepas pintu (privasi / PIN sementara) dilepasi supaya tiada ralat "sila tukar PIN" di latar
     if (!me.privasi) privacyGate();
     else if (me.tukarPin) pinGate();
     else { route(); onboarding(); }
   }
+  function setBell() {
+    var b = $('bell'); if (!b) return;
+    var unread = ((S.data.today && S.data.today.notis) || []).filter(function (n) { return n.wajib; }).length;
+    var dot = b.querySelector('.dot');
+    if (unread && !dot) b.insertAdjacentHTML('beforeend', '<i class="dot"></i>');
+    if (!unread && dot) dot.remove();
+  }
+
+  /* ======================= PRISM 2030 · komponen visual ======================= */
+  var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var WDAY = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  function parseYmdL(v) { var p = String(v || '').split('-'); return p.length === 3 ? new Date(+p[0], +p[1] - 1, +p[2]) : today(); }
+  function fmtDay(d) { return WDAY[d.getDay()] + ', ' + d.getDate() + ' ' + MON[d.getMonth()]; }
+  function titleCase(v) { return String(v || '').toLowerCase().replace(/(^|[\s'’-])([a-z])/g, function (m, a, b) { return a + b.toUpperCase(); }); }
+  function initials(n) { var p = String(n || '?').trim().split(/\s+/); return (p[0].charAt(0) + (p.length > 1 && !/^(bin|binti|bt|b)$/i.test(p[1]) ? p[1].charAt(0) : '')).toUpperCase(); }
+  var AVC = ['#244a66', '#f26210', '#3f7fa6', '#23905a', '#7b6cd9', '#b9470a', '#5b86a6'];
+  function avatar(n, cls, color) {
+    var s = String(n || ''), x = 0;
+    for (var i = 0; i < s.length; i++) x = (x * 31 + s.charCodeAt(i)) % 9973;
+    return '<span class="av ' + (cls || '') + '" style="--c:' + (color || AVC[x % AVC.length]) + '" aria-hidden="true">' + h(initials(s)) + '</span>';
+  }
+  /** Cincin kemajuan SVG (0–100). */
+  function ring(p, tone) {
+    var c = 2 * Math.PI * 26, v = Math.max(0, Math.min(100, Number(p) || 0));
+    return '<svg class="ring ' + (tone || '') + '" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" class="trk"/>' +
+      (v > 0 ? '<circle cx="32" cy="32" r="26" class="val" stroke-dasharray="' + (c * v / 100).toFixed(1) + ' ' + c.toFixed(1) + '" transform="rotate(-90 32 32)"/>' : '') + '</svg>';
+  }
+  /** Tolok separuh bulatan bersegmen: parts [{v, cls}] daripada jumlah total. */
+  function gauge(parts, total) {
+    var len = Math.PI * 80, off = 0, out = '';
+    parts.forEach(function (p) {
+      var seg = total ? len * p.v / total : 0;
+      if (seg > 0.5) out += '<path d="M20 100A80 80 0 0 1 180 100" class="g-seg ' + p.cls + '" stroke-dasharray="' + Math.max(0.1, seg - (parts.length > 1 ? 14 : 0)).toFixed(1) + ' ' + (len * 2).toFixed(1) + '" stroke-dashoffset="' + (-off).toFixed(1) + '"/>';
+      off += seg;
+    });
+    return '<svg class="gauge" viewBox="0 0 200 112" aria-hidden="true"><path d="M20 100A80 80 0 0 1 180 100" class="g-trk"/>' + out + '</svg>';
+  }
+  function splitLines(teks) { return String(teks || '').replace(/\s*\/\s*/g, '\n'); }
+  function splitInline(teks) { return String(teks || '').replace(/\s*\/\s*/g, ', '); }
+  var KAT = { Pagi: 'Morning', Tengah: 'Mid', Petang: 'Evening', Split: 'Split', Rehat: 'Rest day', Belum: 'Not scheduled', Lain: 'Other' };
 
   function setMain(html) { var m = $('main'); if (m) m.innerHTML = html; }
   var SKEL = '<div class="skel" aria-busy="true" aria-label="Loading"><i style="width:42%"></i><i></i><i style="width:76%"></i><i style="width:58%"></i></div>';
@@ -1020,14 +1085,17 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
   function ico(k, cls) { return '<svg class="' + (cls || '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + ICO[k] + '"></path></svg>'; }
   function pad2(n) { return ('0' + n).slice(-2); }
 
+  /** Jam hidup dalam kad syif: tempoh bertugas (jika sedang clock in) atau masa sekarang. */
   function startLed() {
     clearInterval(S.ledTimer);
     var tick = function () {
-      var t = $('led-hm'), s = $('led-s');
+      var t = $('live-t');
       if (!t) { clearInterval(S.ledTimer); return; }
-      var d = new Date();
-      t.innerHTML = pad2(d.getHours()) + '<span class="colon">:</span>' + pad2(d.getMinutes());
-      s.textContent = pad2(d.getSeconds());
+      var now = new Date();
+      if (S.liveFrom) {
+        var sec = Math.max(0, Math.floor((now.getTime() - S.liveFrom) / 1000));
+        t.textContent = Math.floor(sec / 3600) + ':' + pad2(Math.floor(sec / 60) % 60) + ':' + pad2(sec % 60);
+      } else t.textContent = pad2(now.getHours()) + ':' + pad2(now.getMinutes());
     };
     tick();
     S.ledTimer = setInterval(tick, 1000);
@@ -1035,60 +1103,125 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
 
   function renderToday(d, stale) {
     var sy = d.syif, r = d.rekod || {};
-    var shiftTitle, shiftSub;
-    if (d.cuti) { shiftTitle = 'Cuti'; shiftSub = d.cuti; }
-    else if (!sy.kod) { shiftTitle = 'No shift scheduled'; shiftSub = 'Contact your manager if you should be on duty.'; }
-    else if (sy.kategori === 'Rehat') { shiftTitle = 'Rest day'; shiftSub = tr(sy.nama || sy.kod); }
-    else { shiftTitle = sy.teks; shiftSub = sy.kod + ' · ' + tr(sy.kategori) + (sy.rehat ? ' · break ' + sy.rehat + ' min' : ''); }
-
-    var times = '<div class="times">' +
-      '<div><span class="muted">In</span><b>' + h(r.masuk || '—') + '</b></div>' +
-      '<div><span class="muted">Out</span><b>' + h(r.keluar || '—') + '</b></div>' +
-      (sy.kategori === 'Split' || r.masuk2 ? '<div><span class="muted">In 2</span><b>' + h(r.masuk2 || '—') + '</b></div><div><span class="muted">Out 2</span><b>' + h(r.keluar2 || '—') + '</b></div>' : '') +
-      '</div>';
-
+    var state = d.cuti ? 'leave' : !sy.kod ? 'none' : sy.kategori === 'Rehat' ? 'rest' : 'shift';
     var done = d.langkah === 'selesai';
-    var canClock = !done && !d.cuti && d.syif.kod && d.syif.kategori !== 'Rehat';
+    var canClock = !done && state === 'shift';
     if (canClock) warmGps();
-    var note = d.geofence.ada ? 'Selfie + location · radius ' + d.geofence.radius + ' m' : 'Selfie + location required';
-    if (r.status) note = 'Status: ' + tr(r.status) + (r.lewat ? ' · late ' + r.lewat + ' min' : '');
-    var dialSub = done ? 'Today’s record is complete' : 'Hold until the ring fills';
-    var dial = '<div class="dial-wrap"><div class="dial-pit"><div class="dial-ring" id="dial-ring" style="--p:' + (done ? 100 : 0) + '">' +
-      '<button class="dial' + (done ? ' done' : '') + '" data-act="clock" aria-label="' + h(done ? 'Done for today' : d.langkahLabel + ': hold until the ring fills, then release') + '"' + (done || !canClock ? ' disabled' : '') + '>' +
-      ico(done ? 'check' : 'hand', 'dial-ico') + '<b>' + h(done ? 'Selesai' : d.langkahLabel) + '</b><small id="dial-sub">' + h(canClock || done ? dialSub : shiftTitle) + '</small></button>' +
-      '</div></div><div class="conf-layer" id="conf"></div></div>';
+    var day = d.tarikh ? parseYmdL(d.tarikh) : today();
+    var parts = String(sy.teks || '').split('/').map(function (x) { return x.trim().split(/\s*[–-]\s*/); });
+    var title = state === 'shift' ? (parts[0][0] || sy.teks) : state === 'leave' ? 'On leave' : state === 'rest' ? 'Rest day' : 'No shift';
+    var until = state === 'shift' && parts[0][1] ? 'until ' + parts[0][1] : '';
+    var then = state === 'shift' && parts.length > 1 ? 'then ' + parts.slice(1).map(function (p) { return p.join('–'); }).join(', ') : '';
+    var sub = state === 'shift' ? (KAT[sy.kategori] || tr(sy.kategori)) + ' shift, ' + sy.kod + (sy.rehat && parts.length < 2 ? '\n' + sy.rehat + ' min break' : '')
+      : state === 'leave' ? d.cuti : state === 'rest' ? 'Enjoy your day off.' : 'Contact your manager if you should be on duty.';
+    var openIn = r.masuk2 && !r.keluar2 ? r.masuk2 : (r.masuk && !r.keluar ? r.masuk : '');
+    S.liveFrom = openIn && d.tarikh ? new Date(d.tarikh + 'T' + openIn + ':00').getTime() : 0;
+    if (S.liveFrom && (Date.now() - S.liveFrom) / 36e5 >= 48) S.liveFrom = 0;
 
-    var mates = d.rakan.length ? d.rakan.map(function (m) {
-      return '<div class="li"><span>' + h(m.nama) + (m.bahagian ? ' · ' + h(m.bahagian) : '') + '</span><span class="muted">' + h(m.teks) + (m.hadir ? ' ✓' : '') + '</span></div>';
-    }).join('') : '<div class="empty">No teammates on this shift.</div>';
-    var tasks = d.tugasan.length ? d.tugasan.map(function (t) {
-      return '<div class="li"><span>PIC ' + h(t.tugasan) + '</span><span class="chip ' + (t.hariIni ? 'orange' : t.lepas ? 'green' : '') + '">' + h(tr(t.hari)) + ' ' + h(t.tarikh) + (t.hariIni ? ' · today' : '') + '</span></div>';
-    }).join('') : '<div class="empty">No PIC duties this week.</div>';
-    var notis = d.notis.filter(function (n) { return n.wajib; })[0];
+    var showTimes = state === 'shift' || r.masuk;
+    var times = showTimes ? '<div class="times">' +
+      '<div><span>In</span><b>' + h(r.masuk || '—') + '</b></div>' +
+      '<div><span>Out</span><b>' + h(r.keluar || '—') + '</b></div>' +
+      (sy.kategori === 'Split' || r.masuk2 ? '<div><span>In 2</span><b>' + h(r.masuk2 || '—') + '</b></div><div><span>Out 2</span><b>' + h(r.keluar2 || '—') + '</b></div>' : '') +
+      '</div>' : '';
+    var note = d.geofence.ada ? 'Selfie and location, within ' + d.geofence.radius + ' m of ' + S.me.cawangan : 'Selfie and location required';
+    if (r.status) note = 'Status: ' + tr(r.status) + (r.lewat ? ', ' + r.lewat + ' min late' : '');
+    var dial = canClock || done ? '<div class="dial-wrap"><div class="dial-pit"><div class="dial-ring" id="dial-ring" style="--p:' + (done ? 100 : 0) + '">' +
+      '<button class="dial' + (done ? ' done' : '') + '" data-act="clock" aria-label="' + h(done ? 'Done for today' : d.langkahLabel + ': hold until the ring fills, then release') + '"' + (done ? ' disabled' : '') + '>' +
+      ico(done ? 'check' : 'hand', 'dial-ico') + '<b>' + h(done ? 'Done' : d.langkahLabel) + '</b><small id="dial-sub">' + (done ? 'Today’s record is complete' : 'Hold until the ring fills') + '</small></button>' +
+      '</div></div><div class="conf-layer" id="conf"></div></div>' : '';
+    var timeCls = state !== 'shift' ? ' word' : '';
+
+    var hero = '<section class="card hero shift ga-hero' + (state !== 'shift' && !r.masuk ? ' calm' : '') + (done ? ' is-done' : '') + '">' +
+      '<div class="shift-top"><span class="shift-day">' + h(fmtDay(day)) + (stale ? ' · updating' : '') + '</span>' +
+      '<span class="live"><i class="' + (S.liveFrom ? 'on' : '') + '"></i>' + (S.liveFrom ? 'On duty' : 'Now') + ' <b id="live-t">' + pad2(new Date().getHours()) + ':' + pad2(new Date().getMinutes()) + '</b></span></div>' +
+      '<div class="shift-body"><div class="shift-main"><b class="shift-time' + timeCls + '">' + h(title) + '</b>' + (until ? '<span class="shift-end">' + h(until) + '</span>' : '') + (then ? '<span class="shift-then">' + h(then) + '</span>' : '') +
+      '<span class="shift-sub">' + h(sub) + '</span></div>' + dial + '</div>' +
+      times + (canClock || r.status ? '<span class="geo-note">' + ico('pin') + h(note) + '</span>' : '') + '</section>';
 
     var longShift = '';
-    var openIn = r.masuk2 && !r.keluar2 ? r.masuk2 : (r.masuk && !r.keluar ? r.masuk : '');
     if (openIn && d.tarikh) {
-      var started = new Date(d.tarikh + 'T' + openIn + ':00');
-      var hrs = (Date.now() - started.getTime()) / 36e5;
-      if (hrs >= 10 && hrs < 48) longShift = '<section class="card" style="box-shadow:0 0 0 2px var(--orange),var(--neu)"><span class="eyebrow">Still on duty?</span>' +
-        '<div>You clocked in at ' + h(openIn) + ', ' + Math.floor(hrs) + ' hours ago. If you’ve left, hold <b>' + h(d.langkahLabel) + '</b> now; if you forgot yesterday, tell your manager so HR can correct it.</div></section>';
+      var hrs = (Date.now() - new Date(d.tarikh + 'T' + openIn + ':00').getTime()) / 36e5;
+      if (hrs >= 10 && hrs < 48) longShift = '<section class="card warn-card ga-warn"><b>Still on duty?</b>' +
+        '<div class="muted">You clocked in at ' + h(openIn) + ', ' + Math.floor(hrs) + ' hours ago. If you’ve left, hold <b>' + h(d.langkahLabel) + '</b> now. If you forgot yesterday, tell your manager so HR can correct it.</div></section>';
     }
 
-    setMain('<div class="narrow">' + longShift +
-      '<div class="page-h"><h2>Today</h2><span>' + h(d.label) + '</span></div>' +
-      '<section class="card hero">' +
-      '<div class="chips">' + (sy.kod && sy.kategori !== 'Rehat' ? '<span class="pill">' + h(S.me.cawangan) + ' · ' + h(tr(sy.kategori)) + '</span>' : '') + (done ? '<span class="pill ok">Complete</span>' : '') + '</div>' +
-      '<div class="shift-line"><b>' + h(shiftTitle) + '</b>' + (shiftSub && shiftSub !== shiftTitle ? '<span class="muted">' + h(shiftSub) + '</span>' : '') + '</div>' +
-      dial + times +
-      '<span class="muted geo-note">' + ico('pin') + h(note) + (stale ? ' · refreshing…' : '') + '</span></section>' +
-      '<div class="quick">' + QUICK.map(function (q) { return '<button data-act="quick" data-v="' + q.v + '"><span>' + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + q.i + '"></path></svg></span>' + h(q.l) + '</button>'; }).join('') + '</div>' +
-      '<section class="card"><span class="eyebrow">Teammates today</span><div class="list">' + mates + '</div></section>' +
-      '<section class="card"><span class="eyebrow">This week’s duties</span><div class="list">' + tasks + '</div></section>' +
-      (notis ? '<section class="card dark"><div class="between"><div><span class="eyebrow">Must-read notice</span><div style="font-weight:600">' + h(notis.tajuk) + '</div></div><button class="btn small" data-act="tab" data-v="lagi">Read</button></div></section>' : '') +
-      '</div>');
+    var mates = d.rakan.length ? '<section class="card ga-mates"><div class="card-h"><h3>Teammates today</h3><span class="muted">' + d.rakan.length + '</span></div><div class="list">' +
+      d.rakan.map(function (m) {
+        return '<div class="person-row">' + avatar(m.nama) + '<div class="grow"><b>' + h(titleCase(m.nama)) + '</b><span>' + h(splitInline(m.teks)) + (m.bahagian ? ', ' + h(m.bahagian) : '') + '</span></div>' +
+          '<span class="chip ' + (m.hadir ? 'green' : '') + '">' + (m.hadir ? 'In' : 'Not in') + '</span></div>';
+      }).join('') + '</div></section>' : '';
+    var tasks = d.tugasan.length ? '<section class="card ga-tasks"><div class="card-h"><h3>My duties this week</h3></div><div class="list">' + d.tugasan.map(function (t) {
+      return '<div class="li"><span>PIC ' + h(t.tugasan) + '</span><span class="chip ' + (t.hariIni ? 'orange' : t.lepas ? 'green' : '') + '">' + h(tr(t.hari)) + ' ' + h(t.tarikh) + (t.hariIni ? ', today' : '') + '</span></div>';
+    }).join('') + '</div></section>' : '';
+    var must = d.notis.filter(function (n) { return n.wajib; });
+    var notes = must.length ? '<section class="card ga-notes"><div class="card-h"><h3>Please read</h3><button class="link" data-act="goto" data-v="lagi">All notices</button></div><div class="list">' +
+      must.map(function (n) {
+        return '<div class="note-row"><span class="tick"></span><div class="grow"><b>' + h(n.tajuk) + '</b>' + (n.ringkasan ? '<p>' + h(n.ringkasan) + '</p>' : '') +
+          '<div class="row wrap" style="gap:6px"><span class="chip blue">' + h(tr(n.kategori || 'Notice')) + '</span><span class="chip orange">Must read</span></div></div></div>';
+      }).join('') + '</div></section>' : '';
+
+    var quick = '<div class="quick ga-quick">' + QUICK.map(function (q) { return '<button data-act="quick" data-v="' + q.v + '"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + q.i + '"></path></svg></span>' + h(q.l) + '</button>'; }).join('') + '</div>';
+
+    setMain('<div class="today-grid">' + longShift + hero + quick +
+      '<div class="ga-week" id="ins-week">' + (S.wkHtml || '<section class="card">' + SKEL + '</section>') + '</div>' +
+      '<div class="ga-stats" id="ins-stats">' + (S.statHtml || '') + '</div>' +
+      notes + mates + tasks + '</div>');
     startLed();
     bindDial();
+    setBell();
+    loadInsights();
+  }
+
+  /** Kad "Minggu ini" + jubin statistik: dari cache dahulu, kemudian dikemas kini senyap. */
+  function loadInsights() {
+    var nav = S.navSeq;
+    var wk = { a: 'myWeek', p: { minggu: ymd(monday(today())) } };
+    var paint = function (w) { if (S.navSeq !== nav || !$('ins-week')) return; if (!S.wkData || S.wkData.minggu !== w.minggu) S.wkSel = null; S.wkData = w; if (S.wkSel === undefined || S.wkSel === null) S.wkSel = (w.days || []).map(function (x) { return x.hariIni; }).indexOf(true); renderWeekCard(); };
+    var cw = swrGet(wk); if (cw) paint(cw);
+    swrFetch(wk).then(paint).catch(function () { if (!cw && $('ins-week')) $('ins-week').innerHTML = ''; });
+    var specs = [{ a: 'myLeave' }, { a: 'myAttendance' }];
+    var paintS = function (res) { if (S.navSeq !== nav || !$('ins-stats')) return; S.statHtml = statTiles(res[0], res[1]); $('ins-stats').innerHTML = S.statHtml; };
+    var cs = specs.map(swrGet);
+    if (cs[0] && cs[1]) paintS(cs);
+    Promise.all(specs.map(swrFetch)).then(paintS).catch(function () { /* senyap: jubin pilihan */ });
+  }
+
+  function renderWeekCard() {
+    var box = $('ins-week'), w = S.wkData;
+    if (!box || !w) return;
+    var days = w.days || [];
+    var sel = S.wkSel >= 0 && S.wkSel < days.length ? S.wkSel : 0;
+    var shifts = days.filter(function (x) { return ['Pagi', 'Tengah', 'Petang', 'Split'].indexOf(x.kategori) >= 0 && !x.cuti; }).length;
+    var strip = days.map(function (x, i) {
+      var dt = parseYmdL(x.ymd), k = x.cuti ? 'Cuti' : x.kategori;
+      return '<button class="wk-d k-' + h(k) + (x.hariIni ? ' today' : '') + (i === sel ? ' sel' : '') + (/^(Jum|Sab)/.test(x.hari) ? ' wkend' : '') + '" data-act="wkPick" data-i="' + i + '" aria-pressed="' + (i === sel) + '" aria-label="' + h(fmtDay(dt)) + '">' +
+        '<span>' + h(tr(x.hari)) + '</span><b>' + dt.getDate() + '</b><i class="k-' + h(k) + '"></i></button>';
+    }).join('');
+    var x = days[sel] || {}, k = x.cuti ? 'Cuti' : x.kategori;
+    var what = x.cuti ? x.cuti : !x.kod ? 'No shift' : x.kategori === 'Rehat' ? 'Rest day' : splitInline(x.teks);
+    var sub = x.cuti ? 'Leave' : x.kod && x.kategori !== 'Rehat' ? (KAT[x.kategori] || tr(x.kategori)) + ' shift, ' + x.kod : x.kategori === 'Rehat' ? 'Day off' : 'Not scheduled yet';
+    box.innerHTML = '<section class="card"><div class="card-h"><div><span class="eyebrow">This week</span><h3>' + shifts + ' shift' + (shifts === 1 ? '' : 's') + (w.jam ? ', ' + h(w.jam) + ' hours' : '') + '</h3></div>' +
+      '<button class="link" data-act="goto" data-v="jadual">Full schedule</button></div>' +
+      '<div class="wk">' + strip + '</div>' +
+      '<div class="wk-detail"><i class="tl-bar k-' + h(k || 'Rehat') + '"></i><div class="grow"><b>' + h(what) + '</b><span>' + h(x.ymd ? fmtDay(parseYmdL(x.ymd)) : '') + ' · ' + h(sub) + '</span></div></div></section>';
+    S.wkHtml = box.innerHTML;
+  }
+
+  function statTiles(leave, att) {
+    var out = '';
+    var al = ((leave && leave.baki) || []).filter(function (b) { return b.jenis === 'Cuti Tahunan'; })[0];
+    if (al) {
+      var p = al.kelayakan ? Math.round(al.baki / al.kelayakan * 100) : 0;
+      out += '<section class="tile">' + ring(p, 'ember') + '<span class="eyebrow">Annual leave</span><b>' + h(al.baki) + '<small>days</small></b><span class="muted">left of ' + h(al.kelayakan) + (al.menunggu ? ', ' + h(al.menunggu) + ' pending' : '') + '</span></section>';
+    }
+    var rows = (att || []).filter(function (r) { return r.masuk; });
+    if (rows.length) {
+      var late = rows.filter(function (r) { return Number(r.lewat) > 0 || /Lewat/.test(r.status); }).length;
+      var pct = Math.round((rows.length - late) / rows.length * 100);
+      out += '<section class="tile">' + ring(pct, pct >= 90 ? 'mint' : 'ember') + '<span class="eyebrow">On time</span><b>' + pct + '<small>%</small></b><span class="muted">' + rows.length + ' shift' + (rows.length === 1 ? '' : 's') + ' in 30 days' + (late ? ', ' + late + ' late' : '') + '</span></section>';
+    }
+    return out ? '<div class="tiles stat2">' + out + '</div>' : '';
   }
 
   /** Tahan untuk clock: cincin penuh → lepaskan → kamera dibuka (dalam acara pointerup, jadi pelayar membenarkan). */
@@ -1198,21 +1331,30 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
     var mon = addDays(monday(today()), S.weekOff * 7);
     var have = swr([{ a: 'myWeek', p: { minggu: ymd(mon) } }], function (res) {
       var w = res[0];
+      var m0 = parseYmdL(w.minggu), m6 = addDays(m0, 6);
+      var range = m0.getDate() + (m0.getMonth() !== m6.getMonth() ? ' ' + MON[m0.getMonth()] : '') + ' – ' + m6.getDate() + ' ' + MON[m6.getMonth()] + ' ' + m6.getFullYear();
+      var rel = S.weekOff === 0 ? 'This week' : S.weekOff === 1 ? 'Next week' : S.weekOff === -1 ? 'Last week' : (S.weekOff > 0 ? 'In ' + S.weekOff + ' weeks' : Math.abs(S.weekOff) + ' weeks ago');
+      var work = w.days.filter(function (d) { return ['Pagi', 'Tengah', 'Petang', 'Split'].indexOf(d.kategori) >= 0 && !d.cuti; }).length;
+      var t0 = today(), off = null, offWhy = '';
+      w.days.forEach(function (d) { var dt = parseYmdL(d.ymd); if (!off && dt >= t0 && (d.kategori === 'Rehat' || d.cuti)) { off = dt; offWhy = d.cuti ? d.cuti : 'Rest day'; } });
       var rows = w.days.map(function (d) {
-        var chip = d.cuti ? 'red' : d.kategori === 'Petang' ? 'orange' : d.kategori === 'Pagi' ? 'blue' : '';
-        return '<div class="today-day' + (d.hariIni ? ' now' : '') + (/^(Jum|Sab)/.test(d.hari) ? ' wkend' : '') + '">' +
-          '<div style="width:62px"><div style="font-weight:600">' + h(tr(d.hari)) + '</div><div class="muted">' + h(d.tarikh) + '</div></div>' +
-          '<div class="grow"><div style="font-weight:500">' + h(d.cuti || tr(d.teks)) + '</div><div class="muted">' + h(d.cuti ? 'Leave' : tr(d.teks) === tr(d.kategori) ? 'No shift' : tr(d.kategori)) + (d.hariIni ? ' · today' : '') + '</div></div>' +
-          (d.kod || d.cuti ? '<span class="chip ' + chip + '">' + h(d.cuti ? 'CUTI' : d.kod) + '</span>' : '') + '</div>';
+        var dt = parseYmdL(d.ymd), k = d.cuti ? 'Cuti' : d.kategori;
+        var what = d.cuti ? d.cuti : !d.kod ? 'No shift' : d.kategori === 'Rehat' ? 'Rest day' : splitLines(d.teks);
+        var sub = d.cuti ? 'Leave' : d.kod && d.kategori !== 'Rehat' ? (KAT[d.kategori] || tr(d.kategori)) + ' shift' : d.kategori === 'Rehat' ? 'Day off' : 'Not scheduled yet';
+        var chip = d.cuti ? 'green' : d.kategori === 'Petang' ? 'orange' : d.kategori === 'Pagi' ? 'blue' : '';
+        return '<div class="today-day k-' + h(k) + (d.hariIni ? ' now' : '') + (/^(Jum|Sab)/.test(d.hari) ? ' wkend' : '') + '">' +
+          '<div class="tl-date"><span>' + h(tr(d.hari)) + '</span><b>' + dt.getDate() + '</b></div><i class="tl-bar"></i>' +
+          '<div class="grow"><b>' + h(what) + '</b><span>' + h(sub) + (d.hariIni ? ', today' : '') + '</span></div>' +
+          ((d.kod && d.kategori !== 'Rehat') || d.cuti ? '<span class="chip ' + chip + '">' + h(d.cuti ? 'Leave' : d.kod) + '</span>' : '') + '</div>';
       }).join('');
       setMain('<div class="narrow">' +
-        '<div class="between"><button class="btn ghost small" data-act="week" data-v="-1" aria-label="Previous week">‹</button>' +
-        '<div class="page-h" style="text-align:center;margin:0"><h2>Schedule</h2><span>' + h(w.label) + '</span></div>' +
-        '<button class="btn ghost small" data-act="week" data-v="1" aria-label="Next week">›</button></div>' +
-        '<div class="card" style="padding:4px 0">' + rows + '</div>' +
-        '<div class="tiles"><div class="tile"><b>' + h(w.jam || 0) + '</b><span class="muted">hours worked this week</span></div>' +
-        '<div class="tile"><b>' + w.days.filter(function (d) { return d.kategori && ['Pagi', 'Tengah', 'Petang', 'Split'].indexOf(d.kategori) >= 0; }).length + '</b><span class="muted">working days</span></div></div>' +
-        '<button class="btn ghost block" data-act="myAtt">My attendance (30 days)</button></div>');
+        '<div class="wk-nav"><button class="icon-round" data-act="week" data-v="-1" aria-label="Previous week">' + svg('M15 6l-6 6 6 6') + '</button>' +
+        '<div><b>' + h(range) + '</b><span>' + h(rel) + '</span></div>' +
+        '<button class="icon-round" data-act="week" data-v="1" aria-label="Next week">' + svg('M9 6l6 6-6 6') + '</button></div>' +
+        '<div class="tiles"><div class="tile lead"><span class="eyebrow">Shifts</span><b>' + work + '<small>of 7 days</small></b><span class="muted">' + (w.jam ? h(w.jam) + ' hours scheduled' : h(rel)) + '</span></div>' +
+        '<div class="tile"><span class="eyebrow">Next day off</span>' + (off ? '<b>' + WDAY[off.getDay()] + '<small>' + off.getDate() + ' ' + MON[off.getMonth()] + '</small></b><span class="muted">' + (offWhy || 'Rest day') + '</span>' : '<b>–</b><span class="muted">none in this week</span>') + '</div></div>' +
+        '<section class="card tl-card">' + rows + '</section>' +
+        '<button class="btn ghost block" data-act="myAtt">My attendance, last 30 days</button></div>');
     }, function (e) { setMain(errBox(e)); });
     if (!have) loading();
   }
@@ -1241,14 +1383,14 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
 
   function renderLeave(d) {
     S.docs = {};
-    var bal = d.baki.filter(function (b) { return b.jenis === 'Cuti Tahunan' || b.jenis === 'Cuti Sakit'; }).map(function (b) {
-      var pct = b.kelayakan ? Math.round((b.kelayakan - b.baki) / b.kelayakan * 100) : 0;
-      return '<div class="tile"><span class="muted">' + h(b.jenis) + '</span><b>' + h(b.baki) + ' <span class="muted">/ ' + h(b.kelayakan) + ' days</span></b>' +
-        '<div class="bar"><i style="width:' + pct + '%;background:' + (b.jenis === 'Cuti Tahunan' ? 'var(--orange)' : 'var(--muted)') + '"></i></div>' +
-        '<span class="hint">' + h(b.diambil) + ' taken' + (b.menunggu ? ' · ' + h(b.menunggu) + ' pending' : '') + '</span></div>';
+    var bal = d.baki.filter(function (b) { return b.jenis === 'Cuti Tahunan' || b.jenis === 'Cuti Sakit'; }).map(function (b, i) {
+      var left = b.kelayakan ? Math.round(b.baki / b.kelayakan * 100) : 0;
+      return '<div class="tile' + (i === 0 ? ' lead' : '') + '">' + ring(left, i === 0 ? '' : 'sky') + '<span class="eyebrow">' + h(b.jenis === 'Cuti Tahunan' ? 'Annual leave' : 'Sick leave') + '</span>' +
+        '<b>' + h(b.baki) + '<small>of ' + h(b.kelayakan) + '</small></b>' +
+        '<span class="muted">' + h(b.diambil) + ' taken' + (b.menunggu ? ', ' + h(b.menunggu) + ' pending' : '') + '</span></div>';
     }).join('');
     var t = today();
-    var form = '<section class="card"><h2 style="font-size:16px">Apply for leave</h2><form data-form="leave">' +
+    var form = '<section class="card"><div class="card-h"><h3>Apply for leave</h3></div><form data-form="leave">' +
       '<label>Leave type<select name="jenis" required>' + d.jenis.map(function (j) { return '<option>' + h(j) + '</option>'; }).join('') + '</select></label>' +
       '<div class="two"><label>Start<input type="date" name="mula" required value="' + ymd(addDays(t, 1)) + '"></label>' +
       '<label>End<input type="date" name="tamat" required value="' + ymd(addDays(t, 1)) + '"></label></div>' +
@@ -1265,12 +1407,12 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
         (l.boleBatal ? '<br><button class="btn ghost small" style="margin-top:6px" data-act="cancelLeave" data-row="' + l.row + '">Cancel</button>' : '') + '</div></div>';
     }).join('') : '<div class="empty">No requests yet.</div>';
     $('mohon-body').innerHTML = '<div class="narrow"><div class="tiles">' + bal + '</div>' + form +
-      '<section class="card"><span class="eyebrow">My requests</span><div class="list">' + list + '</div></section></div>';
+      '<section class="card"><div class="card-h"><h3>My requests</h3><span class="muted">' + d.senarai.length + '</span></div><div class="list">' + list + '</div></section></div>';
   }
 
   function renderClaims(d) {
     S.docs = {};
-    var form = '<section class="card"><h2 style="font-size:16px">Submit claim</h2><form data-form="claim">' +
+    var form = '<section class="card"><div class="card-h"><h3>Submit a claim</h3></div><form data-form="claim">' +
       '<label>Type<select name="jenis" required>' + d.jenis.map(function (j) { return '<option value="' + h(j.jenis) + '">' + h(j.jenis) + (j.had ? ' (had ' + rm(j.had) + ')' : '') + '</option>'; }).join('') + '</select></label>' +
       '<div class="two"><label>Receipt date<input type="date" name="tarikh" required value="' + ymd(today()) + '" max="' + ymd(today()) + '"></label>' +
       '<label>Amount (RM)<input type="number" name="amaun" min="0.01" step="0.01" inputmode="decimal" required></label></div>' +
@@ -1282,7 +1424,7 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
         (c.bayar ? ' · paid ' + h(c.bayar) : '') + '</div>' + (c.semakan ? '<div class="err">' + h(c.semakan) + '</div>' : '') + '</div>' +
         '<span class="chip ' + chipFor(c.status) + '">' + h(tr(c.status)) + '</span></div>';
     }).join('') : '<div class="empty">No claims yet.</div>';
-    $('mohon-body').innerHTML = '<div class="narrow">' + form + '<section class="card"><span class="eyebrow">My claims</span><div class="list">' + list + '</div></section></div>';
+    $('mohon-body').innerHTML = '<div class="narrow">' + form + '<section class="card"><div class="card-h"><h3>My claims</h3><span class="muted">' + d.senarai.length + '</span></div><div class="list">' + list + '</div></section></div>';
   }
 
   /* ======================= Lagi: profil, notis, PIN ======================= */
@@ -1293,18 +1435,20 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
       var me = S.me;
       var notis = d.senarai.length ? d.senarai.map(function (n) {
         var read = d.dibaca.indexOf(n.row) >= 0;
-        return '<div class="li"><div class="grow"><div class="row wrap"><span class="eyebrow">' + h(tr(n.kategori)) + '</span>' +
-          (n.wajib ? '<span class="chip ' + (read ? 'green' : 'orange') + '">' + (read ? 'Read' : 'Must read') + '</span>' : '') + '</div>' +
-          '<div style="font-weight:600">' + h(n.tajuk) + '</div><div class="muted">' + h(n.ringkasan) + '</div>' +
-          (safeUrl(n.pautan) ? '<a href="' + h(safeUrl(n.pautan)) + '" target="_blank" rel="noopener">Open document</a>' : '') + '</div>' +
-          (n.wajib && !read ? '<button class="btn small" data-act="ack" data-row="' + n.row + '">I’ve read this</button>' : '') + '</div>';
+        return '<div class="note-row"><span class="tick' + (read || !n.wajib ? ' on' : '') + '"></span><div class="grow"><b>' + h(n.tajuk) + '</b>' + (n.ringkasan ? '<p>' + h(n.ringkasan) + '</p>' : '') +
+          '<div class="row wrap" style="gap:6px"><span class="chip blue">' + h(tr(n.kategori)) + '</span>' + (n.wajib ? '<span class="chip ' + (read ? 'green' : 'orange') + '">' + (read ? 'Read' : 'Must read') + '</span>' : '') +
+          (safeUrl(n.pautan) ? '<a class="link" href="' + h(safeUrl(n.pautan)) + '" target="_blank" rel="noopener">Open document</a>' : '') + '</div>' +
+          (n.wajib && !read ? '<button class="btn small" style="margin-top:10px" data-act="ack" data-row="' + n.row + '">I’ve read this</button>' : '') + '</div></div>';
       }).join('') : '<div class="empty">No announcements.</div>';
       setMain('<div class="narrow">' +
-        '<section class="card"><span class="eyebrow">Profile</span><div style="font-weight:700;font-size:18px">' + h(me.namaPenuh || me.nama) + '</div>' +
-        '<div class="muted">' + h(me.id) + ' · ' + h(me.cawangan) + (me.jawatan ? ' · ' + h(me.jawatan) : '') + (me.stesen ? ' · ' + h(me.stesen) : '') + ' · Role ' + h(me.role) + '</div><div class="hint">PRISM HR ' + h(me.versi || '') + '</div></section>' +
+        '<section class="card person"><div class="person-top">' + avatar(me.namaPenuh || me.nama, 'av-xl', '#244a66') + '<div><b>' + h(titleCase(me.namaPenuh || me.nama)) + '</b><span>' + h(me.jawatan || roleName()) + ', ' + h(me.cawangan) + '</span></div></div>' +
+        '<dl class="facts"><div><dt>Staff ID</dt><dd>' + h(me.id) + '</dd></div><div><dt>Access</dt><dd>' + roleName() + '</dd></div>' +
+        '<div><dt>Branch</dt><dd>' + h(me.cawangan) + '</dd></div><div><dt>Section</dt><dd>' + h(me.bahagian || me.stesen || '–') + '</dd></div>' +
+        (me.email ? '<div style="grid-column:1/-1;border-right:0"><dt>Email</dt><dd>' + h(me.email) + '</dd></div>' : '') + '</dl>' +
+        '<span class="hint">PRISM HR ' + h(me.versi || '') + '</span></section>' +
         pushCard() +
-        '<section class="card"><span class="eyebrow">Announcements</span><div class="list">' + notis + '</div></section>' +
-        '<section class="card"><div class="between"><span class="eyebrow">Payslip</span>' + (S.me.pinSet ? '<span class="chip">🔒 PIN</span>' : '') + '</div><div class="list">' + (locked ? '<div class="empty">Payslips are protected by your PIN.<br><button class="btn small" data-act="unlockPin" style="margin-top:10px">Unlock with PIN</button></div>' : slips.length ? slips.map(function (p) {
+        '<section class="card"><div class="card-h"><h3>Announcements</h3></div><div class="list">' + notis + '</div></section>' +
+        '<section class="card"><div class="card-h"><h3>Payslips</h3>' + (S.me.pinSet ? '<span class="chip blue">PIN on</span>' : '') + '</div><div class="list">' + (locked ? '<div class="empty">Payslips are protected by your PIN.<br><button class="btn small" data-act="unlockPin" style="margin-top:10px">Unlock with PIN</button></div>' : slips.length ? slips.map(function (p) {
           return '<div class="li"><div><div style="font-weight:600">' + h(p.label) + '</div><div class="muted">Net ' + rm(p.bersih) + (p.tarikhBayar ? ' · paid ' + h(p.tarikhBayar) : '') + '</div></div><div class="row"><button class="btn ghost small" data-act="mySlip" data-v="' + h(p.bulan) + '">PDF</button>' +
             '<a class="btn ghost small" target="_blank" rel="noopener" href="https://wa.me/?text=' + encodeURIComponent('Salary summary ' + p.label + ' (Sofwah Arabic Grill): net pay RM ' + rm(p.bersih) + (p.tarikhBayar ? ', paid ' + p.tarikhBayar : '') + '. Full payslip in the PRISM HR app.') + '">Share</a></div></div>';
         }).join('') : '<div class="empty">Payslips appear here once salary is paid through PRISM.</div>') + '</div></section>' +
@@ -1341,7 +1485,7 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
   }
 
   function calendarCard() {
-    return '<section class="card" id="cal-card"><div class="between"><span class="eyebrow">Calendar sync</span><span class="muted">Shifts · leave · holidays</span></div>' +
+    return '<section class="card" id="cal-card"><div class="card-h"><h3>Calendar sync</h3></div>' +
       '<div class="muted">Your PRISM schedule appears in your phone’s calendar and updates by itself, with a reminder 30 minutes before each shift.</div>' +
       '<div class="btn-grid"><button class="btn small" data-act="calAdd" data-v="' + (/Android/.test(navigator.userAgent) ? 'google">Google Calendar' : 'apple">Apple Calendar') + '</button><button class="btn ghost small" data-act="calAdd" data-v="' + (/Android/.test(navigator.userAgent) ? 'apple">Apple' : 'google">Google') + '</button><button class="btn ghost small" data-act="calAdd" data-v="copy">Copy link</button></div></section>';
   }
@@ -1353,7 +1497,7 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
 
   function securityCard() {
     var set = S.me && S.me.pinSet;
-    return '<section class="card" id="sec-card"><div class="between"><span class="eyebrow">Security</span><span class="chip ' + (set ? 'green' : '') + '">' + (set ? 'PIN on' : 'No PIN') + '</span></div>' +
+    return '<section class="card" id="sec-card"><div class="card-h"><h3>Security</h3><span class="chip ' + (set ? 'green' : '') + '">' + (set ? 'PIN on' : 'No PIN') + '</span></div>' +
       '<div class="muted">' + (set ? 'Your 6-digit PIN protects Payslip and Profile.' : 'Set a 6-digit PIN to protect your Payslip and Profile. Optional.') + '</div>' +
       '<details class="fold"><summary class="btn ghost block">' + (set ? 'Change PIN' : 'Set a PIN') + '</summary><form data-form="setPin">' + (set ? '<label>Current PIN<input name="currentPin" type="password" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" required autocomplete="off"></label>' : '') +
       '<div class="two"><label>' + (set ? 'New PIN' : 'Enter PIN') + '<input name="pin" type="password" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" required autocomplete="off"></label>' +
@@ -1409,7 +1553,7 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
     var install = PWA && !STANDALONE && !IOS ? '<button class="btn ghost small" id="install-btn" data-act="installApp"' + (S.installEvt ? '' : ' hidden') + '>Install app</button>' : '';
     var btns = st.s === 'sedia' ? '<button class="btn small" data-act="pushOn">Turn on notifications</button>'
       : st.s === 'aktif' ? '<button class="btn ghost small" data-act="pushTest">Send test</button><button class="btn ghost small" data-act="pushOn">Re-register</button>' : '';
-    return '<section class="card" id="push-card"><div class="between"><span class="eyebrow">Phone notifications</span>' +
+    return '<section class="card" id="push-card"><div class="card-h"><h3>Phone notifications</h3>' +
       '<span class="chip ' + (st.s === 'aktif' ? 'green' : 'orange') + '">' + (st.s === 'aktif' ? 'On' : st.s === 'sedia' ? 'Off' : st.s === 'ios' ? 'Install app first' : 'Action needed') + '</span></div>' +
       '<div class="muted">' + h(st.t) + '</div>' + (btns || install ? '<div class="row wrap" style="margin-top:10px">' + btns + install + '</div>' : '') + '</section>';
   }
@@ -1489,14 +1633,22 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
       var d = res[0];
       if (!$('urus-body') || S.urus !== 'ringkasan') return;
       var t = d.jumlah;
+      var sched = Number(t.dijadual || 0), inn = Number(t.hadir || 0), late = Math.min(inn, Number(t.lewat || 0));
+      var onLeave = d.cawangan.reduce(function (n, c) { return n + Number(c.cuti || 0); }, 0), notYet = Math.max(0, sched - inn);
+      var gaugeCard = '<section class="card"><div class="card-h"><div><span class="eyebrow">Team today</span><h3>Clock-ins</h3></div><span class="chip">' + h(fmtDay(today())) + '</span></div>' +
+        '<div class="gauge-wrap">' + gauge([{ v: inn - late, cls: 'g-in' }, { v: late, cls: 'g-late' }], Math.max(sched, inn, 1)) +
+        '<div class="gauge-num"><b>' + inn + '</b><span>of ' + sched + ' scheduled</span></div></div>' +
+        '<div class="legend"><div><span><i class="g-in"></i>On time</span><b>' + (inn - late) + '</b></div><div><span><i class="g-late"></i>Late</span><b>' + late + '</b></div>' +
+        '<div><span><i></i>Not yet in</span><b>' + notYet + '</b></div><div><span><i class="g-leave"></i>On leave</span><b>' + onLeave + '</b></div></div>' +
+        (t.luar ? '<span class="chip red" style="align-self:flex-start">' + t.luar + ' clocked in outside the area</span>' : '') + '</section>';
       var tiles = [
-        ['Active staff', t.aktif, (t.keperluan ? 'Required ' + t.keperluan : '')],
-        ['Scheduled today', t.dijadual, t.belum ? t.belum + ' not scheduled' : 'all scheduled'],
-        ['Clocked in', t.hadir, (t.lewat || 0) + ' late · ' + (t.luar || 0) + ' outside area'],
-        ['Pending leave', d.cutiMenunggu, 'need a decision'],
-        ['Pending claims', d.tuntutanMenunggu, d.tuntutanBelumBayar + ' approved, unpaid'],
-        ['Schedule issues this week', t.isu, 'staff flagged']
-      ].map(function (x) { return '<div class="tile"><span class="eyebrow">' + h(x[0]) + '</span><b>' + h(x[1] || 0) + '</b><span class="muted">' + h(x[2]) + '</span></div>'; }).join('');
+        ['Active staff', t.aktif, t.keperluan ? 'of ' + t.keperluan + ' needed' : 'across your branches', t.keperluan ? Math.round(t.aktif / t.keperluan * 100) : 0],
+        ['Pending leave', d.cutiMenunggu, d.cutiMenunggu ? 'waiting for your decision' : 'all decided'],
+        ['Pending claims', d.tuntutanMenunggu, d.tuntutanBelumBayar + ' approved, not paid yet'],
+        ['Roster issues', t.isu, t.belum ? t.belum + ' not scheduled today' : 'this week']
+      ].map(function (x, i) {
+        return '<div class="tile' + (i === 0 ? ' lead' : '') + '">' + (i === 0 && x[3] ? ring(x[3]) : '') + '<span class="eyebrow">' + h(x[0]) + '</span><b>' + h(x[1] || 0) + '</b><span class="muted">' + h(x[2]) + '</span></div>';
+      }).join('');
       var rows = d.cawangan.map(function (c) {
         var pct = c.keperluan ? Math.round(c.aktif / c.keperluan * 100) : null;
         return '<tr><td class="name">' + h(c.cawangan) + (c.tanpaKoordinat && c.cawangan !== 'HQ' ? ' <span class="chip red" title="Koordinat belum diisi">GPS</span>' : '') + '</td>' +
@@ -1508,9 +1660,9 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
       var act = d.tindakan.length ? d.tindakan.slice(0, 15).map(function (a) {
         return '<div class="li"><div class="grow"><div style="font-weight:600">' + h(a.nama) + ' · ' + h(a.cawangan) + '</div><div class="muted">' + h(a.tindakan) + '</div></div><span class="chip">' + h(a.tarikh ? a.tarikh.split('-').reverse().join('/') : '') + '</span></div>';
       }).join('') : '<div class="empty">No HR actions.</div>';
-      urusBody('<div class="muted">' + h(d.tarikh) + '</div><div class="tiles">' + tiles + '</div>' +
-        '<div class="cols"><section class="card"><span class="eyebrow">Branches today</span><div class="table-box"><table><thead><tr><th>Branch</th><th>Active</th><th>Scheduled</th><th>Clock in</th><th>Late</th><th>Not yet</th><th>Leave</th><th>Issues</th><th>Next wk</th></tr></thead><tbody>' + rows + '</tbody></table></div></section>' +
-        '<section class="card"><span class="eyebrow">HR actions (contracts, probation)</span><div class="list">' + act + '</div></section></div>');
+      urusBody('<div class="dash-grid">' + gaugeCard + '<div class="tiles dash-tiles">' + tiles + '</div></div>' +
+        '<div class="cols"><section class="card"><div class="card-h"><h3>Branches today</h3></div><div class="table-box"><table><thead><tr><th>Branch</th><th>Active</th><th>Scheduled</th><th>Clock in</th><th>Late</th><th>Not yet</th><th>Leave</th><th>Issues</th><th>Next wk</th></tr></thead><tbody>' + rows + '</tbody></table></div></section>' +
+        '<section class="card"><div class="card-h"><h3>HR actions</h3><span class="muted">Contracts, probation</span></div><div class="list">' + act + '</div></section></div>');
     }, urusErr);
   }
 
@@ -2036,6 +2188,8 @@ input,select,textarea{font-size:16px}  /* ≥16px: iOS tidak auto-zoom bila mena
   /* ======================= Tindakan (klik) ======================= */
   var ACT = {
     tab: function (el) { S.tab = el.dataset.v; renderShell(); },
+    goto: function (el) { S.tab = el.dataset.v; renderShell(); },
+    wkPick: function (el) { S.wkSel = Number(el.dataset.i); renderWeekCard(); },
     lcTab: function (el) { S.lcTab = el.dataset.v; uPematuhan(); },
     lcScan: function (el) {
       busy(el, true, 'Menyemak');
