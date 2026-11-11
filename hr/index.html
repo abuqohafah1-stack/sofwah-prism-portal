@@ -562,6 +562,71 @@ html.modal-open,html.modal-open body{overflow:hidden}
   .modwin-body{padding:22px 24px 30px}
   .rp-actions{margin:0 -24px -30px;bottom:-30px;padding-left:24px;padding-right:24px}
 }
+/* ===== 2030.3 · Roster "By staff" padat: semua staf × 7 hari dalam satu skrin telefon ===== */
+.rp-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.rp-wk{display:flex;align-items:center;gap:2px;min-width:0}
+.rp-arw{width:34px;height:34px;flex:0 0 34px;border:0;border-radius:50%;background:var(--mist);color:var(--ink);font-size:20px;line-height:1;cursor:pointer;display:grid;place-items:center;font-family:inherit}
+.rp-arw:active{transform:scale(.92)}
+.rp-wk-l{display:flex;flex-direction:column;align-items:center;line-height:1.15;padding:0 4px;min-width:0}
+.rp-wk-l b{font-size:15px;letter-spacing:-.01em;white-space:nowrap;font-variant-numeric:tabular-nums}
+.rp-wk-l span{font-size:11.5px;color:var(--haze);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px}
+.seg.mini{gap:2px;padding:3px;background:var(--mist);border-radius:999px;flex:0 0 auto}
+.seg.mini button{min-height:30px;padding:0 10px;font-size:12.5px;background:transparent}
+.seg.mini button[aria-pressed="true"]{background:var(--slate);color:#fff}
+.rp-note.sm{padding:8px 12px;font-size:12.5px;margin:0}
+.modwin-body:has(.rg){gap:10px;padding-top:12px}
+.rg{--nw:66px;--ch:28px;display:flex;flex-direction:column;gap:3px;margin:0 -6px;padding:6px;background:rgba(255,255,255,.78);border-radius:18px;border:1px solid rgba(15,27,42,.06)}
+.rg-r{display:grid;grid-template-columns:var(--nw) repeat(7,minmax(0,1fr));gap:3px;align-items:stretch}
+.rg-h{position:sticky;top:0;z-index:1;background:rgba(255,255,255,.94);margin:-6px -6px 0;padding:6px 6px 3px;border-radius:18px 18px 0 0}
+.rg-corner{align-self:stretch;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:2px;border:0;background:none;padding:0 4px;font-family:inherit;cursor:pointer;text-align:left}.rg-corner b{font-size:10.5px;font-weight:600;color:var(--ink-2)}.rg-corner small{font-size:9px;font-weight:650;border-radius:999px;padding:2px 5px;white-space:nowrap}.rg-corner.ok small{background:var(--mint-soft);color:var(--mint)}.rg-corner.warn small{background:var(--ember-soft);color:var(--ember-ink)}
+.rg-d{display:flex;flex-direction:column;align-items:center;line-height:1.05;padding:3px 0 2px;border-radius:9px}
+.rg-d small{font-size:9.5px;color:var(--haze);font-weight:500}
+.rg-d b{font-size:13.5px;font-weight:650;font-variant-numeric:tabular-nums}
+.rg-d i{width:12px;height:3px;border-radius:3px;margin-top:3px;background:transparent}
+.rg-d i.ok{background:var(--mint)}.rg-d i.short{background:var(--ember)}
+.rg-d.wkend b,.rg-d.wkend small{color:var(--ember-ink)}
+.rg-d.today{background:var(--slate)}.rg-d.today b,.rg-d.today small{color:#fff}
+.rg-d.shut{opacity:.45}
+.rg-n{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;min-width:0;height:var(--ch);padding:0 4px;border:0;background:none;text-align:left;font-family:inherit;color:var(--ink);cursor:pointer;position:relative;-webkit-tap-highlight-color:transparent}
+.rg-n b{font-size:12px;font-weight:650;line-height:1.1;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rg-n small{font-size:9.5px;color:var(--haze);line-height:1.2;white-space:nowrap}
+.rg-n small .over{color:var(--ember-ink);font-weight:650}
+.rg-n.flag{padding-right:9px}.rg-n.flag::after{content:"";position:absolute;right:2px;top:5px;width:6px;height:6px;border-radius:50%;background:var(--ember)}
+.rg-c{position:relative;height:var(--ch);min-width:0;border:0;border-radius:9px;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-family:inherit;color:var(--ink);background:var(--k-bg,var(--mist));cursor:pointer;overflow:hidden;-webkit-tap-highlight-color:transparent;transition:transform .12s ease}
+.rg-c:active{transform:scale(.9)}
+.rg-c b{font-size:12.5px;font-weight:700;line-height:1;letter-spacing:-.01em}
+.rg-c.wide b{font-size:10.5px;letter-spacing:-.02em}
+.rg-c small{font-size:9px;line-height:1;font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:-.03em;color:var(--ink-2);max-width:100%;overflow:hidden}
+.rg-c em{font-style:normal;font-size:15px;color:var(--line)}
+.rg-c.empty{background:transparent;box-shadow:inset 0 0 0 1px var(--line)}
+.rg-c.k-Pagi{--k-bg:var(--sky-soft)}.rg-c.k-Pagi b{color:#2f6f9f}
+.rg-c.k-Tengah{--k-bg:#e6eef5}.rg-c.k-Tengah b{color:var(--slate)}
+.rg-c.k-Petang{--k-bg:var(--ember-soft)}.rg-c.k-Petang b{color:var(--ember-ink)}
+.rg-c.k-Split{--k-bg:var(--violet-soft)}.rg-c.k-Split b{color:#5546b8}
+.rg-c.k-Rehat{--k-bg:transparent;background-image:repeating-linear-gradient(135deg,transparent 0 5px,rgba(114,131,151,.12) 5px 6px)}.rg-c.k-Rehat b{color:var(--haze);font-weight:600}
+.rg-c.k-Lain{--k-bg:var(--mist-2)}.rg-c.k-Lain b{color:var(--ink-2)}
+.rg-c.lv{--k-bg:var(--mint-soft);background-image:none}.rg-c.lv b{color:var(--mint)}.rg-c.lv small{color:var(--mint);opacity:.75;font-size:8px}
+.rg-c.chg{box-shadow:inset 0 0 0 2px var(--ember)}
+.rg-c.pulse{animation:rgPulse .5s ease}
+@keyframes rgPulse{0%{transform:scale(.85)}60%{transform:scale(1.08)}100%{transform:scale(1)}}
+.rg-leg{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 10px;font-size:11px;color:var(--haze);padding:0 2px}
+.rg-leg span{display:inline-flex;align-items:center;gap:4px}
+.rg-leg i{width:9px;height:9px;border-radius:3px;background:var(--k)}
+.rg-leg .k-Pagi i{background:#8fbbdb}.rg-leg .lv i{background:var(--mint-2)}.rg-leg .k-Rehat i{box-shadow:inset 0 0 0 1px var(--line)}.rg-leg .k-Tengah i{background:var(--slate-3)}.rg-leg .k-Rehat i{background:var(--mist-2)}
+.rg-chk{margin-left:auto;border:0;border-radius:999px;padding:5px 10px;font:600 11.5px/1 inherit;font-family:inherit;cursor:pointer}
+.rg-chk.ok{background:var(--mint-soft);color:var(--mint)}.rg-chk.warn{background:var(--ember-soft);color:var(--ember-ink)}
+.rg-pick{display:flex;flex-direction:column;gap:6px}
+.rg-pick .eyebrow{font-size:12px;margin-top:4px}
+.rg-opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.rg-o{position:relative;border:0;border-radius:12px;padding:15px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:inherit;color:var(--ink);background:var(--k-bg,var(--mist));cursor:pointer;min-height:50px}
+.rg-o b{font-size:14px;font-weight:700}
+.rg-o small{font-size:10.5px;color:var(--ink-2);line-height:1.2;text-align:center;font-variant-numeric:tabular-nums}
+.rg-o.k-Pagi{--k-bg:var(--sky-soft)}.rg-o.k-Tengah{--k-bg:#e6eef5}.rg-o.k-Petang{--k-bg:var(--ember-soft)}.rg-o.k-Split{--k-bg:var(--violet-soft)}.rg-o.k-Rehat,.rg-o.k-Lain{--k-bg:var(--mist)}
+.rg-o.on{box-shadow:inset 0 0 0 2px var(--slate)}
+.rg-o em{position:absolute;top:4px;right:5px;font-style:normal;font-size:9.5px;font-weight:700;padding:1px 5px;border-radius:999px}
+.rg-o em.ok{background:var(--mint-soft);color:var(--mint)}.rg-o em.short{background:#fff;color:var(--ember-ink)}
+.rg~.rp-actions .btn,.rg-leg~.rp-actions .btn{padding:0 12px}
+@media (min-width:700px){.rg{--nw:150px;--ch:34px;margin:0}.rg-n b{font-size:14px}.rg-n small{font-size:11px}.rg-c b{font-size:15px}.rg-c.wide b{font-size:13px}.rg-c small{font-size:11px}.rg-d b{font-size:16px}.rg-d small{font-size:11px}.rg-opts{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media (min-width:1000px) and (max-width:1239px){.nav button{padding:0 14px}.me-txt{display:none}}
 @media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 </style>
@@ -1858,7 +1923,7 @@ html.modal-open,html.modal-open body{overflow:hidden}
       var w = r[0], pl = r[1], codes = {}, empty = true;
       w.rows.forEach(function (x) { codes[x.id] = x.codes.slice(); if (x.codes.some(function (c) { return c; })) empty = false; });
       var ti = (pl ? pl.days : []).map(function (d) { return d.ymd; }).indexOf(ymd(today()));
-      S.rp = { w: w, plan: pl, codes: codes, day: ti >= 0 ? ti : 0, dirty: false, draft: false };
+      S.rp = { w: w, plan: pl, codes: codes, orig: JSON.parse(JSON.stringify(codes)), day: ti >= 0 ? ti : 0, dirty: false, draft: false };
       if (!pl) S.rosterView = 'grid';
       else if (!S.rosterView) S.rosterView = 'plan';
       // Minggu kosong: cadangan PRISM diisi terus sebagai draf (belum disimpan)
@@ -1875,11 +1940,8 @@ html.modal-open,html.modal-open body{overflow:hidden}
     if (n) S.rp.dirty = true;
     return n;
   }
-  /** Paparan grid ↔ keadaan: baca pilihan dalam grid sebelum bertukar paparan. */
-  function rpSync() {
-    if (S.rosterView !== 'grid' || !S.rp) return;
-    collectRoster().forEach(function (it) { S.rp.codes[it.id] = it.codes.map(function (c) { return c || ''; }); });
-  }
+  /** Kedua-dua paparan membaca terus daripada S.rp.codes, jadi tiada apa perlu disegerakkan. */
+  function rpSync() {}
   function rpItems() { return S.rp.w.rows.map(function (x) { return { id: x.id, codes: S.rp.codes[x.id] }; }); }
   function rpCat() { var k = {}; S.rp.w.shifts.forEach(function (x) { k[x.kod] = x; }); return k; }
   function rpChecks() {
@@ -1902,19 +1964,14 @@ html.modal-open,html.modal-open body{overflow:hidden}
       if (split && m.tiadaSplit) f.push('split shift, but marked no split');
       if (jam > 45) f.push(jam + ' hours (max 45)');
       if (offWork) f.push('working on a fixed rest day');
-      if (f.length) out.push({ nama: x.nama, f: f });
+      if (f.length) out.push({ id: x.id, nama: x.nama, f: f });
     });
     return out;
   }
   function rpRender() {
     var R = S.rp, w = R.w, pl = R.plan, view = pl ? S.rosterView : 'grid';
-    var head = weekNav(S.mgrWeekOff, 'mweek', w.cawangan + ' · ' + w.label) +
-      (pl ? '<div class="seg" role="group" aria-label="Roster view"><button data-act="rpView" data-v="plan" aria-pressed="' + (view === 'plan') + '">By shift</button><button data-act="rpView" data-v="grid" aria-pressed="' + (view === 'grid') + '">By staff</button></div>' : '');
-    if (view === 'grid') {
-      w.rows.forEach(function (x) { x.codes = R.codes[x.id].slice(); });
-      renderRoster(w, head);
-      return;
-    }
+    var head = rpHead(w, pl, view);
+    if (view === 'grid') { renderRoster(w, head); return; }
     var cat = rpCat(), name = {};
     w.rows.forEach(function (x) { name[x.id] = x.nama; });
     var di = R.day, day = pl.days[di], dt = parseYmdL(day.ymd);
@@ -2006,41 +2063,96 @@ html.modal-open,html.modal-open body{overflow:hidden}
     closeModal(); rpRender();
   }
 
+  /** Kepala padat: minggu (‹ ›) dan pilihan paparan dalam satu baris. */
+  function rpHead(w, pl, view) {
+    var mon = parseYmdL(w.minggu), sun = addDays(mon, 6);
+    var lbl = mon.getDate() + (mon.getMonth() !== sun.getMonth() ? ' ' + MON[mon.getMonth()] : '') + ' – ' + sun.getDate() + ' ' + MON[sun.getMonth()];
+    return '<div class="rp-top"><div class="rp-wk"><button class="rp-arw" data-act="mweek" data-v="-1" aria-label="Previous week">‹</button>' +
+      '<div class="rp-wk-l"><b>' + h(lbl) + '</b><span>' + h(w.cawangan) + '</span></div><button class="rp-arw" data-act="mweek" data-v="1" aria-label="Next week">›</button></div>' +
+      (pl ? '<div class="seg mini" role="group" aria-label="Roster view"><button data-act="rpView" data-v="plan" aria-pressed="' + (view === 'plan') + '">By shift</button><button data-act="rpView" data-v="grid" aria-pressed="' + (view === 'grid') + '">By staff</button></div>' : '') + '</div>';
+  }
+  var LVAB = { 'Cuti Tahunan': 'AL', 'Cuti Sakit': 'MC', 'Cuti Kecemasan': 'EL', 'Cuti Tanpa Gaji': 'UPL', 'Cuti Ganti Cuti Umum': 'RPH', 'Cuti Hospital': 'HL', 'Cuti Bersalin': 'ML', 'Cuti Paterniti': 'PL', 'Cuti Ehsan': 'CL' };
+  function lvAb(v) { var q = /\?$/.test(v), b = String(v || '').replace(/\?$/, ''); return (LVAB[b] || b.replace(/^Cuti\s+/i, '').slice(0, 2).toUpperCase()) + (q ? '?' : ''); }
+  function codeParts(c) { var m = /^([A-Za-z]+)(.*)$/.exec(c || ''); return m ? [m[1], m[2]] : [String(c || ''), '']; }
+  var WORK = ['Pagi', 'Tengah', 'Petang', 'Split'];
+  function rpHours(id) {
+    var cat = rpCat(); return S.rp.codes[id].reduce(function (n, k) { var t = cat[k]; return n + (t && WORK.indexOf(t.kategori) >= 0 ? Number(t.jam) || 0 : 0); }, 0);
+  }
+  /** Hari yang cukup orang ikut keperluan PRISM (null jika tiada pelan). */
+  function rpDayOk(i) {
+    var pl = S.rp.plan; if (!pl) return null;
+    var d = pl.days[i]; if (d.tutup) return null;
+    return d.slots.every(function (sl) { return pl.staf.filter(function (x) { return x.grp === sl.grp && S.rp.codes[x.id] && S.rp.codes[x.id][i] === sl.kod; }).length >= sl.n; });
+  }
+
+  /** Paparan "By staff": semua staf × 7 hari muat satu skrin telefon. Tap petak untuk tukar syif. */
   function renderRoster(w, head) {
     S.data.roster = w;
-    if (S.rp) S.rp.w = w;
-    var kat = {};
-    w.shifts.forEach(function (s) { kat[s.kod] = s.kategori; });
-    var opts = function (val) {
-      return '<option value="">–</option>' + w.shifts.map(function (s) {
-        return '<option value="' + h(s.kod) + '"' + (s.kod === val ? ' selected' : '') + ' title="' + h(s.teks) + '">' + h(s.kod) + '</option>';
-      }).join('');
-    };
-    var rows = w.rows.map(function (r) {
-      return '<tr data-id="' + h(r.id) + '"><td class="name">' + h(r.nama) + '<div class="muted" style="font-weight:400">' + h(r.bahagian) + (r.stesen ? ' · ' + h(r.stesen) : '') + '</div></td>' +
-        r.codes.map(function (c, i) {
-          return '<td>' + (r.cuti[i] ? '<span class="cuti-tag">' + h(r.cuti[i]) + '</span>' : '') + '<select data-i="' + i + '" class="k-' + h(kat[c] || '') + '" aria-label="' + h(r.nama + ' ' + w.tarikh[i]) + '">' + opts(c) + '</select></td>';
-        }).join('') +
-        '<td>' + h(r.jam || '') + '</td><td class="semakan">' + h(r.semakan || '') + '</td></tr>';
+    if (!S.rp) { var cc = {}; w.rows.forEach(function (x) { cc[x.id] = x.codes.slice(); }); S.rp = { w: w, plan: null, codes: cc, orig: JSON.parse(JSON.stringify(cc)), day: 0 }; }
+    var R = S.rp, pl = R.plan, cat = rpCat(), flags = {};
+    R.w = w;
+    rpChecks().forEach(function (c) { flags[c.id] = c.f; });
+    var mon = parseYmdL(w.minggu), tY = ymd(today());
+    var heads = [0, 1, 2, 3, 4, 5, 6].map(function (i) {
+      var d = addDays(mon, i), ok = rpDayOk(i), cls = 'rg-d' + (d.getDay() === 5 || d.getDay() === 6 ? ' wkend' : '') + (ymd(d) === tY ? ' today' : '') + (pl && pl.days[i].tutup ? ' shut' : '');
+      return '<span class="' + cls + '"><small>' + WDAY[d.getDay()] + '</small><b>' + d.getDate() + '</b><i class="' + (ok === null ? '' : ok ? 'ok' : 'short') + '"></i></span>';
     }).join('');
-    var legend = w.shifts.filter(function (s) { return s.kategori !== 'Lain'; }).map(function (s) { return '<span class="chip">' + h(s.kod) + ' ' + h(s.teks) + '</span>'; }).join(' ');
-    urusBody((head || weekNav(S.mgrWeekOff, 'mweek', w.cawangan + ' · ' + w.label)) +
-      '<div class="row wrap"><button class="btn ghost small" data-act="copyPrev">Copy last week</button><button class="btn small" data-act="saveWeek">Save schedule</button>' +
-      '<span class="hint">Checks run after saving: 1 morning shift a week, max 2 splits, rest day per profile, max 45 hours.</span></div>' +
-      '<div class="table-box roster"><table><thead><tr><th>Staff</th>' + w.tarikh.map(function (t) { return '<th>' + h(t) + '</th>'; }).join('') + '<th>Hours</th><th>Checks</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
-      '<details class="card"><summary class="eyebrow">Shift code</summary><div class="row wrap">' + legend + '</div></details>');
+    var rows = w.rows.map(function (r) {
+      var c = R.codes[r.id], o = (R.orig || {})[r.id] || [], jam = rpHours(r.id), f = flags[r.id];
+      var cells = c.map(function (k, i) {
+        var t = cat[k], lv = r.cuti[i], parts = codeParts(k), kat = t ? t.kategori : (k ? 'Lain' : '');
+        var cls = 'rg-c' + (kat ? ' k-' + kat : ' empty') + (lv ? ' lv' : '') + ((o[i] || '') !== (k || '') ? ' chg' : '') + (parts[0].length > 1 ? ' wide' : '');
+        var inner = lv ? '<b>' + h(lvAb(lv)) + '</b>' + (k ? '<small>' + h(k) + '</small>' : '') : k ? '<b>' + h(parts[0]) + '</b>' + (parts[1] ? '<small>' + h(parts[1]) + '</small>' : '') : '<em>+</em>';
+        return '<button class="' + cls + '" data-act="rgCell" data-id="' + h(r.id) + '" data-i="' + i + '" aria-label="' + h(titleCase(r.nama) + ', ' + fmtDay(addDays(mon, i)) + ': ' + (k ? (t ? t.teks : k) : 'not set') + (lv ? ', on leave ' + lv : '')) + '">' + inner + '</button>';
+      }).join('');
+      return '<div class="rg-r"><button class="rg-n' + (f ? ' flag' : '') + '" data-act="rgWho" data-id="' + h(r.id) + '"><b>' + h(titleCase(String(r.nama || '').split(/\s+/)[0])) + '</b>' +
+        '<small>' + h(r.bahagian === 'Sambilan (PT)' ? 'PT' : r.bahagian === 'Pengurus' ? 'Mgr' : (r.bahagian || '–')) + ' · <span class="' + (jam > 45 ? 'over' : '') + '">' + jam + 'h</span></small></button>' + cells + '</div>';
+    }).join('');
+    var chk = Object.keys(flags).length;
+    var corner = '<button class="rg-corner ' + (chk ? 'warn' : 'ok') + '" data-act="rgChecks" aria-label="' + (chk ? chk + ' staff to review' : 'Week checks: all clear') + '"><b>' + w.rows.length + ' staff</b><small>' + (chk ? chk + ' review' : 'All clear') + '</small></button>';
+    urusBody((head || rpHead(w, pl, 'grid')) +
+      '<div class="rg" role="grid" aria-label="Week roster by staff"><div class="rg-r rg-h">' + corner + heads + '</div>' + rows + '</div>' +
+      '<div class="rg-leg"><span class="k-Pagi"><i></i>M Morning</span><span class="k-Tengah"><i></i>Mid</span><span class="k-Petang"><i></i>E Evening</span><span class="k-Split"><i></i>S Split</span><span class="k-Rehat"><i></i>R Rest</span><span class="lv"><i></i>Leave</span></div>' +
+      '<div class="rp-actions"><button class="btn ghost small" data-act="copyPrev">Copy last week</button>' + (pl ? '<button class="btn ghost small" data-act="rpAuto">Auto-fill</button>' : '') +
+      '<button class="btn small" data-act="saveWeek">' + (R.draft ? 'Save draft' : R.dirty ? 'Save changes' : 'Save') + '</button></div>');
   }
 
-  function collectRoster() {
-    var items = [];
-    document.querySelectorAll('.roster tbody tr').forEach(function (tr) {
-      var codes = [];
-      tr.querySelectorAll('select').forEach(function (s) { codes[Number(s.dataset.i)] = s.value; });
-      items.push({ id: tr.dataset.id, codes: codes });
+  /** Lembaran pilih syif untuk satu petak (staf × hari). */
+  function rgPick(id, i) {
+    var R = S.rp, w = R.w, pl = R.plan, cat = rpCat(), mon = parseYmdL(w.minggu);
+    var r = w.rows.filter(function (x) { return x.id === id; })[0]; if (!r) return;
+    var cur = R.codes[id][i], meta = pl ? pl.staf.filter(function (x) { return x.id === id; })[0] : null, need = {};
+    if (pl && meta && !pl.days[i].tutup) pl.days[i].slots.forEach(function (sl) {
+      if (sl.grp !== meta.grp) return;
+      need[sl.kod] = { n: sl.n, on: pl.staf.filter(function (x) { return x.grp === sl.grp && R.codes[x.id][i] === sl.kod; }).length };
     });
-    return items;
+    var GRP = [['Pagi', 'Morning'], ['Tengah', 'Mid'], ['Petang', 'Evening'], ['Split', 'Split'], ['Rehat', 'Off'], ['Lain', 'Other']];
+    var used = {}, body = GRP.map(function (g) {
+      var list = w.shifts.filter(function (t) { var k = t.kategori; if (g[0] === 'Lain') return !used[t.kod]; return k === g[0]; });
+      list.forEach(function (t) { used[t.kod] = 1; });
+      if (!list.length) return '';
+      list.sort(function (a, b) { return (need[b.kod] ? 1 : 0) - (need[a.kod] ? 1 : 0); });
+      return '<span class="eyebrow">' + g[1] + '</span><div class="rg-opts">' + list.map(function (t) {
+        var nd = need[t.kod];
+        return '<button class="rg-o k-' + h(t.kategori || 'Lain') + (cur === t.kod ? ' on' : '') + '" data-act="rgSet" data-id="' + h(id) + '" data-i="' + i + '" data-kod="' + h(t.kod) + '"><b>' + h(t.kod) + '</b><small>' + h(splitInline(t.teks || t.nama || '')) + '</small>' +
+          (nd ? '<em class="' + (nd.on >= nd.n ? 'ok' : 'short') + '">' + nd.on + '/' + nd.n + '</em>' : '') + '</button>';
+      }).join('') + '</div>';
+    }).join('');
+    var fixedRest = r.hariKerja && String(r.hariKerja).indexOf(String(i + 1)) < 0;
+    modal(titleCase(r.nama) + ' · ' + fmtDay(addDays(mon, i)),
+      (r.cuti[i] ? '<p class="rp-note sm">On leave: <b>' + h(r.cuti[i]) + '</b></p>' : '') +
+      (fixedRest ? '<p class="muted" style="margin:0">Fixed rest day in profile.</p>' : '') +
+      (Object.keys(need).length ? '<p class="muted" style="margin:0">Numbers show people on that shift vs needed today.</p>' : '') +
+      '<div class="rg-pick">' + body + '</div>' +
+      '<div class="row" style="margin-top:6px"><button class="btn ghost small grow" data-act="rgSet" data-id="' + h(id) + '" data-i="' + i + '" data-kod="">Clear this day</button>' +
+      (i < 6 ? '<button class="btn ghost small grow" data-act="rgNext" data-id="' + h(id) + '" data-i="' + (i + 1) + '">Next day ›</button>' : '') + '</div>');
   }
-
+  function rgWho(id) {
+    var R = S.rp, r = R.w.rows.filter(function (x) { return x.id === id; })[0]; if (!r) return;
+    var f = (rpChecks().filter(function (c) { return c.id === id; })[0] || {}).f || [], jam = rpHours(id);
+    modal(titleCase(r.nama), '<p class="muted" style="margin:0">' + h([r.bahagian, r.stesen].filter(Boolean).join(' · ')) + ' · ' + jam + ' hours this week</p>' +
+      (f.length ? '<div class="list">' + f.map(function (x) { return '<div class="li"><span class="chip orange">Check</span><span class="grow">' + h(x) + '</span></div>'; }).join('') + '</div>' : '<p>No issues: has a morning shift, at most 2 splits, at most 45 hours.</p>'));
+  }
   function uTugasan() {
     var mon = addDays(monday(today()), S.mgrWeekOff * 7);
     call('tasks', { cawangan: S.branch, minggu: ymd(mon) }).then(renderTasks).catch(urusErr);
@@ -2659,32 +2771,38 @@ html.modal-open,html.modal-open body{overflow:hidden}
         .then(function (r) { toast(r.mesej || 'Disimpan.'); uKelulusan(); }).catch(function (e) { busy(el, false); fail(e); });
     },
     copyPrev: function (el) {
-      var w = S.data.roster;
+      var R = S.rp, w = R.w;
       busy(el, true);
       call('copyPrevWeek', { cawangan: w.cawangan, minggu: w.minggu }).then(function (map) {
         busy(el, false);
         var n = 0;
-        document.querySelectorAll('.roster tbody tr').forEach(function (tr) {
-          var codes = map[tr.dataset.id];
-          if (!codes) return;
-          tr.querySelectorAll('select').forEach(function (s) {
-            var v = codes[Number(s.dataset.i)] || '';
-            if (s.value !== v) { s.value = v; s.classList.add('changed'); }
-          });
-          n++;
-        });
+        w.rows.forEach(function (x) { var c = map[x.id]; if (!c) return; R.codes[x.id] = [0, 1, 2, 3, 4, 5, 6].map(function (i) { return c[i] || ''; }); n++; });
+        if (n) { R.dirty = true; R.draft = false; rpRender(); }
         toast(n ? n + ' staff copied. Review and tap Save.' : 'No schedule last week to copy.', !n);
       }).catch(function (e) { busy(el, false); fail(e); });
     },
+    rgCell: function (el) { rgPick(el.dataset.id, Number(el.dataset.i)); },
+    rgNext: function (el) { rgPick(el.dataset.id, Number(el.dataset.i)); },
+    rgWho: function (el) { rgWho(el.dataset.id); },
+    rgChecks: function () {
+      var c = rpChecks();
+      modal('Week checks', c.length ? '<div class="list">' + c.map(function (x) { return '<div class="li"><b>' + h(titleCase(x.nama)) + '</b><span class="muted" style="text-align:right">' + h(x.f.join('; ')) + '</span></div>'; }).join('') + '</div>'
+        : '<p>Everyone has a morning shift, no more than 2 splits, and at most 45 hours.</p>');
+    },
+    rgSet: function (el) {
+      var R = S.rp, id = el.dataset.id, i = Number(el.dataset.i);
+      R.codes[id][i] = el.dataset.kod || ''; R.dirty = true; R.draft = false;
+      closeModal(); rpRender();
+      var c = document.querySelector('.rg-c[data-id="' + (window.CSS && CSS.escape ? CSS.escape(id) : id) + '"][data-i="' + i + '"]');
+      if (c) { c.classList.add('pulse'); }
+    },
     saveWeek: function (el) {
       var w = S.data.roster || (S.rp && S.rp.w);
-      var plan = S.rp && S.rp.plan && S.rosterView === 'plan';
       busy(el, true, 'Saving…');
-      call('saveWeek', { cawangan: w.cawangan, minggu: w.minggu, items: plan ? rpItems() : collectRoster() }).then(function (nw) {
+      call('saveWeek', { cawangan: w.cawangan, minggu: w.minggu, items: S.rp ? rpItems() : [] }).then(function (nw) {
         var issues = nw.rows.filter(function (r) { return r.semakan; }).length;
-        if (S.rp) { S.rp.w = nw; nw.rows.forEach(function (x) { S.rp.codes[x.id] = x.codes.slice(); }); S.rp.dirty = false; S.rp.draft = false; rpRender(); }
-        else renderRoster(nw);
-        toast('Schedule saved.' + (issues ? ' ' + issues + ' staff flagged: see “By staff” › Checks.' : ' No issues.'), issues > 0);
+        S.rp.w = nw; nw.rows.forEach(function (x) { S.rp.codes[x.id] = x.codes.slice(); }); S.rp.orig = JSON.parse(JSON.stringify(S.rp.codes)); S.rp.dirty = false; S.rp.draft = false; rpRender();
+        toast('Schedule saved.' + (issues ? ' ' + issues + ' staff flagged: see “By staff”.' : ' No issues.'), issues > 0);
       }).catch(function (e) { busy(el, false); fail(e); });
     },
     addTask: function () {
