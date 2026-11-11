@@ -63,6 +63,8 @@ b,strong{font-weight:600}
 .mark svg{width:100%;height:100%;display:block}
 .brand{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:600;letter-spacing:-.02em;color:var(--ink);white-space:nowrap}
 .brand b{color:var(--ember)}
+.brand-t{display:flex;flex-direction:column;line-height:1.15}
+.brand-t small{font-size:11.5px;font-weight:500;color:var(--haze);letter-spacing:0}
 
 /* ---------- Kerangka ---------- */
 .shell{min-height:100vh;display:flex;flex-direction:column}
@@ -640,9 +642,33 @@ td.name{white-space:nowrap;font-weight:600;position:sticky;left:0;background:var
    * Panggilan dengan pemulihan: bacaan dicuba semula sekali bila sambungan gagal;
    * "Sistem sibuk" dicuba semula hingga 3 kali dengan jeda (ramai staf tekan serentak).
    */
+  /* Kelompok: bacaan yang diminta serentak dihantar dalam satu panggilan. Kumpulan 1 (me, today) dihantar
+   * berasingan supaya skrin utama tidak menunggu data sokongan. */
+  var BATCH = { me: 1, today: 1, myWeek: 2, myAttendance: 2, myLeave: 2, myClaims: 2, notices: 2, myPayslips: 2, greeting: 2 };
+  var BQ = { 1: [], 2: [] }, BT = null;
+  function batched(action, payload) {
+    return new Promise(function (res, rej) {
+      BQ[BATCH[action]].push({ a: action, p: payload || {}, res: res, rej: rej });
+      if (!BT) BT = setTimeout(flushBatch, 10);
+    });
+  }
+  function flushBatch() {
+    BT = null;
+    [1, 2].forEach(function (g) {
+      var q = BQ[g]; BQ[g] = [];
+      if (!q.length) return;
+      if (q.length === 1) { rawCall(q[0].a, q[0].p).then(q[0].res, q[0].rej); return; }
+      rawCall('batch', { calls: q.map(function (x) { return { a: x.a, p: x.p }; }) }).then(function (arr) {
+        q.forEach(function (it, i) {
+          var r = (arr || [])[i] || { ok: false, error: 'No response.' };
+          handleResult(r, it.res, it.rej);
+        });
+      }, function (e) { q.forEach(function (it) { it.rej(e); }); });
+    });
+  }
   function call(action, payload, attempt) {
     attempt = attempt || 0;
-    return rawCall(action, payload, LONG_ACTIONS[action]).then(function (d) { if (WRITE_ACTIONS[action] && !AUTH_ACTIONS[action]) swrClear(); return d; }).catch(function (e) {
+    return (BATCH[action] ? batched(action, payload) : rawCall(action, payload, LONG_ACTIONS[action])).then(function (d) { if (WRITE_ACTIONS[action] && !AUTH_ACTIONS[action]) swrClear(); return d; }).catch(function (e) {
       if (e.busy && attempt < 3) { toast('Many people are using it now. Retrying in ' + (2 + attempt * 2) + ' saat…'); return wait((2 + attempt * 2) * 1000).then(function () { return call(action, payload, attempt + 1); }); }
       if (e.transport && !WRITE_ACTIONS[action] && attempt < 1) { return wait(1500).then(function () { return call(action, payload, attempt + 1); }); }
       throw e;
@@ -670,11 +696,18 @@ td.name{white-space:nowrap;font-weight:600;position:sticky;left:0;background:var
   function swrKey(a, pl) { return 'q_' + a + (pl ? '_' + JSON.stringify(pl) : ''); }
   function swrGet(spec) { var k = swrKey(spec.a, spec.p); return MEM[k] !== undefined ? MEM[k] : (spec.mem ? null : cacheGet(k)); }
   function swrPut(spec, d) { var k = swrKey(spec.a, spec.p); MEM[k] = d; if (!spec.mem) cacheSet(k, d); }
+  var FRESH = {};
+  /** Elak ulang: permintaan yang sama dalam 6 saat berkongsi satu jawapan. */
   function swrFetch(spec) {
-    return call(spec.a, spec.p).catch(function (e) { if (spec.fallback) return spec.fallback(e); throw e; }).then(function (d) { swrPut(spec, d); return d; });
+    var k = swrKey(spec.a, spec.p), f = FRESH[k];
+    if (f && Date.now() - f.t < 6000) return f.p;
+    var pr = call(spec.a, spec.p).catch(function (e) { if (spec.fallback) return spec.fallback(e); throw e; }).then(function (d) { swrPut(spec, d); return d; });
+    FRESH[k] = { t: Date.now(), p: pr };
+    pr.catch(function () { delete FRESH[k]; });
+    return pr;
   }
   function swrClear() {
-    MEM = {};
+    MEM = {}; FRESH = {};
     try { var pre = 'prism_c_', del = []; for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (k && k.indexOf(pre) === 0 && k.indexOf('_q_') > 0) del.push(k); } del.forEach(function (k) { localStorage.removeItem(k); }); } catch (e) { /* abaikan */ }
   }
   /** specs: [{a, p, mem, fallback}] → render(dataArr, stale). Tidak menimpa skrin jika pengguna sudah bertukar tab atau sedang mengisi borang. */
@@ -985,7 +1018,7 @@ td.name{white-space:nowrap;font-weight:600;position:sticky;left:0;background:var
     $('app').innerHTML =
       '<div class="shell">' +
       '<header class="top' + (S.tab !== 'hari' ? ' compact' : '') + '">' +
-      '<div class="top-row"><div class="brand"><span class="mark">' + MARK + '</span><span>PRISM <b>HR</b></span></div>' +
+      '<div class="top-row"><div class="brand"><span class="mark">' + MARK + '</span><span class="brand-t"><span>PRISM <b>HR</b></span><small>Sofwah Arabic Grill</small></span></div>' +
       '<div class="actions"><button class="icon-round" data-act="goto" data-v="lagi" aria-label="Announcements" id="bell">' + svg(BELL) + (unread ? '<i class="dot"></i>' : '') + '</button>' +
       '<button class="me-chip" data-act="goto" data-v="lagi" aria-label="Profile">' + avatar(me.nama, 'av-lg', '#244a66') + '<span class="me-txt"><b>' + h(titleCase(me.nama)) + '</b><small>' + roleName() + ', ' + h(me.cawangan) + '</small></span></button></div></div>' +
       (S.tab === 'hari'
@@ -1089,9 +1122,12 @@ td.name{white-space:nowrap;font-weight:600;position:sticky;left:0;background:var
   function startLed() {
     clearInterval(S.ledTimer);
     var tick = function () {
-      var t = $('live-t');
-      if (!t) { clearInterval(S.ledTimer); return; }
+      var t = $('live-t'), big = $('live-big'), ss = $('live-s');
+      if (!t && !big) { clearInterval(S.ledTimer); return; }
       var now = new Date();
+      if (big) big.textContent = pad2(now.getHours()) + ':' + pad2(now.getMinutes());
+      if (ss) ss.textContent = ':' + pad2(now.getSeconds());
+      if (!t) return;
       if (S.liveFrom) {
         var sec = Math.max(0, Math.floor((now.getTime() - S.liveFrom) / 1000));
         t.textContent = Math.floor(sec / 3600) + ':' + pad2(Math.floor(sec / 60) % 60) + ':' + pad2(sec % 60);
@@ -1105,20 +1141,22 @@ td.name{white-space:nowrap;font-weight:600;position:sticky;left:0;background:var
     var sy = d.syif, r = d.rekod || {};
     var state = d.cuti ? 'leave' : !sy.kod ? 'none' : sy.kategori === 'Rehat' ? 'rest' : 'shift';
     var done = d.langkah === 'selesai';
-    var canClock = !done && state === 'shift';
+    var canClock = !done && state !== 'leave';   // tiada syif / hari rehat: masih boleh clock in (cth. staf HQ)
+    var liveBig = state !== 'shift';
     if (canClock) warmGps();
     var day = d.tarikh ? parseYmdL(d.tarikh) : today();
     var parts = String(sy.teks || '').split('/').map(function (x) { return x.trim().split(/\s*[–-]\s*/); });
-    var title = state === 'shift' ? (parts[0][0] || sy.teks) : state === 'leave' ? 'On leave' : state === 'rest' ? 'Rest day' : 'No shift';
-    var until = state === 'shift' && parts[0][1] ? 'until ' + parts[0][1] : '';
+    var nowD = new Date();
+    var title = state === 'shift' ? (parts[0][0] || sy.teks) : pad2(nowD.getHours()) + ':' + pad2(nowD.getMinutes());
+    var until = state === 'shift' ? (parts[0][1] ? 'until ' + parts[0][1] : '') : state === 'leave' ? 'On leave today' : state === 'rest' ? 'Rest day today' : 'No shift today';
     var then = state === 'shift' && parts.length > 1 ? 'then ' + parts.slice(1).map(function (p) { return p.join('–'); }).join(', ') : '';
     var sub = state === 'shift' ? (KAT[sy.kategori] || tr(sy.kategori)) + ' shift, ' + sy.kod + (sy.rehat && parts.length < 2 ? '\n' + sy.rehat + ' min break' : '')
-      : state === 'leave' ? d.cuti : state === 'rest' ? 'Enjoy your day off.' : 'Contact your manager if you should be on duty.';
+      : state === 'leave' ? d.cuti : state === 'rest' ? 'Working anyway? Clock in as usual.' : 'On duty today? Clock in as usual.';
     var openIn = r.masuk2 && !r.keluar2 ? r.masuk2 : (r.masuk && !r.keluar ? r.masuk : '');
     S.liveFrom = openIn && d.tarikh ? new Date(d.tarikh + 'T' + openIn + ':00').getTime() : 0;
     if (S.liveFrom && (Date.now() - S.liveFrom) / 36e5 >= 48) S.liveFrom = 0;
 
-    var showTimes = state === 'shift' || r.masuk;
+    var showTimes = state !== 'leave' || r.masuk;
     var times = showTimes ? '<div class="times">' +
       '<div><span>In</span><b>' + h(r.masuk || '—') + '</b></div>' +
       '<div><span>Out</span><b>' + h(r.keluar || '—') + '</b></div>' +
@@ -1130,12 +1168,12 @@ td.name{white-space:nowrap;font-weight:600;position:sticky;left:0;background:var
       '<button class="dial' + (done ? ' done' : '') + '" data-act="clock" aria-label="' + h(done ? 'Done for today' : d.langkahLabel + ': hold until the ring fills, then release') + '"' + (done ? ' disabled' : '') + '>' +
       ico(done ? 'check' : 'hand', 'dial-ico') + '<b>' + h(done ? 'Done' : d.langkahLabel) + '</b><small id="dial-sub">' + (done ? 'Today’s record is complete' : 'Hold until the ring fills') + '</small></button>' +
       '</div></div><div class="conf-layer" id="conf"></div></div>' : '';
-    var timeCls = state !== 'shift' ? ' word' : '';
+    var timeCls = '';
 
-    var hero = '<section class="card hero shift ga-hero' + (state !== 'shift' && !r.masuk ? ' calm' : '') + (done ? ' is-done' : '') + '">' +
+    var hero = '<section class="card hero shift ga-hero' + (state === 'leave' && !r.masuk ? ' calm' : '') + (done ? ' is-done' : '') + '">' +
       '<div class="shift-top"><span class="shift-day">' + h(fmtDay(day)) + (stale ? ' · updating' : '') + '</span>' +
-      '<span class="live"><i class="' + (S.liveFrom ? 'on' : '') + '"></i>' + (S.liveFrom ? 'On duty' : 'Now') + ' <b id="live-t">' + pad2(new Date().getHours()) + ':' + pad2(new Date().getMinutes()) + '</b></span></div>' +
-      '<div class="shift-body"><div class="shift-main"><b class="shift-time' + timeCls + '">' + h(title) + '</b>' + (until ? '<span class="shift-end">' + h(until) + '</span>' : '') + (then ? '<span class="shift-then">' + h(then) + '</span>' : '') +
+      (S.liveFrom || !liveBig ? '<span class="live"><i class="' + (S.liveFrom ? 'on' : '') + '"></i>' + (S.liveFrom ? 'On duty' : 'Now') + ' <b id="live-t">' + pad2(nowD.getHours()) + ':' + pad2(nowD.getMinutes()) + '</b></span>' : '<span class="live"><i class="on"></i>Live <b id="live-s">:' + pad2(nowD.getSeconds()) + '</b></span>') + '</div>' +
+      '<div class="shift-body"><div class="shift-main"><b class="shift-time' + timeCls + '"' + (liveBig ? ' id="live-big"' : '') + '>' + h(title) + '</b>' + (until ? '<span class="shift-end">' + h(until) + '</span>' : '') + (then ? '<span class="shift-then">' + h(then) + '</span>' : '') +
       '<span class="shift-sub">' + h(sub) + '</span></div>' + dial + '</div>' +
       times + (canClock || r.status ? '<span class="geo-note">' + ico('pin') + h(note) + '</span>' : '') + '</section>';
 
@@ -1357,11 +1395,12 @@ td.name{white-space:nowrap;font-weight:600;position:sticky;left:0;background:var
         '<button class="btn ghost block" data-act="myAtt">My attendance, last 30 days</button></div>');
     }, function (e) { setMain(errBox(e)); });
     if (!have) loading();
+    [1, -1].forEach(function (o) { var sp = { a: 'myWeek', p: { minggu: ymd(addDays(mon, o * 7)) } }; if (swrGet(sp) === null) swrFetch(sp).catch(function () { /* senyap */ }); });
   }
 
   function showMyAttendance() {
-    modal('Attendance · 30 days', '<div class="empty">Loading…</div>');
-    call('myAttendance').then(function (rows) {
+    modal('Attendance, last 30 days', SKEL);
+    swrFetch({ a: 'myAttendance' }).then(function (rows) {
       $('modal-body').innerHTML = rows.length ? '<div class="list">' + rows.map(function (r) {
         return '<div class="li"><div><div style="font-weight:600">' + h(r.tarikh) + ' · ' + h(r.kod || '-') + '</div><div class="muted">' +
           h(r.masuk || '—') + ' – ' + h(r.keluar || '—') + (r.masuk2 ? ' · ' + h(r.masuk2) + ' – ' + h(r.keluar2 || '—') : '') +
@@ -1678,7 +1717,7 @@ td.name{white-space:nowrap;font-weight:600;position:sticky;left:0;background:var
       }).join('');
       var people = order.filter(function (o) { return c.groups[o[0]].length; }).map(function (o) {
         return '<div class="card"><span class="eyebrow">' + tr(o[0]) + '</span><div class="list">' + c.groups[o[0]].map(function (m) {
-          var st = m.masuk ? (m.keluar ? 'Keluar ' + m.keluar : 'Masuk ' + m.masuk) : '';
+          var st = m.masuk ? (m.keluar ? 'Out ' + m.keluar : 'In ' + m.masuk) : '';
           return '<div class="li"><div><div style="font-weight:600">' + h(m.nama) + (m.bahagian ? ' · ' + h(m.bahagian) : '') + '</div><div class="muted">' + h(m.teks) + '</div></div>' +
             (st ? '<span class="chip ' + chipFor(m.status || 'Hadir') + '">' + h(tr(st)) + '</span>' : (['Pagi', 'Tengah', 'Split', 'Petang'].indexOf(o[0]) >= 0 && c.tarikh === ymd(today()) ? '<span class="chip">Not in yet</span>' : '')) + '</div>';
         }).join('') + '</div></div>';
@@ -1695,7 +1734,7 @@ td.name{white-space:nowrap;font-weight:600;position:sticky;left:0;background:var
         return '<div class="card"><div class="between"><div><div style="font-weight:700">' + h(c.nama) + ' · ' + h(c.cawangan) + '</div><div class="muted">' + h(c.jenis) + ' · ' + h(c.mula) +
           (c.tamat !== c.mula ? ' – ' + h(c.tamat) : '') + (c.hari ? ' · ' + h(c.hari) + ' days' : '') + (c.tempoh && c.tempoh !== 'Penuh' ? ' · ' + h(c.tempoh) : '') + '</div></div><span class="chip orange">Leave</span></div>' +
           (c.sebab ? '<div>' + h(c.sebab) + '</div>' : '') + (c.semakan ? '<div class="err">' + h(c.semakan) + '</div>' : '') +
-          '<div class="muted">Dimohon ' + h(c.dimohon || '-') + ' · ' + h(c.sumber || '') + (safeUrl(c.dokumen) ? ' · <a href="' + h(safeUrl(c.dokumen)) + '" target="_blank" rel="noopener">Document</a>' : '') + '</div>' +
+          '<div class="muted">Requested ' + h(c.dimohon || '-') + ' · ' + h(c.sumber || '') + (safeUrl(c.dokumen) ? ' · <a href="' + h(safeUrl(c.dokumen)) + '" target="_blank" rel="noopener">Document</a>' : '') + '</div>' +
           '<div class="row"><button class="btn dark small grow" data-act="decide" data-kind="cuti" data-row="' + c.row + '" data-v="Lulus">Approve</button>' +
           '<button class="btn ghost small grow" data-act="decide" data-kind="cuti" data-row="' + c.row + '" data-v="Ditolak">Reject</button></div></div>';
       }).join('');
@@ -1708,7 +1747,7 @@ td.name{white-space:nowrap;font-weight:600;position:sticky;left:0;background:var
             : '<div class="row"><button class="btn dark small grow" data-act="decide" data-kind="tuntutan" data-row="' + c.row + '" data-v="Lulus">Approve</button><button class="btn ghost small grow" data-act="decide" data-kind="tuntutan" data-row="' + c.row + '" data-v="Ditolak">Reject</button></div>') + '</div>';
       }).join('');
       urusBody('<div class="cols"><div class="narrow" style="margin:0"><span class="eyebrow">Pending leave (' + d.cuti.length + ')</span>' + (cuti || '<div class="card"><div class="empty">No leave requests.</div></div>') + '</div>' +
-        '<div class="narrow" style="margin:0"><span class="eyebrow">Tuntutan (' + d.tuntutan.length + ')</span>' + (tun || '<div class="card"><div class="empty">No claims.</div></div>') + '</div></div>');
+        '<div class="narrow" style="margin:0"><span class="eyebrow">Claims (' + d.tuntutan.length + ')</span>' + (tun || '<div class="card"><div class="empty">No claims.</div></div>') + '</div></div>');
     }).catch(urusErr);
   }
 
@@ -1788,7 +1827,7 @@ td.name{white-space:nowrap;font-weight:600;position:sticky;left:0;background:var
           var kls = { absen: 'red', semak: 'orange', cuti: 'blue', rehat: '' }[r.kelas] || '';
           return '<tr><td class="name">' + h(r.nama) + '<div class="muted" style="font-weight:400">' + h(r.kod || '–') + '</div></td>' +
             '<td class="muted">—</td><td><span class="chip ' + kls + '">No record</span></td><td>–</td><td>–</td><td>–</td>' +
-            '<td class="muted" style="min-width:160px"><b>Cadangan:</b> ' + h(r.cadangan) + '</td>' +
+            '<td class="muted" style="min-width:160px"><b>Suggestion:</b> ' + h(r.cadangan) + '</td>' +
             (isHR() ? '<td>' + (r.kelas === 'absen' || r.kelas === 'semak' ? '<button class="btn ghost small" data-act="addAtt" data-id="' + h(r.id) + '">Manual record</button>' : '') + '</td>' : '') + '</tr>';
         }
         return '<tr><td class="name">' + h(r.nama) + '<div class="muted" style="font-weight:400">' + h(r.kod) + '</div></td>' +
@@ -2569,7 +2608,7 @@ td.name{white-space:nowrap;font-weight:600;position:sticky;left:0;background:var
   var FORMS = {
     lcPropose: function (f, btn) {
       var d = formData(f); d.key = f.dataset.key; d.juris = f.dataset.juris;
-      call('lcPropose', d).then(function (r) { closeModal(); modal('Cadangan ' + r.id + ' dihantar', '<p>Waiting for someone else to approve (maker ≠ checker).</p><span class="eyebrow">Impact analysis</span><ul>' + r.impak.map(function (x) { return '<li>' + h(x) + '</li>'; }).join('') + '</ul><button class="btn block" data-act="closeModal">Got it</button>'); uPematuhan(); })
+      call('lcPropose', d).then(function (r) { closeModal(); modal('Proposal ' + r.id + ' submitted', '<p>Waiting for someone else to approve (maker ≠ checker).</p><span class="eyebrow">Impact analysis</span><ul>' + r.impak.map(function (x) { return '<li>' + h(x) + '</li>'; }).join('') + '</ul><button class="btn block" data-act="closeModal">Got it</button>'); uPematuhan(); })
         .catch(function (e) { busy(btn, false); fail(e); });
     },
     lcReview: function (f, btn) {
