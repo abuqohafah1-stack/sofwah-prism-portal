@@ -1,8 +1,8 @@
-/* PRISM HR PWA 4b62bae026
+/* PRISM HR PWA 0208c5ba1d
  * Cache: kerangka app (HTML, ikon, fon) sahaja, stale-while-revalidate → buka serta-merta.
  * TIDAK cache data: semua panggilan API (POST ke Apps Script) terus ke rangkaian.
  * Push: papar notifikasi FCM (Web Push) dan buka app bila ditekan. */
-var V = 'prism-hr-4b62bae026';
+var V = 'prism-hr-0208c5ba1d';
 var SHELL = ['/hr/', '/hr/manifest.webmanifest', '/hr/icons/icon-192.png', '/hr/icons/icon-512.png', '/hr/icons/icon-180.png', '/hr/icons/icon-32.png'];
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(V).then(function (c) { return c.addAll(SHELL); }).then(function () { return self.skipWaiting(); }));
