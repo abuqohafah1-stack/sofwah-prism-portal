@@ -627,6 +627,52 @@ html.modal-open,html.modal-open body{overflow:hidden}
 .rg-o em.ok{background:var(--mint-soft);color:var(--mint)}.rg-o em.short{background:#fff;color:var(--ember-ink)}
 .rg~.rp-actions .btn,.rg-leg~.rp-actions .btn{padding:0 12px}
 @media (min-width:700px){.rg{--nw:150px;--ch:34px;margin:0}.rg-n b{font-size:14px}.rg-n small{font-size:11px}.rg-c b{font-size:15px}.rg-c.wide b{font-size:13px}.rg-c small{font-size:11px}.rg-d b{font-size:16px}.rg-d small{font-size:11px}.rg-opts{grid-template-columns:repeat(4,minmax(0,1fr))}}
+/* ===== 2030.3 · Roster "By shift" padat: satu hari, satu skrin ===== */
+.modwin-body:has(.rb),.modwin-body:has(.rp-days){gap:10px;padding-top:12px}
+.rp-days{display:flex;flex-direction:column;gap:6px;margin:0 -6px;padding:6px 6px 8px;background:rgba(255,255,255,.78);border-radius:18px;border:1px solid rgba(15,27,42,.06)}
+.rp-strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}
+.rp-dd{border:0;background:none;font-family:inherit;color:var(--ink);cursor:pointer;padding:4px 0 3px;-webkit-tap-highlight-color:transparent;position:relative}
+.rp-dd:active{transform:scale(.94)}
+.rp-dd.sel{background:var(--slate)}.rp-dd.sel b,.rp-dd.sel small{color:#fff}
+.rp-dd.today:not(.sel){background:none;box-shadow:inset 0 0 0 1.5px var(--slate)}.rp-dd.today:not(.sel) b,.rp-dd.today:not(.sel) small{color:var(--slate)}
+.rp-dd.special::after{content:"";position:absolute;top:3px;right:5px;width:5px;height:5px;border-radius:50%;background:var(--ember)}
+.rp-info{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:0 4px;min-width:0}
+.rp-info-l{display:flex;align-items:center;gap:5px;flex-wrap:wrap;min-width:0}
+.rp-info-l b{font-size:13.5px;letter-spacing:-.01em;white-space:nowrap}
+.rp-tag{font-size:10px;font-weight:600;padding:3px 6px;border-radius:999px;background:var(--ember-soft);color:var(--ember-ink);white-space:nowrap}
+.rp-tag.blue{background:var(--sky-soft);color:var(--slate)}.rp-tag.plain{background:var(--mist);color:var(--haze)}
+.rp-need2{display:flex;gap:6px;flex:0 0 auto}
+.rp-need2 span{font-size:10px;color:var(--haze);white-space:nowrap}
+.rp-need2 b{font-size:12.5px;color:var(--ink);font-variant-numeric:tabular-nums;margin-left:1px}
+.rb{display:flex;flex-direction:column;gap:5px;margin:0 -6px}
+.rb-row{display:grid;grid-template-columns:34px repeat(var(--g),minmax(0,1fr));gap:5px;align-items:stretch}
+.rb-hd span{font-size:11.5px;font-weight:650;color:var(--ink-2);padding-left:4px}
+.rb-hd em{font-style:normal;font-weight:500;color:var(--haze);font-variant-numeric:tabular-nums;margin-left:2px}
+.rb-role{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;font-weight:650;color:var(--ink-2);writing-mode:horizontal-tb}
+.rb-role i{width:4px;flex:1;max-height:34px;border-radius:4px;background:var(--k)}
+.rb-cell{display:flex;flex-direction:column;gap:5px;min-width:0;padding:6px 7px 7px;border-radius:14px;background:var(--k-bg,rgba(255,255,255,.8))}
+.rb-cell.none{align-items:center;justify-content:center;background:rgba(255,255,255,.45)}
+.rb-cell.k-Pagi{--k-bg:var(--sky-soft)}.rb-cell.k-Split{--k-bg:var(--violet-soft)}.rb-cell.k-Petang{--k-bg:var(--ember-soft)}
+.rb-ch{display:flex;align-items:baseline;gap:5px;min-width:0}
+.rb-ch b{font-size:12px;font-weight:700}
+.rb-ch span{font-size:9.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1;font-variant-numeric:tabular-nums}
+.rb-ch em{font-style:normal;font-size:10px;font-weight:700;padding:1px 6px;border-radius:999px;flex:0 0 auto}
+.rb-ch em.ok{background:var(--mint-soft);color:var(--mint)}.rb-ch em.short{background:#fff;color:var(--ember-ink)}
+.rb-ps{display:flex;flex-wrap:wrap;gap:4px}
+.rb-p{border:0;border-radius:999px;height:25px;padding:0 9px;max-width:100%;font:600 11.5px/1 inherit;font-family:inherit;color:var(--ink);background:#fff;box-shadow:0 1px 2px rgba(15,27,42,.08);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.rb-p:active,.rb-o:active{transform:scale(.94)}
+.rb-p.add{min-width:34px;background:transparent;box-shadow:inset 0 0 0 1.5px rgba(15,27,42,.18);color:var(--haze);font-size:15px;font-weight:500;border-style:dashed}
+.rb-p.extra{box-shadow:inset 0 0 0 1.5px var(--ember-2)}
+.rb-off{display:flex;flex-direction:column;gap:6px;padding:0 2px}
+.rb-off-h{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11.5px;font-weight:600;color:var(--haze)}
+.rb-off-h .rg-chk{margin-left:0}
+.rb-os{display:flex;flex-wrap:wrap;gap:4px}
+.rb-o{display:inline-flex;align-items:center;gap:5px;border:0;border-radius:999px;height:26px;padding:0 4px 0 9px;font:600 11.5px/1 inherit;font-family:inherit;color:var(--ink);background:rgba(255,255,255,.85);box-shadow:inset 0 0 0 1px var(--line);cursor:pointer;white-space:nowrap}
+.rb-o i{font-style:normal;font-size:9.5px;font-weight:650;padding:3px 6px;border-radius:999px;background:var(--mist);color:var(--haze)}
+.rb-o.lv i{background:var(--mint-soft);color:var(--mint)}
+.rb-o.unset{box-shadow:inset 0 0 0 1.5px var(--ember-2)}.rb-o.unset i{background:var(--ember-soft);color:var(--ember-ink)}
+.rb-o.k-Pagi i{background:var(--sky-soft);color:#2f6f9f}.rb-o.k-Tengah i{background:#e6eef5;color:var(--slate)}.rb-o.k-Petang i{background:var(--ember-soft);color:var(--ember-ink)}.rb-o.k-Split i{background:var(--violet-soft);color:#5546b8}
+@media (min-width:700px){.rb{margin:0}.rp-days{margin:0}.rb-row{grid-template-columns:56px repeat(var(--g),minmax(0,1fr))}.rb-ch b{font-size:14px}.rb-ch span{font-size:11.5px}.rb-p,.rb-o{height:30px;font-size:13px}.rb-role{font-size:12px}}
 @media (min-width:1000px) and (max-width:1239px){.nav button{padding:0 14px}.me-txt{display:none}}
 @media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 </style>
@@ -1972,57 +2018,54 @@ html.modal-open,html.modal-open body{overflow:hidden}
     var R = S.rp, w = R.w, pl = R.plan, view = pl ? S.rosterView : 'grid';
     var head = rpHead(w, pl, view);
     if (view === 'grid') { renderRoster(w, head); return; }
-    var cat = rpCat(), name = {};
-    w.rows.forEach(function (x) { name[x.id] = x.nama; });
-    var di = R.day, day = pl.days[di], dt = parseYmdL(day.ymd);
-    var filled = function (d, i) {
-      return d.slots.every(function (sl) { return pl.staf.filter(function (x) { return x.grp === sl.grp && R.codes[x.id] && R.codes[x.id][i] === sl.kod; }).length >= sl.n; });
-    };
+    var cat = rpCat(), di = R.day, day = pl.days[di], dt = parseYmdL(day.ymd), tY = ymd(today());
+    var first = function (n) { return titleCase(String(n || '').split(/\s+/)[0]); };
+    // Jalur 7 hari: tap untuk tukar hari; garis hijau = cukup orang, oren = kurang
     var strip = pl.days.map(function (d, i) {
-      var x = parseYmdL(d.ymd), special = d.jenis.filter(function (j) { return j !== 'Hari biasa' && j !== 'Hujung minggu' && j !== 'Peak gaji'; }).length;
-      return '<button class="wk-d' + (i === di ? ' sel' : '') + (/^(Jum|Sab)/.test(d.hari) ? ' wkend' : '') + (special ? ' special' : '') + '" data-act="rpDay" data-i="' + i + '" aria-pressed="' + (i === di) + '">' +
-        '<span>' + h(tr(d.hari)) + '</span><b>' + x.getDate() + '</b><i class="' + (d.tutup ? '' : filled(d, i) ? 'k-Cuti' : 'k-Petang') + '"></i></button>';
+      var x = parseYmdL(d.ymd), ok = rpDayOk(i), special = d.jenis.filter(function (j) { return j !== 'Hari biasa' && j !== 'Hujung minggu' && j !== 'Peak gaji'; }).length;
+      return '<button class="rg-d rp-dd' + (i === di ? ' sel' : '') + (x.getDay() === 5 || x.getDay() === 6 ? ' wkend' : '') + (d.ymd === tY ? ' today' : '') + (d.tutup ? ' shut' : '') + (special ? ' special' : '') + '" data-act="rpDay" data-i="' + i + '" aria-pressed="' + (i === di) + '" aria-label="' + h(fmtDay(x)) + '">' +
+        '<small>' + WDAY[x.getDay()] + '</small><b>' + x.getDate() + '</b><i class="' + (ok === null ? '' : ok ? 'ok' : 'short') + '"></i></button>';
     }).join('');
-    var types = day.jenis.map(function (j) { return '<span class="chip ' + (j === 'Hari biasa' ? '' : j === 'Ramadan' || j === 'Tutup' ? 'blue' : 'orange') + '">' + h(DAYTYPE[j] || j) + '</span>'; }).join('') + (day.cuti ? '<span class="chip">' + h(day.cuti) + '</span>' : '');
-    var used = {};
-    var groups = ['FH', 'BH'].map(function (g) {
-      var slots = day.slots.filter(function (sl) { return sl.grp === g; });
-      if (!slots.length) return '';
-      return '<section class="card"><div class="card-h"><h3>' + (g === 'FH' ? 'Front of house' : 'Back of house') + '</h3><span class="muted">' + slots.reduce(function (n, sl) { return n + sl.n; }, 0) + ' needed</span></div>' +
-        slots.map(function (sl) {
-          var t = cat[sl.kod] || {}, on = pl.staf.filter(function (x) { return x.grp === g && R.codes[x.id] && R.codes[x.id][di] === sl.kod; });
-          on.forEach(function (x) { used[x.id] = 1; });
-          var seats = on.map(function (x, k) { return '<button class="seat on' + (k >= sl.n ? ' extra' : '') + '" data-act="rpSeat" data-id="' + h(x.id) + '">' + avatar(x.nama) + '<span>' + h(titleCase(x.nama)) + '</span></button>'; }).join('');
-          for (var k = on.length; k < sl.n; k++) seats += '<button class="seat" data-act="rpAdd" data-kod="' + h(sl.kod) + '" data-grp="' + g + '"><i>+</i><span>Add</span></button>';
-          return '<div class="slot k-' + h(sl.peranan) + '"><div class="slot-h"><i class="tl-bar"></i><div class="grow"><b>' + h(splitInline(t.teks || sl.kod)) + '</b><span>' + ROLE[sl.peranan] + ' shift, ' + h(sl.kod) + '</span></div>' +
-            '<span class="chip ' + (on.length >= sl.n ? 'green' : 'orange') + '">' + on.length + ' of ' + sl.n + '</span></div><div class="seats">' + seats + '</div></div>';
-        }).join('') + '</section>';
-    }).join('');
-    var others = [], rest = [], leave = [], none = [];
+    var types = day.jenis.filter(function (j) { return j !== 'Hari biasa'; }).map(function (j) { return '<span class="rp-tag' + (j === 'Ramadan' || j === 'Tutup' ? ' blue' : '') + '">' + h(DAYTYPE[j] || j) + '</span>'; }).join('') + (day.cuti ? '<span class="rp-tag">' + h(day.cuti) + '</span>' : '');
+    var info = '<div class="rp-info"><div class="rp-info-l"><b>' + h(fmtDay(dt)) + '</b>' + (types || '<span class="rp-tag plain">Regular day</span>') + '</div>' +
+      (day.tutup ? '' : '<div class="rp-need2" title="Staff needed: lunch, afternoon, dinner"><span>Lunch <b>' + day.perlu[0] + '</b></span><span>Aft <b>' + day.perlu[1] + '</b></span><span>Dinner <b>' + day.perlu[2] + '</b></span></div>') + '</div>';
+    // Papan syif: baris = Pagi / Split / Petang, lajur = Front / Back of house
+    var used = {}, grps = ['FH', 'BH'].filter(function (g) { return day.slots.some(function (sl) { return sl.grp === g; }); });
+    var cell = function (g, role) {
+      var slots = day.slots.filter(function (sl) { return sl.grp === g && sl.peranan === role; });
+      if (!slots.length) return '<div class="rb-cell none"><span class="muted">–</span></div>';
+      return slots.map(function (sl) {
+        var t = cat[sl.kod] || {}, on = pl.staf.filter(function (x) { return x.grp === g && R.codes[x.id] && R.codes[x.id][di] === sl.kod; });
+        on.forEach(function (x) { used[x.id] = 1; });
+        var pills = on.map(function (x, k) { return '<button class="rb-p' + (k >= sl.n ? ' extra' : '') + '" data-act="rpSeat" data-id="' + h(x.id) + '">' + h(first(x.nama)) + '</button>'; }).join('');
+        for (var k = on.length; k < sl.n; k++) pills += '<button class="rb-p add" data-act="rpAdd" data-kod="' + h(sl.kod) + '" data-grp="' + g + '" aria-label="Add to ' + h(sl.kod) + '">+</button>';
+        var tm = splitInline(t.teks || sl.kod).replace(/:00/g, '').replace(/\s*[–-]\s*/g, '–').replace(/\s*[,\/]\s*/g, ' · ');
+        return '<div class="rb-cell k-' + h(role) + '"><div class="rb-ch"><b>' + h(sl.kod) + '</b><span>' + h(tm) + '</span><em class="' + (on.length >= sl.n ? 'ok' : 'short') + '">' + on.length + '/' + sl.n + '</em></div><div class="rb-ps">' + pills + '</div></div>';
+      }).join('');
+    };
+    var gNeed = function (g) { var n = 0, f = 0; day.slots.forEach(function (sl) { if (sl.grp !== g) return; n += sl.n; f += Math.min(sl.n, pl.staf.filter(function (x) { return x.grp === g && R.codes[x.id] && R.codes[x.id][di] === sl.kod; }).length); }); return f + '/' + n; };
+    var board = '<div class="rb" style="--g:' + grps.length + '"><div class="rb-row rb-hd"><span></span>' + grps.map(function (g) { return '<span>' + (g === 'FH' ? 'Front' : 'Back') + ' <em>' + gNeed(g) + '</em></span>'; }).join('') + '</div>' +
+      ['Pagi', 'Split', 'Petang'].filter(function (role) { return day.slots.some(function (sl) { return sl.peranan === role; }); }).map(function (role) {
+        return '<div class="rb-row"><span class="rb-role k-' + role + '"><i></i>' + (role === 'Pagi' ? 'AM' : role === 'Split' ? 'Split' : 'PM') + '</span>' + grps.map(function (g) { return cell(g, role); }).join('') + '</div>';
+      }).join('') + '</div>';
+    // Yang tiada dalam slot hari ini: syif lain, rehat, cuti, belum diisi
+    var rest = [];
     pl.staf.forEach(function (x) {
       if (used[x.id]) return;
       var c = (R.codes[x.id] || [])[di], t = cat[c];
-      var chip = function (extra) { return '<button class="seat on sm" data-act="rpSeat" data-id="' + h(x.id) + '">' + avatar(x.nama) + '<span>' + h(titleCase(x.nama)) + (extra ? ' · ' + h(extra) : '') + '</span></button>'; };
-      if (x.cuti[di]) leave.push(chip(x.cuti[di]));
-      else if (t && ['Pagi', 'Tengah', 'Petang', 'Split'].indexOf(t.kategori) >= 0) others.push(chip(c));
-      else if (c) rest.push(chip(c === pl.rehat ? '' : c));
-      else none.push(chip(''));
+      if (x.cuti[di]) rest.push([2, '<button class="rb-o lv" data-act="rpSeat" data-id="' + h(x.id) + '">' + h(first(x.nama)) + '<i>' + h(lvAb(x.cuti[di])) + '</i></button>']);
+      else if (t && WORK.indexOf(t.kategori) >= 0) rest.push([1, '<button class="rb-o k-' + h(t.kategori) + '" data-act="rpSeat" data-id="' + h(x.id) + '">' + h(first(x.nama)) + '<i>' + h(c) + '</i></button>']);
+      else if (c) rest.push([3, '<button class="rb-o off" data-act="rpSeat" data-id="' + h(x.id) + '">' + h(first(x.nama)) + '<i>' + h(c === pl.rehat ? 'Off' : c) + '</i></button>']);
+      else rest.push([0, '<button class="rb-o unset" data-act="rpSeat" data-id="' + h(x.id) + '">' + h(first(x.nama)) + '<i>Not set</i></button>']);
     });
-    var side = (none.length ? '<section class="card warn-card"><div class="card-h"><h3>Not assigned yet</h3><span class="muted">' + none.length + '</span></div><div class="seats">' + none.join('') + '</div></section>' : '') +
-      (others.length ? '<section class="card"><div class="card-h"><h3>Other shifts today</h3></div><div class="seats">' + others.join('') + '</div></section>' : '') +
-      (rest.length || leave.length ? '<section class="card"><div class="card-h"><h3>Off today</h3></div>' + (rest.length ? '<span class="eyebrow">Rest day</span><div class="seats">' + rest.join('') + '</div>' : '') + (leave.length ? '<span class="eyebrow">On leave</span><div class="seats">' + leave.join('') + '</div>' : '') + '</section>' : '');
-    var chk = rpChecks();
-    var checks = '<section class="card"><div class="card-h"><h3>Week checks</h3><span class="chip ' + (chk.length ? 'orange' : 'green') + '">' + (chk.length ? chk.length + ' to review' : 'All clear') + '</span></div>' +
-      (chk.length ? '<div class="list">' + chk.map(function (c) { return '<div class="li"><b>' + h(titleCase(c.nama)) + '</b><span class="muted" style="text-align:right">' + h(c.f.join('; ')) + '</span></div>'; }).join('') + '</div>'
-        : '<span class="muted">Everyone has a morning shift, no more than 2 splits, and at most 45 hours.</span>') + '</section>';
-    urusBody(head +
-      (R.draft ? '<div class="rp-note"><b>Draft ready.</b> PRISM filled this week from the shift pattern and Sofwah’s roster rules. Review each day, then save.</div>' : '') +
-      '<section class="card"><div class="wk">' + strip + '</div>' +
-      '<div class="between wrap"><div><b class="rp-day">' + h(fmtDay(dt)) + '</b><div class="row wrap" style="gap:6px;margin-top:6px">' + types + '</div></div>' +
-      (day.tutup ? '' : '<div class="rp-need"><span>Lunch <b>' + day.perlu[0] + '</b></span><span>Afternoon <b>' + day.perlu[1] + '</b></span><span>Dinner <b>' + day.perlu[2] + '</b></span></div>') + '</div></section>' +
-      (day.tutup ? '<section class="card"><div class="empty">Closed on this day. No shifts needed.</div></section>' : groups + side) + checks +
-      '<div class="rp-actions"><button class="btn ghost small" data-act="rpAuto">Fill empty</button><button class="btn ghost small" data-act="rpClear">Clear</button><button class="btn small" data-act="saveWeek">Save schedule</button></div>' +
-      '<p class="hint">Staff needed per slot: ' + h(pl.sumber) + '. Day types and factors come from the Cuti Umum, Kalendar Operasi and Corak Roster tabs.</p>');
+    rest.sort(function (a, b) { return a[0] - b[0]; });
+    var chk = rpChecks().length;
+    var bottom = '<div class="rb-off"><div class="rb-off-h"><span>Not in a slot today</span><button class="rg-chk ' + (chk ? 'warn' : 'ok') + '" data-act="rgChecks">' + (chk ? chk + ' to review this week' : 'Week all clear') + '</button></div>' +
+      (rest.length ? '<div class="rb-os">' + rest.map(function (r) { return r[1]; }).join('') + '</div>' : '<span class="muted">Everyone is on a shift.</span>') + '</div>';
+    urusBody(head + '<div class="rp-days"><div class="rp-strip">' + strip + '</div>' + info + '</div>' +
+      (day.tutup ? '<section class="card"><div class="empty">Closed on this day. No shifts needed.</div></section>' : board) + bottom +
+      '<div class="rp-actions"><button class="btn ghost small" data-act="rpAuto">Auto-fill</button><button class="btn ghost small" data-act="rpClear">Clear</button>' +
+      '<button class="btn small" data-act="saveWeek">' + (R.draft ? 'Save draft' : R.dirty ? 'Save changes' : 'Save') + '</button></div>');
   }
   /** Pilih staf untuk satu tempat kosong. */
   function rpPick(kod, grp) {
@@ -2055,7 +2098,7 @@ html.modal-open,html.modal-open body{overflow:hidden}
     modal(titleCase(x.nama) + ', ' + fmtDay(parseYmdL(pl.days[di].ymd)), (x.cuti[di] ? '<p class="err">On leave: ' + h(x.cuti[di]) + '</p>' : '') + '<div class="list">' + opts +
       (pl.rehat ? '<button class="pick' + (cur === pl.rehat ? ' on' : '') + '" data-act="rpSet" data-id="' + h(id) + '" data-kod="' + h(pl.rehat) + '"><i class="tl-bar k-Rehat"></i><span class="grow"><b>Rest day</b><small>' + (x.kerja && x.kerja.indexOf(String(di + 1)) < 0 ? 'Fixed rest day in profile' : 'Not a fixed rest day') + '</small></span></button>' : '') +
       '<button class="pick" data-act="rpSet" data-id="' + h(id) + '" data-kod=""><i class="tl-bar"></i><span class="grow"><b>Clear</b><small>Leave this day empty</small></span></button></div>' +
-      '<p class="hint">Need a different time? Switch to “By staff” for every shift code.</p>');
+      '<p class="hint">Need another time code? Use “By staff”.</p>');
   }
   function rpSet(id, kod) {
     S.rp.codes[id][S.rp.day] = kod || '';
