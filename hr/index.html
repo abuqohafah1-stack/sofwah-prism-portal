@@ -673,6 +673,12 @@ html.modal-open,html.modal-open body{overflow:hidden}
 .rb-o.unset{box-shadow:inset 0 0 0 1.5px var(--ember-2)}.rb-o.unset i{background:var(--ember-soft);color:var(--ember-ink)}
 .rb-o.k-Pagi i{background:var(--sky-soft);color:#2f6f9f}.rb-o.k-Tengah i{background:#e6eef5;color:var(--slate)}.rb-o.k-Petang i{background:var(--ember-soft);color:var(--ember-ink)}.rb-o.k-Split i{background:var(--violet-soft);color:#5546b8}
 @media (min-width:700px){.rb{margin:0}.rp-days{margin:0}.rb-row{grid-template-columns:56px repeat(var(--g),minmax(0,1fr))}.rb-ch b{font-size:14px}.rb-ch span{font-size:11.5px}.rb-p,.rb-o{height:30px;font-size:13px}.rb-role{font-size:12px}}
+/* ===== App native & keperluan store ===== */
+.me-foot{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin:6px 0 4px;color:var(--haze);font-size:13px}
+.link-btn{border:0;background:none;padding:6px 2px;font:500 13px/1.2 inherit;font-family:inherit;color:var(--slate-3);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.btn.danger{background:var(--ink);color:#fff}
+html.native{-webkit-user-select:none;user-select:none}
+html.native input,html.native textarea{-webkit-user-select:text;user-select:text}
 @media (min-width:1000px) and (max-width:1239px){.nav button{padding:0 14px}.me-txt{display:none}}
 @media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 </style>
@@ -749,12 +755,23 @@ html.modal-open,html.modal-open body{overflow:hidden}
   function isHR() { return S.me && (S.me.role === 'HR' || S.me.role === 'Admin'); }
 
   var AUTH_ACTIONS = { loginEmail: 1, emailCode: 1, verifyCode: 1, setPassword: 1, pushRegister: 1, pushTest: 1 };
-  var WRITE_ACTIONS = { loginEmail: 1, emailCode: 1, verifyCode: 1, setPassword: 1, clock: 1, pushRegister: 1, pushTest: 1, applyLeave: 1, submitClaim: 1, saveWeek: 1, saveTasks: 1, saveRecord: 1, decideLeave: 1, decideClaim: 1, payrollRun: 1, payrollFiles: 1, payrollPaid: 1, payrollConfirm: 1, payrollReopen: 1, payrollSetup: 1, addAttendance: 1, resetPin: 1, changePin: 1, addNotice: 1, exportPayroll: 1, staffingRefresh: 1, approveOT: 1, fixAttendance: 1, cancelLeave: 1, setRole: 1, acceptPrivacy: 1, lcPropose: 1, lcDecide: 1, lcApproveSeeds: 1, lcScan: 1, lcMonitor: 1, lcReview: 1, lcAddUpdate: 1, lcAmendStatus: 1, lcSaveCheck: 1 };
+  var WRITE_ACTIONS = { deleteAccount: 1, loginEmail: 1, emailCode: 1, verifyCode: 1, setPassword: 1, clock: 1, pushRegister: 1, pushTest: 1, applyLeave: 1, submitClaim: 1, saveWeek: 1, saveTasks: 1, saveRecord: 1, decideLeave: 1, decideClaim: 1, payrollRun: 1, payrollFiles: 1, payrollPaid: 1, payrollConfirm: 1, payrollReopen: 1, payrollSetup: 1, addAttendance: 1, resetPin: 1, changePin: 1, addNotice: 1, exportPayroll: 1, staffingRefresh: 1, approveOT: 1, fixAttendance: 1, cancelLeave: 1, setRole: 1, acceptPrivacy: 1, lcPropose: 1, lcDecide: 1, lcApproveSeeds: 1, lcScan: 1, lcMonitor: 1, lcReview: 1, lcAddUpdate: 1, lcAmendStatus: 1, lcSaveCheck: 1 };
   // Tindakan payroll boleh ambil beberapa minit (slip PDF setiap staf): had masa klien dipanjangkan
   var LONG_ACTIONS = { payrollRun: 300000, payrollFiles: 330000, exportPayroll: 120000, payrollSetup: 120000, staffing: 120000, staffingRefresh: 180000, lcMonitor: 300000, lcScan: 120000, lcDashboard: 90000, lcApproveSeeds: 120000, lcDecide: 90000 };
 
   /** Mod PWA (prism.sofwah.my/hr): panggil API JSON Apps Script terus dengan fetch, tanpa iframe. */
   var PWA = !!window.PRISM_API;
+  /* App native (iOS / Android melalui Capacitor): GPS, kamera, getaran, butang Back, fail & pautan luar guna plugin native */
+  var CAP = window.Capacitor, NATIVE = !!(CAP && CAP.isNativePlatform && CAP.isNativePlatform());
+  var PLUG = NATIVE ? (CAP.Plugins || {}) : {};
+  function buzz(p) {
+    if (NATIVE && PLUG.Haptics) { try { if (Array.isArray(p)) PLUG.Haptics.notification({ type: 'SUCCESS' }); else PLUG.Haptics.impact({ style: 'LIGHT' }); } catch (e) { /* pilihan */ } return; }
+    if (navigator.vibrate) navigator.vibrate(p);
+  }
+  function openExternal(url) {
+    if (NATIVE && PLUG.Browser) { PLUG.Browser.open({ url: url }).catch(function () { window.open(url, '_blank'); }); return; }
+    window.open(url, '_blank', 'noopener');
+  }
   function handleResult(r, resolve, reject) {
     if (r.ok) { resolve(r.data); return; }
     if (r.code === 'AUTH') { logoutLocal(); }
@@ -1019,6 +1036,19 @@ html.modal-open,html.modal-open body{overflow:hidden}
     });
   }
   function getPos() {
+    if (NATIVE && PLUG.Geolocation) {
+      var G = PLUG.Geolocation;
+      return G.checkPermissions().then(function (st) {
+        return st.location === 'granted' || st.coarseLocation === 'granted' ? st : G.requestPermissions({ permissions: ['location', 'coarseLocation'] });
+      }).then(function (st) {
+        if (st.location !== 'granted' && st.coarseLocation !== 'granted') { var e = new Error('Location is off for PRISM HR. Open phone Settings › PRISM HR › Location › Allow.'); e.perm = 1; throw e; }
+        return G.getCurrentPosition({ enableHighAccuracy: true, timeout: 20000, maximumAge: 0 });
+      }).then(function (p) {
+        return { lat: p.coords.latitude, lng: p.coords.longitude, acc: p.coords.accuracy };
+      }, function (e) {
+        throw e && e.perm ? e : new Error('Couldn’t get your location. Turn on Location and try again in an open area.');
+      });
+    }
     return new Promise(function (resolve, reject) {
       if (!navigator.geolocation) { reject(new Error('This device doesn’t support GPS.')); return; }
       navigator.geolocation.getCurrentPosition(function (p) {
@@ -1456,7 +1486,7 @@ html.modal-open,html.modal-open body{overflow:hidden}
       if (p >= 100 && !full) {
         full = true; btn.classList.add('full');
         var s = $('dial-sub'); if (s) s.textContent = 'Release for selfie';
-        if (navigator.vibrate) navigator.vibrate(25);
+        buzz(25);
       }
       if (!full) raf = requestAnimationFrame(step);
     };
@@ -1494,11 +1524,22 @@ html.modal-open,html.modal-open body{overflow:hidden}
     }
     layer.innerHTML = html;
     setTimeout(function () { if (layer) layer.innerHTML = ''; }, 1600);
-    if (navigator.vibrate) navigator.vibrate([30, 40, 60]);
+    buzz([30, 40, 60]);
   }
 
   function startClock() {
     // Kamera dahulu (perlu sentuhan pengguna), lokasi diambil selepas gambar diambil.
+    if (NATIVE && PLUG.Camera) {
+      PLUG.Camera.takePhoto({ quality: 70, targetWidth: 720, cameraDirection: 'FRONT', saveToGallery: false, correctOrientation: true })
+        .then(function (m) { return fetch(m.webPath || CAP.convertFileSrc(m.uri)).then(function (r) { return r.blob(); }); })
+        .then(function (b) { onSelfie(b); })
+        .catch(function (e) {
+          var msg = String((e && e.message) || e || '');
+          if (/cancel/i.test(msg)) return;
+          toast(/denied|permission|access/i.test(msg) ? 'Camera is off for PRISM HR. Open phone Settings › PRISM HR › Camera › Allow.' : 'Camera couldn’t open. Try again.', true);
+        });
+      return;
+    }
     var inp = $('selfie-input');
     inp.value = '';
     inp.click();
@@ -1673,7 +1714,9 @@ html.modal-open,html.modal-open body{overflow:hidden}
         }).join('') : '<div class="empty">Payslips appear here once salary is paid through PRISM.</div>') + '</div></section>' +
         calendarCard() + securityCard() +
         '<button class="btn ghost block" data-act="myAtt">My attendance</button>' +
-        '<button class="btn ghost block" data-act="logout">Sign out</button></div>');
+        '<button class="btn ghost block" data-act="logout">Sign out</button>' +
+        '<div class="me-foot"><button class="link-btn" data-act="openLink" data-v="https://prism.sofwah.my/hr/privacy.html">Privacy policy</button><span>·</span>' +
+        '<button class="link-btn" data-act="openLink" data-v="https://prism.sofwah.my/hr/support.html">Help</button><span>·</span><button class="link-btn" data-act="deleteAcct">Delete account</button></div></div>');
     }, function (e) { setMain(errBox(e)); });
     if (!have) loading();
   }
@@ -1693,10 +1736,11 @@ html.modal-open,html.modal-open body{overflow:hidden}
       { k: 2, ico: '📍', t: 'Allow location', d: 'Used only when you clock in or out, to confirm you are at your branch.', btn: 'Allow location', act: 'onbLoc' },
       { k: 3, ico: '📅', t: 'Add your shifts to Calendar', d: 'Your shifts, leave and public holidays appear in your phone calendar and update automatically.', btn: 'Add to Calendar', act: 'onbCal' }
     ];
+    if (NATIVE) steps = steps.slice(1).map(function (y, i) { y.k = i + 1; return y; }); // app native: notifikasi native diurus berasingan
     var x = steps[step - 1];
     if (!x) { LS.set(onbKey(), 'done'); closeModal(); toast('You’re all set. Welcome to PRISM HR.'); showGreeting(); return; }
     S.onbStep = step;
-    if (step === 1 && ps.s === 'sedia') pushPrefetch();
+    if (!NATIVE && step === 1 && ps.s === 'sedia') pushPrefetch();
     modal('Welcome to PRISM HR', '<div class="onb"><div class="onb-dots">' + steps.map(function (y) { return '<i class="' + (y.k <= step ? 'on' : '') + '"></i>'; }).join('') + '</div>' +
       '<div class="onb-ico">' + x.ico + '</div><h3>' + h(x.t) + '</h3><p class="muted">' + h(x.d) + '</p>' + (x.note ? '<p class="hint">' + h(x.note) + '</p>' : '') +
       (x.btn ? '<button class="btn block" data-act="' + x.act + '">' + h(x.btn) + '</button>' : '<div class="chip green" style="align-self:center">Already on ✓</div>') +
@@ -1709,7 +1753,7 @@ html.modal-open,html.modal-open body{overflow:hidden}
       '<div class="btn-grid"><button class="btn small" data-act="calAdd" data-v="' + (/Android/.test(navigator.userAgent) ? 'google">Google Calendar' : 'apple">Apple Calendar') + '</button><button class="btn ghost small" data-act="calAdd" data-v="' + (/Android/.test(navigator.userAgent) ? 'apple">Apple' : 'google">Google') + '</button><button class="btn ghost small" data-act="calAdd" data-v="copy">Copy link</button></div></section>';
   }
   function calOpen(kind, link) {
-    if (kind === 'google') window.open(link.google, '_blank', 'noopener');
+    if (kind === 'google') openExternal(link.google);
     else if (kind === 'copy') { try { navigator.clipboard.writeText(link.https); toast('Calendar link copied. Keep it private.'); } catch (e) { modal('Calendar link', '<p class="muted">Copy this private link into your calendar app (Add subscription):</p><input value="' + h(link.https) + '" readonly onclick="this.select()">'); } }
     else window.location.href = link.webcal;
   }
@@ -1768,6 +1812,7 @@ html.modal-open,html.modal-open body{overflow:hidden}
     return { s: 'sedia', t: 'Get shift reminders 30 minutes early, leave decisions and HR announcements.' };
   }
   function pushCard() {
+    if (NATIVE) return '';
     var st = pushState();
     var install = PWA && !STANDALONE && !IOS ? '<button class="btn ghost small" id="install-btn" data-act="installApp"' + (S.installEvt ? '' : ' hidden') + '>Install app</button>' : '';
     var btns = st.s === 'sedia' ? '<button class="btn small" data-act="pushOn">Turn on notifications</button>'
@@ -2600,6 +2645,13 @@ html.modal-open,html.modal-open body{overflow:hidden}
 
   /** Muat turun fail: Blob + objectURL (data: URL + download tidak dipercayai di Safari iOS / Chrome). */
   function downloadB64(name, b64, mime) {
+    if (NATIVE && PLUG.Filesystem && PLUG.Share) {
+      var fn = String(name || 'file').replace(/[^\w.\- ]+/g, '_');
+      PLUG.Filesystem.writeFile({ path: fn, data: b64, directory: 'CACHE' })
+        .then(function (r) { return PLUG.Share.share({ title: fn, url: r.uri, dialogTitle: 'Save or open ' + fn }); })
+        .catch(function (e) { if (!/cancel/i.test(String(e && e.message))) toast('Couldn’t open the file. Try again.', true); });
+      return;
+    }
     var bin = atob(b64), bytes = new Uint8Array(bin.length);
     for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
     var blob = new Blob([bytes], { type: mime });
@@ -2784,6 +2836,15 @@ html.modal-open,html.modal-open body{overflow:hidden}
       if (!S.installEvt) return;
       S.installEvt.prompt();
       S.installEvt.userChoice.then(function () { S.installEvt = null; var b = $('install-btn'); if (b) b.hidden = true; });
+    },
+    openLink: function (el) { openExternal(el.dataset.v); },
+    deleteAcct: function () {
+      modal('Delete your PRISM HR account?',
+        '<p>This removes your sign-in for PRISM HR on every phone: your password, profile PIN, calendar link and notification devices are erased, and you are signed out.</p>' +
+        '<p class="muted">Your employment records (attendance, leave, claims and payslips) stay with Sofwah Arabiata (M) Sdn. Bhd. because the Employment Act 1955 requires them to be kept. To ask for any other personal data to be removed or corrected, contact HR.</p>' +
+        '<form data-form="deleteAcct">' + (window.PRISM_PIN_LOGIN ? '' : '<label>Enter your password to confirm<input name="password" type="password" autocomplete="current-password" required></label>') +
+        '<button class="btn block danger" type="submit">Delete my account</button></form>' +
+        '<p class="hint">You can create a new account later with your work email if you still work at Sofwah.</p>');
     },
     logout: function () {
       call('logout').catch(function () { /* abaikan */ });
@@ -3121,6 +3182,14 @@ html.modal-open,html.modal-open body{overflow:hidden}
       call('submitClaim', d).then(function (r) { toast(r.amaran || 'Claim submitted.', !!r.amaran); S.mohon = 'tuntutan'; loadMohon(); })
         .catch(function (e) { busy(btn, false); fail(e); });
     },
+    deleteAcct: function (f, btn) {
+      call('deleteAccount', formData(f)).then(function () {
+        closeModal();
+        swrClear(); S.token = null; S.me = null; S.data = {};
+        LS.del('prism_token'); LS.del('prism_me'); LS.del('prism_email'); LS.del('prism_push_ok');
+        renderLogin('Your PRISM HR account was deleted.');
+      }).catch(function (e) { busy(btn, false); fail(e); });
+    },
     pin: function (f, btn) {
       var d = formData(f);
       call('changePin', d).then(function () {
@@ -3192,6 +3261,22 @@ html.modal-open,html.modal-open body{overflow:hidden}
       if (e && e.transport && S.me) { setOffline(true); return; } // tiada internet: kekal dengan data tersimpan
       LS.del('prism_token'); LS.del('prism_me'); S.token = null; S.me = null; renderLogin();
     });
+  }
+  if (NATIVE) {
+    document.documentElement.classList.add('native');
+    document.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest && e.target.closest('a[href]');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (/^https?:\/\//i.test(href) && (a.target === '_blank' || new URL(href).origin !== location.origin)) { e.preventDefault(); openExternal(href); }
+    }, true);
+    if (PLUG.App) PLUG.App.addListener('backButton', function () {
+      if (!$('modal').hidden) { closeModal(); return; }
+      if (S.urus) { S.urus = null; loadUrus(); return; }
+      if (S.token && S.tab && S.tab !== 'hari') { S.tab = 'hari'; S.urus = null; renderShell(); return; }
+      PLUG.App.minimizeApp();
+    });
+    if (PLUG.SplashScreen) setTimeout(function () { PLUG.SplashScreen.hide().catch(function () {}); }, 150);
   }
   boot();
 })();
