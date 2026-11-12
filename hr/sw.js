@@ -1,8 +1,8 @@
-/* PRISM HR PWA 26e3538f02
+/* NARA HR PWA 2267f29591
  * Cache: kerangka app (HTML, ikon, fon) sahaja, stale-while-revalidate → buka serta-merta.
  * TIDAK cache data: semua panggilan API (POST ke Apps Script) terus ke rangkaian.
  * Push: papar notifikasi FCM (Web Push) dan buka app bila ditekan. */
-var V = 'prism-hr-26e3538f02';
+var V = 'prism-hr-2267f29591';
 var SHELL = ['/hr/', '/hr/manifest.webmanifest', '/hr/icons/icon-192.png', '/hr/icons/icon-512.png', '/hr/icons/icon-180.png', '/hr/icons/icon-32.png'];
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(V).then(function (c) { return c.addAll(SHELL); }).then(function () { return self.skipWaiting(); }));
@@ -36,10 +36,10 @@ self.addEventListener('push', function (e) {
   try { d = e.data ? e.data.json() : {}; } catch (x) { d = { notification: { body: e.data && e.data.text() } }; }
   var n = d.notification || {};
   var link = (d.fcmOptions && d.fcmOptions.link) || (d.data && d.data.link) || '/hr/';
-  e.waitUntil(self.registration.showNotification(n.title || 'PRISM HR', {
+  e.waitUntil(self.registration.showNotification(n.title || 'NARA HR', {
     body: n.body || '', icon: n.icon || '/hr/icons/icon-192.png', badge: '/hr/icons/icon-32.png',
     tag: n.tag || undefined, data: { link: link },
-    vibrate: [120, 60, 120, 60, 320] // corak getar PRISM (Android): dua ketuk pendek + satu panjang
+    vibrate: [120, 60, 120, 60, 320] // corak getar NARA (Android): dua ketuk pendek + satu panjang
   }));
 });
 self.addEventListener('notificationclick', function (e) {
