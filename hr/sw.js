@@ -1,8 +1,8 @@
-/* NARA HR PWA 2267f29591
+/* NARA HR PWA 77b07d0fbe
  * Cache: kerangka app (HTML, ikon, fon) sahaja, stale-while-revalidate → buka serta-merta.
  * TIDAK cache data: semua panggilan API (POST ke Apps Script) terus ke rangkaian.
  * Push: papar notifikasi FCM (Web Push) dan buka app bila ditekan. */
-var V = 'prism-hr-2267f29591';
+var V = 'prism-hr-77b07d0fbe';
 var SHELL = ['/hr/', '/hr/manifest.webmanifest', '/hr/icons/icon-192.png', '/hr/icons/icon-512.png', '/hr/icons/icon-180.png', '/hr/icons/icon-32.png'];
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(V).then(function (c) { return c.addAll(SHELL); }).then(function () { return self.skipWaiting(); }));

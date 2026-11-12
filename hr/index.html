@@ -698,6 +698,10 @@ h1,h2,h3,.hello h1,.big,.tile b,.gauge-num b,.shift-time,.lc-ring b,.pin-show,.p
 .btn{background:linear-gradient(135deg,#8A55FF,var(--ember) 55%,#6A2FF0)}
 .btn.ghost,.btn.dark,.btn.green,.btn.danger{background-image:none}
 .nara-foot{display:flex;justify-content:center;gap:8px;align-items:center;font-size:11.5px;color:var(--haze);letter-spacing:.02em}.nara-foot i{width:4px;height:4px;border-radius:50%;background:var(--ember)}
+/* Hero log masuk sentiasa di dalam jalur NARA (skrin tinggi / desktop) */
+.auth{justify-content:flex-start}
+.auth::before,.auth::after{height:300px}
+.auth-hero{min-height:236px;justify-content:center}
 @media (min-width:1000px) and (max-width:1239px){.nav button{padding:0 14px}.me-txt{display:none}}
 @media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 </style>
